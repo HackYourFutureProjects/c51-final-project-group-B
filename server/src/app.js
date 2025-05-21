@@ -1,9 +1,12 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 
 import userRouter from "./routes/user.js";
 
 // Create an express server
 const app = express();
+// Tell express to use cookieParser
+app.use(cookieParser());
 
 // Tell express to use the json middleware
 app.use(express.json());

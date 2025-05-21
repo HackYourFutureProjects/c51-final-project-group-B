@@ -46,6 +46,7 @@ UserSchema.statics.validateUser = function (userObj) {
   const validatedMsg = validateAllowedFields(userObj, allowedKeys);
   if (validatedMsg) errorList.push(validatedMsg);
   if (!userObj.email) errorList.push("Email is required.");
+  if (!userObj.passwordHash) errorList.push("Password is required.");
   return errorList;
 };
 

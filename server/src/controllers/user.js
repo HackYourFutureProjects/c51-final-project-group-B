@@ -79,10 +79,10 @@ export async function register(req, res) {
     }
 
     // Select the correct model based on the userType.
-    const Doc = userType === "seeker" ? Seeker : Company;
+    const UserModel = userType === "seeker" ? Seeker : Company;
 
     // Create a new document with the constructed payload.
-    const newUser = new Doc(payload);
+    const newUser = new UserModel(payload);
 
     // Save the new user document to the database.
     await newUser.save();

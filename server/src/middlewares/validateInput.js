@@ -20,7 +20,7 @@ export const validateRegistration = [
 
   body("userType")
     .isIn(["seeker", "company"])
-    .withMessage("userType must be ‘seeker’ or ‘company’."),
+    .withMessage("userType must be 'seeker' or 'company'."),
 
   // For seeker
   body("firstName")

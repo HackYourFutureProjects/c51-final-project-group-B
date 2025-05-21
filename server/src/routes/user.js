@@ -5,7 +5,7 @@ import {
 } from "../middlewares/validateInput.js";
 import { login, register, logout } from "../controllers/user.js";
 
-// ----- In this route we do the users auth acitons, register, login and logout (the rest will be in profile route)
+// ----- In this route we do the users auth actions, register, login and logout (the rest will be in profile route)
 
 const userRouter = express.Router();
 // Using the validators middlewares to ensure clean data

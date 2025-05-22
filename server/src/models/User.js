@@ -25,6 +25,7 @@ const UserSchema = new Schema(
     passwordHash: {
       type: String,
       required: [true, "Password is required"],
+      select: false,
     },
     location: {
       type: String,

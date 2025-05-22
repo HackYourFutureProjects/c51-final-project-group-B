@@ -1,13 +1,22 @@
-import TEST_ID from "./Home.testid";
-import hyfLogo from "../../assets/hyf-logo.png";
+import Nav from "../../components/NavBar/Nav";
+import Body from "../../components/Body/Body";
+import Steps from "../../components/Steps/Steps";
+import Explore from "../../components/Explore/Explore";
+import Services from "../../components/Services/Services";
+import Testimonials from "../../components/Testimonials/Testimonials";
+import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
   return (
-    <div data-testid={TEST_ID.container}>
-      <h1>This is the homepage</h1>
-      <p>Good luck with the project!</p>
-      <img src={hyfLogo} alt="HackYourFuture Logo" style={{ width: "200px" }} />
-    </div>
+    <>
+      <Nav />
+      <Body />
+      <Steps />
+      <Explore />
+      <Services />
+      <Testimonials />
+      <Footer />
+    </>
   );
 };
 

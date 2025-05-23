@@ -95,6 +95,11 @@ const SeekerProfileSchema = new Schema(
             type: String,
             maxlength: [100, "Title must be less than 100 characters"],
           },
+          workLocation: {
+            type: String,
+            maxlength: [150, "Work location must be less than 150 characters"],
+            default: "",
+          },
           startDate: Date,
           endDate: Date,
           description: {
@@ -115,6 +120,19 @@ const SeekerProfileSchema = new Schema(
           degree: {
             type: String,
             maxlength: [200, "Degree must be less than 200 characters"],
+          },
+          fieldOfStudy: {
+            type: String,
+            maxlength: [100, "Field of study must be less than 100 characters"],
+            default: "",
+          },
+          educationLocation: {
+            type: String,
+            maxlength: [
+              150,
+              "Education location must be less than 150 characters",
+            ],
+            default: "",
           },
           startDate: Date,
           endDate: Date,

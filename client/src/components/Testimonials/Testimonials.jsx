@@ -8,7 +8,7 @@ const Testimonials = () => {
     new Swiper(".swiper", { loop: true });
   }, []);
   return (
-    <section className="section__container client__container" id="client">
+    <section className="section__container client__container">
       <h2 className="section__header">What Our Client Say</h2>
       <p className="section__description">
         Read Testimonials and Success Stories from Our Satisfied Job Seekers and

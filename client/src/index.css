@@ -1,19 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@400;600&family=Poppins:wght@400;500;600&display=swap");
+
+:root {
+  /* Base Colors */
+  --bg-color: #f5f5f9;
+  --surface-color: #ffffff;
+  --primary-color: #696cff;
+  --primary-color-dark: #5659cc;
+  --secondary-color: #10b981;
+  --accent-color: #f59e0b;
+  --text-color: #788089;
+  --text-secondary-color: #64748b;
+  --heading-color: #111827;
+  --hover-color: #e7e7ff;
+  --border-color: #e5e7eb;
+
+  /* Feedback Colors */
+  --success-color: #38a169;
+  --error-color: #e53e3e;
+  --warning-color: #f6ad55;
+  --info-color: #4299e1;
+
+  /* Button text color */
+  --btn-text-color: #fff;
+
+  /* Disabled State */
+  --disabled-bg: #e2e8f0;
+  --disabled-text: #a0aec0;
+
+  /* Box shadow colors */
+  --default-shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* Border Radius */
+  --default-xs-border-radius: 4px;
+  --default-sm-border-radius: 6px;
+  --default-md-border-radius: 7px;
+  --default-lg-border-radius: 8px;
+  --default-xl-border-radius: 10px;
+
+  /* Font weight */
+  --font-weight-light: 300;
+  --font-weight-normal: 400; /*body text */
+  --font-weight-medium: 500; /*slightly emphasized text */
+  --font-weight-semibold: 600; /*for btns and heading*/
+  --font-weight-bold: 700; /*titles*/
+  --font-weight-extrabold: 800; /*may not need this but for completeness*/
+
+  /* Font family */
+  --text-font-family: "Outfit";
+  --heading-font-family: "Poppins";
+  --btn-font-family: "Poppins";
+}
+
+/* Applies universal reset  */
 *,
-::after,
-::before,
-::backdrop,
-::file-selector-button {
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-ol,
-ul,
-menu {
-  list-style: none;
+html,
+body {
+  height: 100%;
 }
 
 body {
-  padding: 20px;
+  background-color: var(--bg-color, #f5f5f9);
+  font-family: "Outfit", sans-serif;
+}
+
+.icon {
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  font-family: var(--btn-font-family);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--default-sm-border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--btn-text-color);
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+}
+
+.btn-accent {
+  background-color: var(--accent-color);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline:hover {
+  background-color: var(--hover-color);
+}
+
+.btn[disabled] {
+  background-color: var(--disabled-bg);
+  color: var(--disabled-text);
+  cursor: not-allowed;
 }

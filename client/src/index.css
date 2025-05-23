@@ -51,9 +51,23 @@
   --btn-font-family: "Poppins";
 }
 
+/* Applies universal reset  */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
 body {
-  background-color: var(--bg-color);
-  font-family: "Outfit";
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg-color, #f5f5f9);
+  font-family: "Outfit", sans-serif;
 }
 
 .icon {

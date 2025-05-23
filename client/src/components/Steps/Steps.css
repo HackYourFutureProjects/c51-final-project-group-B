@@ -6,15 +6,13 @@
 }
 
 .steps__grid {
-  margin-top: 3rem;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   width: 90%;
-  height: fit-content;
-  justify-content: center;
-  align-items: flex-start;
-  row-gap: 30px;
+  margin-top: 3rem;
   max-width: 1500px;
-  position: relative;
 }
 
 .steps__card {
@@ -23,6 +21,9 @@
   padding: 1rem;
   border-radius: var(--default-lg-border-radius);
   transition: transform 0.3s ease;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
 }
 
 .steps__card:hover {
@@ -49,24 +50,46 @@
   display: block;
 }
 
-@media (width > 540px) {
+.steps__arrow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.3rem;
+  border-radius: 8px;
+}
+
+.steps__arrow {
+  width: 100%;
+  max-width: 40px;
+  height: auto;
+  transform: rotate(90deg);
+  margin: 0.5rem 0;
+  transition: transform 0.3s ease;
+}
+
+@media screen and (min-width: 768px) {
   .steps__grid {
-    grid-template-columns: repeat(2, 1fr);
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .steps__arrow-container {
+    width: auto;
+    padding: 0;
+  }
+
+  .steps__arrow {
+    max-width: none;
+    transform: rotate(0deg);
+    margin: 0 1rem;
   }
 }
 
-@media (width > 768px) {
-  .steps__grid {
-    margin-top: 6rem;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .steps__card:nth-child(2n - 1) {
-    transform: translateY(-2rem);
-  }
-}
-
-@media (width > 1024px) {
+@media screen and (min-width: 1024px) {
   .steps__card {
     padding: 1.5rem;
   }

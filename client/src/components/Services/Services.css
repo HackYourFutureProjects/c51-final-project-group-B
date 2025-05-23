@@ -14,7 +14,7 @@ img {
   margin-bottom: 1rem;
   font-size: 2.5rem;
   font-weight: var(--font-weight-bold);
-  color: var(--text-color);
+  color: var(--heading-color);
   text-align: center;
 }
 
@@ -42,14 +42,6 @@ img {
   align-items: flex-start;
 }
 
-.offer__details span {
-  font-size: 2rem;
-  font-weight: var(--font-weight-extrabold);
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px var(--text-secondary-color);
-  padding-right: 1rem;
-}
-
 .offer__details div {
   padding-left: 1rem;
   border-left: 2px solid var(--primary-color);
@@ -58,7 +50,7 @@ img {
 .offer__details h4 {
   font-size: 1.2rem;
   font-weight: var(--font-weight-bold);
-  color: var(--text-secondary-color);
+  color: var(--heading-color);
 }
 
 .offer__details p {

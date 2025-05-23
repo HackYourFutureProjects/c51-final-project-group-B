@@ -1,25 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-
-:root {
-  --primary-color: #696cff;
-  --primary-color-dark: #5659cc;
-  --text-dark: #111827;
-  --text-light: #475569;
-  --extra-light: #e5e5e5;
-  --white: #ffffff;
-  --max-width: 1200px;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 .section__container {
-  max-width: var(--max-width);
   margin: auto;
-  padding: 5rem 1rem;
+  padding: 4rem 1rem;
+  max-width: 1200px;
 }
 
 .header__container {
@@ -30,22 +12,28 @@
 
 .header__container h1 {
   margin-bottom: 1rem;
-  font-size: 4rem;
-  font-weight: 700;
-  color: var(--text-dark);
+  font-weight: var(--font-weight-bold);
+  color: var(--heading-color);
   text-align: center;
-  line-height: 5.5rem;
-}
-
-.header__container h1 span {
-  color: var(--primary-color);
+  line-height: clamp(3rem, 6vw, 5.5rem);
 }
 
 .header__container p {
   margin-bottom: 2rem;
   max-width: 600px;
   margin-inline: auto;
-  color: var(--text-light);
-  line-height: 2rem;
+  color: var(--text-color);
+  line-height: 1.75rem;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .section__container {
+    padding: 3rem 1rem;
+  }
+
+  .header__container h1,
+  .header__container p {
+    line-height: 1.4;
+  }
 }

@@ -1,7 +1,7 @@
 import "./Body.css";
 const Body = () => {
   return (
-    <header className="section__container header__container" id="home">
+    <header className="section__container header__container">
       <h1>
         Search, Apply &<br />
         Get Your Dream Job or Training

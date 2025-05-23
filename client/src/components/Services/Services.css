@@ -1,15 +1,9 @@
-:root {
-  --primary-color: #696cff;
-  --primary-color-dark: #5659cc;
-  --text-dark: #111827;
-  --text-light: #475569;
-  --extra-light: #e5e5e5;
-  --white: #ffffff;
-  --max-width: 1200px;
+img {
+  display: flex;
+  width: 100%;
 }
-
 .section__container {
-  max-width: var(--max-width);
+  max-width: 1200px;
   margin: auto;
   padding: 5rem 1rem;
 }
@@ -19,19 +13,15 @@
   margin-inline: auto;
   margin-bottom: 1rem;
   font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--text-dark);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
   text-align: center;
-}
-
-.section__header span {
-  color: var(--primary-color);
 }
 
 .section__description {
   max-width: 600px;
   margin-inline: auto;
-  color: var(--text-light);
+  color: var(--text-secondary-color);
   line-height: 1.75rem;
   text-align: center;
 }
@@ -44,7 +34,7 @@
 
 .offer__card img {
   margin-bottom: 1rem;
-  border-radius: 5px;
+  border-radius: var(--default-xs-border-radius);
 }
 
 .offer__details {
@@ -54,9 +44,9 @@
 
 .offer__details span {
   font-size: 2rem;
-  font-weight: 800;
+  font-weight: var(--font-weight-extrabold);
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px var(--text-dark);
+  -webkit-text-stroke: 1px var(--text-secondary-color);
   padding-right: 1rem;
 }
 
@@ -67,12 +57,12 @@
 
 .offer__details h4 {
   font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text-dark);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary-color);
 }
 
 .offer__details p {
-  color: var(--text-light);
+  color: var(--text-color);
 }
 
 @media (width > 540px) {

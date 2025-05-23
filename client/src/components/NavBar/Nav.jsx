@@ -1,20 +1,29 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../../util/UserContext";
 import "./NavBar.css";
 
 const Nav = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useUser();
   const isAuthorized = user !== null;
 
   return (
-    <nav>
+    <nav className="navbar">
       <div className="nav__header">
         <div className="nav__logo">
           <h2>OpportunityHunt</h2>
         </div>
+        <div
+          id="mobile-menu"
+          className={`menu-icon ${menuOpen ? "is-active" : ""}`}
+          onClick={() => setMenuOpen((prev) => !prev)}
+        >
+          ☰
+        </div>
       </div>
 
-      <ul className="nav__links">
+      <ul className={`nav__links ${menuOpen ? "active" : ""}`}>
         {!isAuthorized && (
           <>
             <li>

@@ -36,6 +36,7 @@
   --default-md-border-radius: 7px;
   --default-lg-border-radius: 8px;
   --default-xl-border-radius: 10px;
+  --default-xxl-border-radius: 20px;
 
   /* Font weight */
   --font-weight-light: 300;
@@ -49,6 +50,10 @@
   --text-font-family: "Outfit";
   --heading-font-family: "Poppins";
   --btn-font-family: "Poppins";
+
+  /* Box shadows */
+  --box-shadow-default: 0 1px 3px var(--default-shadow-color);
+  --box-shadow-md: 0 4px 6px var(--default-shadow-color);
 }
 
 /* Applies universal reset  */
@@ -120,4 +125,48 @@ body {
   background-color: var(--disabled-bg);
   color: var(--disabled-text);
   cursor: not-allowed;
+}
+
+/* Tags & Badges */
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--default-sm-border-radius);
+  background-color: var(--hover-color);
+  color: var(--text-color);
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+}
+
+.tag-primary {
+  background-color: rgba(105, 108, 255, 0.15);
+  color: var(--primary-color);
+}
+
+.tag-secondary {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--secondary-color);
+}
+
+.tag-accent {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: var(--accent-color);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 0.75rem;
+  margin-right: 0.5rem;
+}
+
+.badge-success {
+  background-color: var(--success-color);
+}
+
+.badge-warning {
+  background-color: var(--warning-color);
 }

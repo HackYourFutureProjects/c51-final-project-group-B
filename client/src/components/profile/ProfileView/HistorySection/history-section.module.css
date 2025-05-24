@@ -1,0 +1,152 @@
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sectionIcon {
+  background-color: var(--primary-color);
+  color: var(--btn-text-color);
+  padding: 0.5rem;
+  border-radius: var(--default-xs-border-radius);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.sectionTitle {
+  font-family: var(--heading-font-family);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.historyItem {
+  padding: 1rem;
+  background-color: var(--bg-color);
+  border-radius: var(--default-xs-border-radius);
+  border-left: 3px solid var(--primary-color);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.itemTitle {
+  font-family: var(--heading-font-family);
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--heading-color);
+  margin: 0;
+  flex: 1;
+}
+
+.itemDates {
+  background-color: var(--secondary-color);
+  color: var(--btn-text-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+
+.itemSubtitle {
+  color: var(--text-secondary-color);
+  font-weight: var(--font-weight-medium);
+  margin: 0 0 0.5rem 0;
+}
+
+.itemOrganization {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  margin: 0 0 1rem 0;
+  flex-wrap: wrap;
+}
+
+.itemLocation {
+  color: var(--text-secondary-color);
+  font-weight: var(--font-weight-normal);
+}
+
+.itemDescription {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.itemDescription li {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.itemDescription li::before {
+  content: "•";
+  margin: 0 0 0.75rem -1.5rem;
+  color: var(--accent-color);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.2rem;
+  float: left;
+}
+
+@media (max-width: 768px) {
+  .historySection {
+    padding: 1.5rem;
+  }
+
+  .itemHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .itemDates {
+    align-self: flex-start;
+  }
+
+  .sectionTitle {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .historySection {
+    padding: 1rem;
+  }
+
+  .sectionHeader {
+    gap: 0.75rem;
+  }
+
+  .sectionIcon {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  .itemTitle {
+    font-size: 1.125rem;
+  }
+}

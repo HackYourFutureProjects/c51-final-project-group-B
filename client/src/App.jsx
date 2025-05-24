@@ -3,6 +3,7 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home/Home";
 import CreateUser from "./pages/User/CreateUser";
 import UserList from "./pages/User/UserList";
+import CandidateProfile from "./pages/Profile/Candidate/CandidateProfile";
 import RegisterForm from "./components/forms/RegisterForm";
 import LogInForm from "./components/forms/LoginForm";
 
@@ -17,6 +18,11 @@ const App = () => {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/login" element={<LogInForm />} />
         {/* Add more routes as needed */}
+
+        <Route
+          path="/users/candidate-profile/:id"
+          element={<CandidateProfile />}
+        ></Route>
       </Routes>
     </>
   );

@@ -1,0 +1,139 @@
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.leftSection {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.profileImageWrapper {
+  flex-shrink: 0;
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border-color);
+}
+
+.profileDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameRoleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.profileName {
+  font-family: var(--heading-font-family);
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--heading-color);
+}
+
+.roleBadge {
+  background-color: var(--accent-color);
+  color: var(--btn-text-color);
+  padding: 0.5rem 1rem;
+  border-radius: var(--default-xxl-border-radius);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contactDetails {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+.profileItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.icon {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.rightSection {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-shrink: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .headerWrapper {
+    padding: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .leftSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .nameRoleWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .profileName {
+    font-size: 1.75rem;
+  }
+  .rightSection {
+    position: static;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #contactBtnId,
+  #downloadBtnId {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileHeaderContainer {
+    padding: 1rem;
+  }
+
+  .profileImage {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profileName {
+    font-size: 1.5rem;
+  }
+}

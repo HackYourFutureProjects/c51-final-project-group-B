@@ -5,7 +5,7 @@
   justify-content: center;
   height: 100vh;
   padding: 20px;
-  font-family: --text-font-family;
+  font-family: var(--text-font-family);
 }
 
 .user-type-selector {
@@ -28,8 +28,7 @@
   border-radius: 8px;
   width: 100%;
   max-width: 400px;
-  box-shadow:
-    var(--default-shadow-color);
+  box-shadow: var(--default-shadow-color);
 }
 
 .form label {

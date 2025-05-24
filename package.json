@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "concurrently": "^9.1.0",
+    "react-hook-form": "^7.56.4",
     "react-icons": "^5.5.0"
   }
 }

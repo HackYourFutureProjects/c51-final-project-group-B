@@ -5,6 +5,8 @@ import UserList from "./pages/User/UserList";
 import CandidateProfile from "./pages/Profile/Candidate/CandidateProfile";
 import Navbar from "./components/layouts/Navbar/Navbar";
 import Footer from "./components/layouts/Footer/Footer";
+import Registr from "./pages/Forms/Registr";
+import Login from "./pages/Forms/Login";
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
             path="/users/candidate-profile/:id"
             element={<CandidateProfile />}
           ></Route>
+          <Route path="/register" element={<Registr />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
       <Footer />

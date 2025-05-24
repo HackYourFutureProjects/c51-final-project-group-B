@@ -1,0 +1,258 @@
+.sectionContainer {
+  margin: auto;
+  padding: 4rem 1rem;
+  max-width: 1200px;
+}
+
+.headerContainer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.headerContainer h1 {
+  margin-bottom: 1rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--heading-color);
+  text-align: center;
+  line-height: clamp(3rem, 6vw, 5.5rem);
+}
+
+.headerContainer p {
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-inline: auto;
+  color: var(--text-color);
+  line-height: 1.75rem;
+  text-align: center;
+}
+
+.steps {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 4rem 1rem;
+}
+
+.stepsGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 90%;
+  margin-top: 3rem;
+  max-width: 1500px;
+}
+
+.stepsCard {
+  background: transparent;
+  box-shadow: none;
+  padding: 1rem;
+  border-radius: var(--default-lg-border-radius);
+  transition: transform 0.3s ease;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.stepsCard:hover {
+  transform: translateY(-5px);
+}
+
+.stepsCard h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary-color);
+}
+
+.stepsCard p {
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.stepsIcon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 0 auto 1rem;
+  display: block;
+}
+
+.stepsArrowContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.3rem;
+  border-radius: 8px;
+}
+
+.stepsArrow {
+  width: 100%;
+  max-width: 40px;
+  height: auto;
+  transform: rotate(90deg);
+  margin: 0.5rem 0;
+  transition: transform 0.3s ease;
+}
+
+@media screen and (min-width: 768px) {
+  .stepsGrid {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .stepsArrowContainer {
+    width: auto;
+    padding: 0;
+  }
+
+  .stepsArrow {
+    max-width: none;
+    transform: rotate(0deg);
+    margin: 0 1rem;
+  }
+}
+
+img {
+  display: flex;
+  width: 100%;
+}
+
+.sectionContainer {
+  max-width: 1200px;
+  margin: auto;
+  padding: 5rem 1rem;
+}
+
+.sectionHeader {
+  max-width: 900px;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--heading-color);
+  text-align: center;
+}
+
+.sectionDescription {
+  max-width: 600px;
+  margin-inline: auto;
+  color: var(--text-secondary-color);
+  line-height: 1.75rem;
+  text-align: center;
+}
+
+.offerGrid {
+  margin-top: 4rem;
+  display: grid;
+  gap: 2rem 1rem;
+}
+
+.offerCard img {
+  margin-bottom: 1rem;
+  border-radius: var(--default-xs-border-radius);
+}
+
+.offerDetails {
+  display: flex;
+  align-items: flex-start;
+}
+
+.offerDetails span {
+  font-size: 2rem;
+  font-weight: var(--font-weight-extrabold);
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px var(--text-secondary-color);
+  padding-right: 1rem;
+}
+
+.offerDetails div {
+  padding-left: 1rem;
+  border-left: 2px solid var(--primary-color);
+}
+
+.offerDetails h4 {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-secondary-color);
+}
+
+.offerDetails p {
+  color: var(--text-color);
+}
+
+.clientCard img {
+  max-width: 80px;
+  margin-inline: auto;
+  margin-bottom: 2rem;
+  border-radius: 100%;
+  box-shadow: var(--default-shadow-color);
+}
+
+.clientCard p {
+  margin-bottom: 1rem;
+  line-height: 1.75rem;
+  color: var(--text-secondary-color);
+  text-align: center;
+}
+
+.clientRatings {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.clientRatings span {
+  color: var(--accent-color);
+}
+
+.clientCard h4 {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary-color);
+  text-align: center;
+}
+
+.clientCard h5 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-align: center;
+}
+
+@media (width > 540px) {
+  .offerGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width > 768px) {
+  .offerGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .stepsCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionContainer {
+    padding: 3rem 1rem;
+  }
+
+  .headerContainer h1,
+  .headerContainer p {
+    line-height: 1.4;
+  }
+}

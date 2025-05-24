@@ -72,6 +72,12 @@ const SeekerProfileSchema = new Schema(
       trim: true,
       maxlength: [50, "Last name must be less than 50 characters"],
     },
+    position: {
+      type: String,
+      default: "",
+      maxlength: [100, "Position must be less than 100 characters"],
+      trim: true,
+    },
     resumeUrl: { type: String, default: "" },
     bio: {
       type: String,
@@ -150,6 +156,7 @@ SeekerProfileSchema.statics.validateSeekerProfile = function (profileObj) {
   const allowedKeys = [
     "firstName",
     "lastName",
+    "position",
     "resumeUrl",
     "bio",
     "skills",
@@ -160,8 +167,11 @@ SeekerProfileSchema.statics.validateSeekerProfile = function (profileObj) {
   ];
   const validatedMsg = validateAllowedFields(profileObj, allowedKeys);
   if (validatedMsg) errorList.push(validatedMsg);
-  if (!profileObj.firstName) errorList.push("First name is required.");
-  if (!profileObj.lastName) errorList.push("Last name is required.");
+  if ("firstName" in profileObj && !profileObj.firstName)
+    errorList.push("First name is required.");
+  if ("lastName" in profileObj && !profileObj.lastName)
+    errorList.push("Last name is required.");
+
   return errorList;
 };
 
@@ -228,7 +238,8 @@ CompanyProfileSchema.statics.validateCompanyProfile = function (profileObj) {
   ];
   const validatedMsg = validateAllowedFields(profileObj, allowedKeys);
   if (validatedMsg) errorList.push(validatedMsg);
-  if (!profileObj.companyName) errorList.push("Company name is required.");
+  if ("companyName" in profileObj && !profileObj.companyName)
+    errorList.push("Company name is required.");
   return errorList;
 };
 

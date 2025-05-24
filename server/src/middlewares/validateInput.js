@@ -51,7 +51,7 @@ export const validateLogin = [
   checkValidation,
 ];
 
-// Profile‑update validators (adding validaiton for the base user fields)
+// Profile‑update validators (adding validation for the base user fields)
 export const validateUpdateProfile = [
   body("email").optional().isEmail().withMessage("Must be a valid email."),
 

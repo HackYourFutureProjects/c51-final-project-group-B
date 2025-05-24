@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 import { User, Seeker, Company } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
@@ -9,7 +10,12 @@ import validationErrorMessage from "../util/validationErrorMessage.js";
 export async function getPublicProfile(req, res) {
   try {
     const { id } = req.params;
-    // Find the user and exculding the passwordHash, we can add more fields to exclude if needed
+
+    // Check if the ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, msg: "Invalid user ID." });
+    }
+    // Find the user and excluding the passwordHash, we can add more fields to exclude if needed
     const user = await User.findById(id).select("-passwordHash");
 
     if (!user) {
@@ -31,7 +37,7 @@ export async function getPublicProfile(req, res) {
 
 export async function getProfile(req, res) {
   try {
-    // Find the user exculding the passwordHash, we can add more fields to exclude if needed
+    // Find the user excluding the passwordHash, we can add more fields to exclude if needed
     const user = await User.findById(req.user.id).select("-passwordHash");
 
     if (!user) {

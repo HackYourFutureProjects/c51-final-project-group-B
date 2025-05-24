@@ -5,7 +5,7 @@ import UserList from "./pages/User/UserList";
 import CandidateProfile from "./pages/Profile/Candidate/CandidateProfile";
 import Navbar from "./components/layouts/Navbar/Navbar";
 import Footer from "./components/layouts/Footer/Footer";
-import Registr from "./pages/Forms/Registr";
+import Register from "./pages/Forms/Register";
 import Login from "./pages/Forms/Login";
 
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
             path="/users/candidate-profile/:id"
             element={<CandidateProfile />}
           ></Route>
-          <Route path="/register" element={<Registr />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </main>

@@ -75,6 +75,16 @@ body {
   font-family: "Outfit", sans-serif;
 }
 
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
 .icon {
   font-size: 1.25rem;
   color: var(--primary-color);
@@ -83,16 +93,16 @@ body {
 }
 
 .btn {
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
+  margin: 0.5rem 0;
   font-family: var(--btn-font-family);
   font-weight: var(--font-weight-semibold);
   border-radius: var(--default-sm-border-radius);
   border: none;
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.2s ease;
   color: var(--btn-text-color);
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .btn:hover {

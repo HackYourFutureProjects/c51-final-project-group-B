@@ -10,16 +10,18 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/user" element={<UserList />} />
-        <Route path="/user/create" element={<CreateUser />} />
+      <main className="content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/user" element={<UserList />} />
+          <Route path="/user/create" element={<CreateUser />} />
 
-        <Route
-          path="/users/candidate-profile/:id"
-          element={<CandidateProfile />}
-        ></Route>
-      </Routes>
+          <Route
+            path="/users/candidate-profile/:id"
+            element={<CandidateProfile />}
+          ></Route>
+        </Routes>
+      </main>
       <Footer />
     </>
   );

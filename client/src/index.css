@@ -75,6 +75,16 @@ body {
   font-family: "Outfit", sans-serif;
 }
 
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
 .icon {
   font-size: 1.25rem;
   color: var(--primary-color);

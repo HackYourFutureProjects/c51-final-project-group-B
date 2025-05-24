@@ -15,7 +15,7 @@ const App = () => {
         <Route path="/user/create" element={<CreateUser />} />
 
         <Route
-          path="/users/candidate-profile"
+          path="/users/candidate-profile/:id"
           element={<CandidateProfile />}
         ></Route>
       </Routes>

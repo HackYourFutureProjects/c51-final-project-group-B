@@ -35,10 +35,10 @@
 }
 
 .historyItem {
-  padding: 1.5rem;
+  padding: 1rem;
   background-color: var(--bg-color);
-  border-radius: var(--default-sm-border-radius);
-  border-left: 4px solid var(--primary-color);
+  border-radius: var(--default-xs-border-radius);
+  border-left: 3px solid var(--primary-color);
 }
 
 .itemHeader {

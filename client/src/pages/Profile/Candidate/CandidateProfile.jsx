@@ -1,20 +1,23 @@
 import useFetch from "../../../hooks/useFetch";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import styles from "./candidate-profile.module.css";
 import HeaderSection from "../../../components/profile/ProfileView/HeaderSection/HeaderSection";
 import HistorySection from "../../../components/profile/ProfileView/HistorySection/HistorySection";
 import TagSection from "../../../components/profile/ProfileView/TagSection/TagSection";
 
-// use this ids for testing [6830bf97c41a69b82d948813, 6830bc7faab575b0d0699f51]
+// use this ids for testing 6830bc7faab575b0d0699f51
 
 const CandidateProfile = () => {
   const [user, setUser] = useState({});
+  const { id } = useParams();
 
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    "/profile/6830bc7faab575b0d0699f51",
+    `/profile/${id}`,
     (response) => {
-      setUser(response.user);
+      const user = response?.user;
+      setUser(user.userType === "seeker" ? user : null);
     },
   );
 
@@ -22,6 +25,14 @@ const CandidateProfile = () => {
     performFetch();
     return cancelFetch;
   }, []);
+
+  // If a user is NOT a candidate
+  if (!user)
+    return (
+      <div className={styles.profileContainer}>
+        <section>{`No user with this ${id}`}</section>
+      </div>
+    );
 
   let content = null;
   if (isLoading) {

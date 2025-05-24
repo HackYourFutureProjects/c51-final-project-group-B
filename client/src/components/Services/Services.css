@@ -57,13 +57,13 @@ img {
   color: var(--text-color);
 }
 
-@media (width > 540px) {
+@media (width: 540px) {
   .offer__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (width > 768px) {
+@media (width: 768px) {
   .offer__grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;

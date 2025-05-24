@@ -17,23 +17,6 @@
   justify-content: center;
 }
 
-.btn {
-  padding: 0.5rem 1rem;
-  font-family: var(--btn-font-family);
-  font-weight: var(--font-weight-semibold);
-  border-radius: var(--default-sm-border-radius);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: var(--btn-text-color);
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.btn:hover {
-  background-color: var(--primary-color-dark);
-}
-
 .btn.active {
   background-color: #1877f2;
   color: black;
@@ -62,10 +45,12 @@
   width: 100%;
   padding: 14px;
   border: 1px solid #ccd0d5;
-  border-radius: 6px;
+  border-radius: var(--default-sm-border-radius);
   margin-top: 6px;
-  font-size: 16px;
-  box-sizing: border-box;
+  -webkit-border-radius: var(--default-sm-border-radius);
+  -moz-border-radius: var(--default-sm-border-radius);
+  -ms-border-radius: var(--default-sm-border-radius);
+  -o-border-radius: var(--default-sm-border-radius);
 }
 
 .input:focus {
@@ -83,9 +68,13 @@ input[type="submit"] {
   padding: 14px;
   font-size: 17px;
   font-weight: bold;
-  border-radius: 6px;
+  border-radius: var(--default-sm-border-radius);
   cursor: pointer;
   transition: background-color 0.3s;
+  -webkit-border-radius: var(--default-sm-border-radius);
+  -moz-border-radius: var(--default-sm-border-radius);
+  -ms-border-radius: var(--default-sm-border-radius);
+  -o-border-radius: var(--default-sm-border-radius);
 }
 
 input[type="submit"]:hover {

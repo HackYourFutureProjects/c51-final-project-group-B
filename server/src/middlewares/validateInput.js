@@ -50,3 +50,37 @@ export const validateLogin = [
 
   checkValidation,
 ];
+
+// Profile‑update validators (adding validation for the base user fields)
+export const validateUpdateProfile = [
+  body("email").optional().isEmail().withMessage("Must be a valid email."),
+
+  body("password")
+    .optional()
+    .trim()
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters."),
+
+  body("seekerProfile.firstName")
+    .optional()
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("First name cannot be empty."),
+
+  body("seekerProfile.lastName")
+    .optional()
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Last name cannot be empty."),
+
+  body("companyProfile.companyName")
+    .optional()
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Company name cannot be empty."),
+
+  checkValidation,
+];

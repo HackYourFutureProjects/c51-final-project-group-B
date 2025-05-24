@@ -1,6 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-
+import profileRouter from "./routes/profile.js";
 import userRouter from "./routes/user.js";
 
 // Create an express server
@@ -17,5 +17,6 @@ app.use(express.json());
  * As we also host our client code on heroku we want to separate the API endpoints.
  */
 app.use("/api/users", userRouter);
+app.use("/api/profile", profileRouter);
 
 export default app;

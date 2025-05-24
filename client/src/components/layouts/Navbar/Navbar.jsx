@@ -12,22 +12,12 @@ const Navbar = () => {
         <ul className={styles.navLinks}>
           <li>
             <NavLink
-              to="/register/candidate"
+              to="/home"
               className={({ isActive }) =>
                 isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
               }
             >
-              Job Seekers
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/register/employer"
-              className={({ isActive }) =>
-                isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-              }
-            >
-              For Employers
+              Home
             </NavLink>
           </li>
         </ul>
@@ -41,7 +31,7 @@ const Navbar = () => {
           >
             Login
           </NavLink>
-          <NavLink to="/signup" className="btn btn-primary">
+          <NavLink to="/register" className="btn btn-primary">
             Sign Up
           </NavLink>
         </div>

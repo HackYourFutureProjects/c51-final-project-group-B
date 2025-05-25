@@ -46,10 +46,16 @@ const Testimonials = () => {
         <h4>{name}</h4>
         <h5>{role}</h5>
         <div style={{ marginTop: "1rem" }}>
-          <button onClick={goPrev} style={{ marginRight: "1rem" }}>
+          <button
+            onClick={goPrev}
+            className="btn btn-secondary"
+            style={{ marginRight: "1rem" }}
+          >
             Previous
           </button>
-          <button onClick={goNext}>Next</button>
+          <button onClick={goNext} className="btn btn-secondary">
+            Next
+          </button>
         </div>
       </div>
     </section>

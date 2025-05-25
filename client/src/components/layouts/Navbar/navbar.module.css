@@ -1,5 +1,4 @@
 header {
-  height: 80px;
   margin-bottom: 4rem;
 }
 
@@ -8,9 +7,10 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 2rem;
-  background: var(--surface-color);
-  box-shadow: var(--box-shadow-default);
+  background: var(--bg-color);
   font-family: var(--text-font-family);
+  border-bottom: 1px solid var(--border-color);
+  height: 60px;
 }
 
 .logo {
@@ -48,6 +48,10 @@ header {
 .navLink.active {
   color: var(--primary-color);
   background-color: var(--hover-color);
+}
+
+.no-padding-btn {
+  padding: 0 !important;
 }
 
 .authActions {

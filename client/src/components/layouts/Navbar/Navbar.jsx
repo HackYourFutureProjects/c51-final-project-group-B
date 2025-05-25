@@ -31,7 +31,11 @@ const Navbar = () => {
           >
             Login
           </NavLink>
-          <NavLink to="/register" className="btn btn-primary">
+          <NavLink
+            to="/register"
+            className="btn btn-primary"
+            style={{ padding: "0.4rem .9rem" }}
+          >
             Sign Up
           </NavLink>
         </div>

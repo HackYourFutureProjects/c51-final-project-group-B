@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
+import Body from "./components/Body/Body";
 import CreateUser from "./pages/User/CreateUser";
 import UserList from "./pages/User/UserList";
 import CandidateProfile from "./pages/Profile/Candidate/CandidateProfile";
@@ -14,7 +14,7 @@ const App = () => {
       <Navbar />
       <main className="content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Body />} />
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
 

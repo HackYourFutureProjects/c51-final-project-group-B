@@ -1,11 +1,11 @@
 import Registerform from "../../components/forms/RegisterForm";
 
-const Registr = () => {
+const Register = () => {
   return (
     <div>
-      <Registerform />S
+      <Registerform />
     </div>
   );
 };
 
-export default Registr;
+export default Register;

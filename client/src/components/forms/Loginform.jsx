@@ -1,8 +1,11 @@
 import css from "./form-style.module.css";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 const LogInform = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     reset,
@@ -10,24 +13,15 @@ const LogInform = () => {
     formState: { errors },
   } = useForm();
 
+  // used the hook from UserContext to access the login function
+  const { login } = useUser();
+
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error("Invalid email or password");
-      }
-
-      const result = await response.json();
-      console.log("Login successful:", result);
+      await login(data); // use context login
       alert("Login successful!");
       reset();
+      navigate("/profile");
     } catch (error) {
       alert(error.message);
     }

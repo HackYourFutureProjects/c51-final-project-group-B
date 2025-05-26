@@ -22,8 +22,9 @@ import { useUser } from "../../contexts/UserContext";
     }
   };
 */
+import PropTypes from "prop-types";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import * as userService from "../api/userService.js";
 const UserContext = createContext();
 
@@ -82,3 +83,7 @@ export function UserProvider({ children }) {
 export function useUser() {
   return useContext(UserContext);
 }
+
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

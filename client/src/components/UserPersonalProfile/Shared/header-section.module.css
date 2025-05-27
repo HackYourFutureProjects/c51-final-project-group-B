@@ -1,0 +1,235 @@
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 2.5rem 3rem 2.5rem 3rem;
+  background: var(--surface-color, #fff);
+  border-radius: 20px;
+  box-shadow: 0 2px 18px 0 rgba(60, 72, 88, 0.08);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  flex-wrap: wrap;
+  min-height: 180px;
+}
+
+.leftSection {
+  display: flex;
+  gap: 2.2rem;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.profileImageWrapper {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--border-color, #e5e7eb);
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.08);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.profileDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameRoleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.profileName {
+  font-family: var(--heading-font-family, "Inter", sans-serif);
+  font-size: 2.2rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--heading-color, #232946);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roleBadge {
+  background-color: var(--accent-color);
+  color: var(--btn-text-color, #fff);
+  padding: 0.5rem 1rem;
+  border-radius: var(--default-xxl-border-radius);
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.08);
+}
+
+.contactDetails {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 0.7rem;
+}
+
+.profileItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--primary-color, #6366f1);
+  font-size: 1.05rem;
+  background: #eef2ff;
+  padding: 0.28em 1.1em;
+  border-radius: 999px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.06);
+}
+
+.icon {
+  color: var(--primary-color, #6366f1);
+  font-size: 1.2rem;
+}
+
+.rightSection {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-end;
+  flex-shrink: 0;
+  position: absolute;
+  bottom: 2.5rem;
+  right: 3rem;
+}
+
+.btn {
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 0.7em 1.7em;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.08);
+}
+
+.btn-primary {
+  background: var(--primary-color, #6366f1);
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.btn-outline {
+  background: #fff;
+  color: var(--primary-color, #6366f1);
+  border: 2px solid var(--primary-color, #6366f1);
+}
+
+.btn-outline:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+@media (max-width: 1100px) {
+  .headerWrapper {
+    padding: 1.5rem 1.2rem;
+    min-height: 120px;
+  }
+  .profileImageWrapper {
+    width: 100px;
+    height: 100px;
+  }
+  .profileName {
+    font-size: 1.5rem;
+  }
+  .rightSection {
+    bottom: 1.5rem;
+    right: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 0.7rem;
+    min-height: unset;
+    position: static;
+  }
+
+  .leftSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .profileImageWrapper {
+    width: 80px;
+    height: 80px;
+  }
+
+  .nameRoleWrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .profileName {
+    font-size: 1.1rem;
+  }
+
+  .roleBadge {
+    font-size: 0.65rem;
+    padding: 0.13rem 0.6rem;
+  }
+
+  .contactDetails {
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    align-items: center;
+  }
+
+  .rightSection {
+    position: static;
+    margin: 1rem 0 0 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.7rem;
+    width: 100%;
+  }
+
+  #contactBtnId,
+  #downloadBtnId {
+    width: 100%;
+  }
+}

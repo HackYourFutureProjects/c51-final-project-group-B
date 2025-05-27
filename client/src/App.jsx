@@ -8,6 +8,7 @@ import Footer from "./components/layouts/Footer/Footer";
 import Register from "./pages/Forms/Register";
 import Login from "./pages/Forms/Login";
 import { PublicRoute } from "./routes/PublicRoute";
+import ProfilePage from "./pages/UserProfile/ProfilePage";
 
 const App = () => {
   return (
@@ -18,6 +19,8 @@ const App = () => {
           <Route path="/" element={<Body />} />
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
+
+          <Route path="/profile/*" element={<ProfilePage />} />
 
           <Route
             path="/users/candidate-profile/:id"

@@ -1,0 +1,218 @@
+.section {
+  background: var(--surface-color, #fff);
+  border-radius: 18px;
+  box-shadow: 0 2px 18px 0 rgba(60, 72, 88, 0.08);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color, #e5e7eb);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  font-family: var(--text-font-family, "Outfit", sans-serif);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.sectionIcon {
+  font-size: 1.5rem;
+  color: var(--primary-color, #6366f1);
+  background: #eef2ff;
+  border-radius: 50%;
+  padding: 0.25em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.06);
+}
+
+.section h2 {
+  font-size: 1.18rem;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--heading-color, #232946);
+  margin: 0;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  display: flex;
+  align-items: center;
+  font-family: var(--heading-font-family, "Poppins", sans-serif);
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  background: #eef2ff;
+  color: var(--primary-color, #6366f1);
+  border-radius: 999px;
+  padding: 0.35em 1em;
+  font-weight: 500;
+  font-size: 0.98rem;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.04);
+  margin-bottom: 0.2em;
+  font-family: var(--text-font-family, "Outfit", sans-serif);
+}
+
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timelineItem {
+  margin-bottom: 1.1em;
+  padding-bottom: 1em;
+  border-left: 2px solid var(--primary-color, #6366f1);
+  padding-left: 1em;
+  position: relative;
+}
+
+.timelineTitle {
+  font-weight: 600;
+  color: var(--heading-color, #232946);
+  margin-bottom: 0.15em;
+  font-family: var(--heading-font-family, "Poppins", sans-serif);
+}
+
+.timelineMeta {
+  font-size: 0.97em;
+  color: var(--success-color, #22c55e);
+  margin-bottom: 0.3em;
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-weight: 500;
+}
+
+.timelineDesc {
+  color: var(--text-secondary-color, #444);
+  font-size: 0.97em;
+  margin-top: 0.15em;
+}
+
+.inlineInfo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--primary-color, #6366f1);
+  font-size: 0.98em;
+  background: #eef2ff;
+  border-radius: 999px;
+  padding: 0.25em 0.9em;
+  margin-top: 0.5em;
+  font-weight: 500;
+  text-decoration: none;
+  width: fit-content;
+  box-shadow: none;
+}
+
+.inlineIcon {
+  font-size: 1.1em;
+}
+
+.emptyText {
+  color: var(--text-secondary-color, #aaa);
+  font-style: italic;
+  font-size: 0.98em;
+  margin-top: 0.4em;
+  display: block;
+}
+
+.contactInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  max-width: 100%;
+}
+
+.contactInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--primary-color, #6366f1);
+  font-weight: 500;
+  font-size: 0.98rem;
+  background: #eef2ff;
+  border-radius: 999px;
+  padding: 0.35em 1em;
+  box-shadow: 0 1px 4px rgba(99, 102, 241, 0.04);
+  text-decoration: none;
+  margin-bottom: 0.2em;
+}
+
+.contactInfoItem:hover {
+  background: var(--primary-color, #6366f1);
+  color: #fff;
+}
+
+.timelineMeta,
+.timelineDesc,
+.emptyText,
+.contactInfoItem {
+  font-family: var(--text-font-family, "Outfit", sans-serif);
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding: 1.2rem 0.7rem;
+    border-radius: 14px;
+    margin-bottom: 1.2rem;
+  }
+  .sectionHeader {
+    gap: 0.7rem;
+    margin-bottom: 0.7rem;
+  }
+  .sectionIcon {
+    font-size: 1.2rem;
+    padding: 0.18em;
+    min-width: 1.2rem;
+    min-height: 1.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 1rem 0.7rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  .sectionHeader {
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+  }
+  .sectionIcon {
+    font-size: 1rem;
+    padding: 0.08em;
+    min-width: 1rem;
+    min-height: 1rem;
+  }
+  .chip {
+    font-size: 0.93rem;
+    padding: 0.22em 0.7em;
+  }
+  .contactInfo {
+    gap: 0.5rem;
+  }
+  .contactInfoItem {
+    font-size: 0.93rem;
+    padding: 0.22em 0.7em;
+  }
+}

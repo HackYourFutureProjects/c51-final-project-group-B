@@ -54,6 +54,9 @@
   /* Box shadows */
   --box-shadow-default: 0 1px 3px var(--default-shadow-color);
   --box-shadow-md: 0 4px 6px var(--default-shadow-color);
+
+  /* Navbar height */
+  --navbar-height: 60px;
 }
 
 /* Applies universal reset  */

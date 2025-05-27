@@ -1,6 +1,8 @@
-header {
+/*  Commented the margin-bottom for header to avoid extra space */
+
+/* header {
   margin-bottom: 4rem;
-}
+} */
 
 .navbar {
   display: flex;
@@ -10,7 +12,7 @@ header {
   background: var(--bg-color);
   font-family: var(--text-font-family);
   border-bottom: 1px solid var(--border-color);
-  height: 60px;
+  height: var(--navbar-height, 65px);
 }
 
 .logo {

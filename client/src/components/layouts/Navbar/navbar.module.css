@@ -3,7 +3,22 @@
 /* header {
   margin-bottom: 4rem;
 } */
+.profileIcon {
+  color: var(--primary-color, #6366f1);
+  vertical-align: middle;
+  border-radius: 50%;
+  background: #eef2ff;
+  padding: 4px;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
 
+.profileIcon:hover,
+.navLink.active .profileIcon {
+  background: var(--primary-color, #6366f1);
+  color: #fff;
+}
 .navbar {
   display: flex;
   justify-content: space-between;

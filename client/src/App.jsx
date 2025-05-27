@@ -7,6 +7,7 @@ import Navbar from "./components/layouts/Navbar/Navbar";
 import Footer from "./components/layouts/Footer/Footer";
 import Register from "./pages/Forms/Register";
 import Login from "./pages/Forms/Login";
+import { PublicRoute } from "./routes/PublicRoute";
 
 const App = () => {
   return (
@@ -22,8 +23,24 @@ const App = () => {
             path="/users/candidate-profile/:id"
             element={<CandidateProfile />}
           ></Route>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+
+          {/* the login and register route are only accessible if the user is not authenticated  */}
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
         </Routes>
       </main>
       <Footer />

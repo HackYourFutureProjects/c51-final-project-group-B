@@ -45,7 +45,7 @@ const Sidebar = () => {
           <NavLink
             to={
               user.userType === "company"
-                ? "/profile/projects"
+                ? "/profile/company-jobs"
                 : "/profile/seeker-jobs"
             }
             className={({ isActive }) =>

@@ -1,8 +1,9 @@
-import React from "react";
 import { useUser } from "../../../contexts/UserContext";
 import OverviewHeader from "../Shared/OverviewHeader";
 import { formatDate } from "../../../util/dates";
 import styles from "./overview-section.module.css";
+import PropTypes from "prop-types";
+
 import {
   MdInfo,
   MdWork,
@@ -185,3 +186,9 @@ const Overview = () => {
 };
 
 export default Overview;
+
+Section.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};

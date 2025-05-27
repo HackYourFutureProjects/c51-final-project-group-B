@@ -1,4 +1,3 @@
-import React from "react";
 import { MdEmail, MdLocationOn } from "react-icons/md";
 import { useUser } from "../../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";

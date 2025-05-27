@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
 import styles from "./sidebar.module.css";

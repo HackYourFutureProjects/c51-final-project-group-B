@@ -1,4 +1,3 @@
-import React from "react";
 import OverviewHeader from "../Shared/OverviewHeader";
 
 const Overview = () => {

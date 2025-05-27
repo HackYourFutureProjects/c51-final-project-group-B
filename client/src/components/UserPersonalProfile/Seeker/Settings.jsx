@@ -1,5 +1,3 @@
-import React from "react";
-
 const Settings = () => {
   return <h1>Seeker Settings</h1>;
 };

@@ -1,7 +1,24 @@
-header {
+/*  Commented the margin-bottom for header to avoid extra space */
+
+/* header {
   margin-bottom: 4rem;
+} */
+.profileIcon {
+  color: var(--primary-color, #6366f1);
+  vertical-align: middle;
+  border-radius: 50%;
+  background: #eef2ff;
+  padding: 4px;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
+.profileIcon:hover,
+.navLink.active .profileIcon {
+  background: var(--primary-color, #6366f1);
+  color: #fff;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -10,7 +27,7 @@ header {
   background: var(--bg-color);
   font-family: var(--text-font-family);
   border-bottom: 1px solid var(--border-color);
-  height: 60px;
+  height: var(--navbar-height, 65px);
 }
 
 .logo {

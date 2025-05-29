@@ -33,6 +33,7 @@ export const createJob = async (req, res) => {
       .status(429)
       .json({ success: false, message: "Daily post limit reached." });
   }
+
   const newJobPost = new JobPost({
     ...req.body,
     postedBy: req.user.id,
@@ -120,9 +121,10 @@ export const jobs = async (req, res) => {
   if (!jobPosts.length) {
     return res.status(404).json({ success: false, msg: "No job posts found." });
   }
+
   const jobs = await Promise.all(
     jobPosts.map(async (jobPost) => {
-      const company = User.findById(jobPost.postedBy)
+      const company = await User.findById(jobPost.postedBy)
         .select("companyProfile.companyName profilePhoto")
         .lean();
 

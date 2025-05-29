@@ -47,8 +47,22 @@ const Navbar = () => {
               </NavLink>
             </>
           ) : (
+            // if user has a profile photo show, else show a default icon
             <NavLink to="/profile" className={styles.navLink}>
-              <MdPerson className={styles.profileIcon} size={40} />
+              {user.profilePhoto ? (
+                <img src={user.profilePhoto} alt="Profile" className="Avatar" />
+              ) : (
+                <MdPerson
+                  size={40}
+                  style={{
+                    borderRadius: "50%",
+                    background: "#eef2ff",
+                    color: "#6366f1",
+                    padding: 4,
+                  }}
+                  aria-label="Profile"
+                />
+              )}
             </NavLink>
           )}
         </div>

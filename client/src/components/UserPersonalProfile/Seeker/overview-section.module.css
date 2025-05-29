@@ -7,7 +7,7 @@
     #bfc6e0 85%,
     #6366f1 110%
   );
-  border-radius: 18px;
+  border-radius: var(--default-xxl-border-radius, 18px);
   box-shadow: 0 2px 18px 0 rgba(60, 72, 88, 0.08);
   padding: 2rem;
   margin-bottom: 2rem;
@@ -70,7 +70,7 @@
   color: var(--primary-color, #6366f1);
   border-radius: 999px;
   padding: 0.35em 1em;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium, 500);
   font-size: 0.98rem;
   box-shadow: 0 1px 4px rgba(99, 102, 241, 0.04);
   margin-bottom: 0.2em;
@@ -105,7 +105,7 @@
   display: flex;
   align-items: center;
   gap: 0.3em;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium, 500);
 }
 
 .timelineDesc {
@@ -124,7 +124,7 @@
   border-radius: 999px;
   padding: 0.25em 0.9em;
   margin-top: 0.5em;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium, 500);
   text-decoration: none;
   width: fit-content;
   box-shadow: none;
@@ -158,7 +158,7 @@
   align-items: center;
   gap: 0.5em;
   color: var(--primary-color, #6366f1);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium, 500);
   font-size: 0.98rem;
   background: var(--hover-color, #eef2ff);
   border-radius: 999px;

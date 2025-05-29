@@ -30,11 +30,13 @@ app.use("/api/jobs", jobRouter);
  * https://expressjs.com/en/guide/error-handling.html
  *
  *  */
-app.use((err, req, res) => {
+function errorHandler(err, _req, res, _next) {
   logError(err);
   res
     .status(500)
     .json({ success: false, msg: "Something went wrong on the server." });
-});
+}
+
+app.use(errorHandler);
 
 export default app;

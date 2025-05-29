@@ -2,6 +2,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import profileRouter from "./routes/profile.js";
 import userRouter from "./routes/user.js";
+import jobRouter from "./routes/jobPosts.js";
+import { logError } from "./util/logging.js";
 
 // Create an express server
 const app = express();
@@ -18,5 +20,21 @@ app.use(express.json());
  */
 app.use("/api/users", userRouter);
 app.use("/api/profile", profileRouter);
+
+app.use("/api/jobs", jobRouter);
+
+/**
+ * There is a good guide on writing error handler.
+ * Check this link:
+ *
+ * https://expressjs.com/en/guide/error-handling.html
+ *
+ *  */
+app.use((err, req, res) => {
+  logError(err);
+  res
+    .status(500)
+    .json({ success: false, msg: "Something went wrong on the server." });
+});
 
 export default app;

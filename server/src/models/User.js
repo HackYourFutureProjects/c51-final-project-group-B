@@ -40,7 +40,7 @@ const UserSchema = new Schema(
   BaseOptions,
 );
 
-// validate allowed fields for the base user.
+// Validate allowed fields for the base user.
 UserSchema.statics.validateUser = function (userObj) {
   const errorList = [];
   const allowedKeys = ["email", "passwordHash", "location", "profilePhoto"];

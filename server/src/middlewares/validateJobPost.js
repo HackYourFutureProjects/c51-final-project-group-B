@@ -140,8 +140,8 @@ export const validateJobPost = [
   validate,
 ];
 
-/** Validates if user's userType is 'company' */
-export const validateIsCompany = async (req, res, next) => {
+/** Validates if user's userType is 'company' or 'seeker' */
+export const validateUserType = (userType) => async (req, res, next) => {
   const id = req.user?.id;
 
   const user = await User.findById(id);
@@ -151,11 +151,15 @@ export const validateIsCompany = async (req, res, next) => {
       .json({ success: false, msg: `No user with ${id} is found.` });
   }
 
-  if (user && user.userType !== "company") {
-    return res
-      .status(403)
-      .json({ success: false, msg: "Only company can post a job." });
+  if (user && user.userType !== userType) {
+    return res.status(403).json({
+      success: false,
+      msg: `Access denied. Only ${userType}s can access this resource.`,
+    });
   }
+
+  console.log("User: ", userType);
+  req.fullUser = user;
 
   next();
 };
@@ -163,6 +167,7 @@ export const validateIsCompany = async (req, res, next) => {
 /** Validates if a job exists */
 export const validateJobPostExists = async (req, res, next) => {
   const jobId = req.params.id;
+  console.log(jobId);
 
   if (!mongoose.Types.ObjectId.isValid(jobId)) {
     return res

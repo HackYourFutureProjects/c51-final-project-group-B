@@ -2,6 +2,7 @@ import { User } from "../models/User.js";
 import JobPost from "../models/JobPost.js";
 import { MAX_POSTS_PER_DAY } from "../constants.js";
 import { endOfToday, startOfToday } from "../util/utils.js";
+import { populateJobsWithCompany } from "../helpers/jobPostHelper.js";
 
 /**
  * Create a new job post.
@@ -122,19 +123,7 @@ export const jobs = async (req, res) => {
     return res.status(404).json({ success: false, msg: "No job posts found." });
   }
 
-  const jobs = await Promise.all(
-    jobPosts.map(async (jobPost) => {
-      const company = await User.findById(jobPost.postedBy)
-        .select("companyProfile.companyName profilePhoto")
-        .lean();
-
-      return {
-        ...jobPost.toObject(),
-        companyName: company?.companyProfile?.companyName || null,
-        profilePhoto: company?.profilePhoto,
-      };
-    }),
-  );
+  const jobs = populateJobsWithCompany(jobPosts);
 
   return res.status(200).json({ success: true, data: jobs });
 };

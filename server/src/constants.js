@@ -1,4 +1,4 @@
-export const PERIOD = 30 * 24 * 60 * 60;
+export const PERIOD = 30 * 24 * 60 * 60 * 1000;
 export const JOB_TYPES = [
   "Full-time",
   "Part-time",

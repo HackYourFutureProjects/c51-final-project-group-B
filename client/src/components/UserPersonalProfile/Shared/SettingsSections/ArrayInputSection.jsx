@@ -10,7 +10,7 @@ const ArrayInputSection = ({
   isProcessing,
   placeholder = "",
 }) => (
-  <div className={styles.arrayInputSection}>
+  <div>
     <label htmlFor={name}>{label}</label>
     <input
       className={`input-field${errors[name] ? " input-error" : ""}`}

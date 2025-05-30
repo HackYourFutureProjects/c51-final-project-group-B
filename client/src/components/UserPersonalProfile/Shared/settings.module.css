@@ -149,12 +149,6 @@ input[type="file"] {
   cursor: not-allowed;
 }
 
-.dynamicFieldGroup {
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-}
-
 .dynamicFieldGroup:last-child {
   border-bottom: none;
   margin-bottom: 0;

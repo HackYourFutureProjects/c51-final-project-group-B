@@ -1,4 +1,10 @@
-import { MdBuild, MdLanguage } from "react-icons/md";
+import {
+  MdBuild,
+  MdLanguage,
+  MdApartment,
+  MdWorkOutline,
+  MdAssignment,
+} from "react-icons/md";
 import PropTypes from "prop-types";
 
 import styles from "./tag-section.module.css";
@@ -8,15 +14,37 @@ import styles from "./tag-section.module.css";
   that can be used for skills, language, and other sections
   with a similar structure.
 */
+
+const typeConfig = {
+  skills: {
+    title: "Skills",
+    icon: <MdBuild />,
+  },
+  languages: {
+    title: "Languages",
+    icon: <MdLanguage />,
+  },
+  about: {
+    title: "About",
+    icon: <MdAssignment />,
+  },
+  branches: {
+    title: "Branches",
+    icon: <MdApartment />,
+  },
+  values: {
+    title: "Values",
+    icon: <MdWorkOutline />,
+  },
+};
 const TagSection = ({ tags, type }) => {
-  const title = type === "skills" ? "Skills" : "Languages";
-  const icon = type === "skills" ? <MdBuild /> : <MdLanguage />;
+  const config = typeConfig[type] || { title: "Values", icon: <MdBuild /> };
 
   return (
     <>
       <div className={styles.sectionHeader}>
-        <div className={styles.sectionIcon}>{icon}</div>
-        <h2 className={styles.sectionTitle}>{title}</h2>
+        <div className={styles.sectionIcon}>{config.icon}</div>
+        <h2 className={styles.sectionTitle}>{config.title}</h2>
       </div>
       <div className={styles.tagsGrid}>
         {tags?.map((tag, index) => (

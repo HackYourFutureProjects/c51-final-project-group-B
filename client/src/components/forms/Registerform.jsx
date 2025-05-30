@@ -161,7 +161,7 @@ const Registerform = () => {
         )}
 
         <input type="submit" value="Sign Up" />
-        <p>
+        <p className={css.title}>
           already have account?{" "}
           <Link className={css.link} to="/login">
             Log in

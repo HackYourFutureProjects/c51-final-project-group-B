@@ -57,7 +57,8 @@ const LogInform = () => {
         )}
 
         <input className={css.submit} type="submit" value="Log In" />
-        <p>
+        <p className={css.title}>Forgot password ?</p>
+        <p className={css.title}>
           don t have account?{" "}
           <Link className={css.link} to="/register">
             Sign up

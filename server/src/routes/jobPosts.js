@@ -27,7 +27,6 @@ const jobRouter = express.Router();
 // GET /api/jobs/recommendations -> gets recommendations based user profile
 jobRouter.get(
   "/recommendations",
-  authMiddleware,
   asyncHandler(validateUserType("seeker")),
   asyncHandler(recommendationsByProfile),
 );

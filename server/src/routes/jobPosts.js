@@ -27,6 +27,7 @@ const jobRouter = express.Router();
 // GET /api/jobs/recommendations -> gets recommendations based user profile
 jobRouter.get(
   "/recommendations",
+  authMiddleware,
   asyncHandler(validateUserType("seeker")),
   asyncHandler(recommendationsByProfile),
 );
@@ -34,7 +35,7 @@ jobRouter.get(
 // GET /api/jobs/:id/similar-jobs-> gets recommendations based on recent viewed
 jobRouter.get(
   "/:id/similar-jobs",
-  authMiddleware,
+
   asyncHandler(validateUserType("seeker")),
   asyncHandler(validateJobPostExists),
   asyncHandler(recommendationsByRecentView),

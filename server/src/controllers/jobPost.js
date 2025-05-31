@@ -117,9 +117,11 @@ export const updateJob = async (req, res) => {
 };
 
 /**
- *  Get all job posts based on a given criteria or key which is {} by default.
+ *  Get all job posts along company inf based on a given
+ *  criteria or key which is {} by default.
  *
- *  If we provide page number and limit it will find all jobs by skipping (page-1)*limit.
+ *  If we provide page number and limit it will find all
+ *  jobs by skipping (page-1)*limit.
  */
 
 export const jobs = async (req, res) => {
@@ -154,11 +156,11 @@ export const jobs = async (req, res) => {
   const jobs = await findJobs(
     criteria,
     "title tags location description createdAt",
-    true,
+    "postedBy",
     { createdAt: -1 },
     skip,
     limitNumber,
   );
 
-  res.status(200).json({ success: true, data: jobs });
+  return res.status(200).json({ success: true, data: jobs });
 };

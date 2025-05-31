@@ -86,6 +86,21 @@ const jobPostSchema = new Schema(
       },
     },
 
+    languages: {
+      type: [
+        {
+          type: String,
+          maxlength: 40,
+          trim: true,
+        },
+      ],
+      default: [],
+      validate: {
+        validator: (arr) => arr.length <= MAX_NR_TAGS,
+        message: "Max 10 lang allowed.",
+      },
+    },
+
     salaryMin: {
       type: Number,
       min: 0,

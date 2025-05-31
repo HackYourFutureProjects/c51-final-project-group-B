@@ -20,7 +20,7 @@ import JobPost from "../models/JobPost.js";
 export const findJobs = async (
   criteria = {},
   selectedFields = " ",
-  populateFields = " ",
+  path = null,
   sort = { createdAt: -1 },
   skip = 0,
   limit = 10,
@@ -31,7 +31,7 @@ export const findJobs = async (
     .skip(skip)
     .limit(limit);
 
-  if (populateFields) {
+  if (path) {
     query = query.populate({
       path: "postedBy",
       select: "companyProfile.companyName profilePhoto",

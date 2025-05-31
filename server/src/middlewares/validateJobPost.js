@@ -83,6 +83,7 @@ export const validateJobPost = [
       arr.every((tag) => typeof tag === "string" && tag.trim().length <= 200),
     )
     .withMessage("Each requirement must be a string with max 200 characters."),
+
   body("numberOfOpenings")
     .exists()
     .withMessage("Number of openings is required")
@@ -113,6 +114,19 @@ export const validateJobPost = [
       arr.every((tag) => typeof tag === "string" && tag.trim().length <= 40),
     )
     .withMessage("Each tag must be a string with max 40 characters."),
+
+  body("languages")
+    .optional()
+    .isArray()
+    .withMessage("Languages must be an array.")
+    .bail()
+    .custom((arr) => arr.length <= MAX_NR_TAGS)
+    .withMessage(`Maximum ${MAX_NR_TAGS} langs allowed.`)
+    .bail()
+    .custom((arr) =>
+      arr.every((tag) => typeof tag === "string" && tag.trim().length <= 40),
+    )
+    .withMessage("Each lang must be a string with max 40 characters."),
 
   body("expireOn").optional().isISO8601().withMessage("Invalid date format"),
 

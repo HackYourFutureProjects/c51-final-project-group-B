@@ -39,14 +39,9 @@ export const recommendationsByRecentView = async (req, res) => {
  * example: preference, skills, position and location
  */
 export const recommendationsByProfile = async (req, res) => {
-  const matches = profileBasedMatchingCriterion(req.fullUser);
+  const user = req.fullUser;
 
-  if (!matches.length) {
-    return res.status(400).json({
-      success: false,
-      message: "Job seeker must complete profile first.",
-    });
-  }
+  const criteria = profileBasedMatchingCriterion(user);
 
   const fallbackQuery = () =>
     findJobs(
@@ -58,9 +53,22 @@ export const recommendationsByProfile = async (req, res) => {
       10,
     );
 
+  // If user profile is incomplete, fallback but still remind them to complete their profile.
+  if (!criteria.length) {
+    const fallback = await fallbackQuery();
+
+    return res.status(200).json({
+      success: true,
+      message:
+        "Showing recent jobs. Complete your profile to get better recommendations.",
+      data: fallback,
+      personalized: false,
+    });
+  }
+
   const response = await recommendByCriteria(
-    profileBasedMatchingCriterion,
-    req.fullUser,
+    () => criteria,
+    user,
     "profile-based",
     fallbackQuery,
   );
@@ -72,5 +80,7 @@ export const recommendationsByProfile = async (req, res) => {
     });
   }
 
-  return res.status(200).json(response);
+  return res.status(200).json({
+    ...response,
+  });
 };

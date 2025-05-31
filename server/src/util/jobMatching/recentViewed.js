@@ -9,24 +9,33 @@
  */
 
 import { escapeRegex } from "../utils.js";
-
 export const recentViewMatchingCriterion = (clickedJob = {}) => {
-  const { tags = [], location = "", type = "", title = "", _id } = clickedJob;
+  const {
+    tags = [],
+    location = "",
+    type = "",
+    title = "",
+    languages = [],
+    _id,
+  } = clickedJob;
+
   if (!_id) return [];
 
-  // To prevent unintended matches when the input contains special regex characters.
-  // for example C++, + is a regex quantifier so must me escaped
   const regex = (val) => new RegExp(escapeRegex(val), "i");
 
-  const selfMatch = { _id: { $ne: _id } }; // do NOT include the clicked job
+  const selfMatch = { _id: { $ne: _id } };
+  const titleCondition = { title: regex(title) };
+  const locationCondition = { location: regex(location) };
+  const languageCondition = { languages: { $in: languages } };
 
   const strict = {
     $and: [
       selfMatch,
       { tags: { $in: tags } },
-      { location: regex(location) },
+      locationCondition,
       { type },
-      { title: regex(title) },
+      titleCondition,
+      languageCondition,
     ],
   };
 
@@ -35,12 +44,28 @@ export const recentViewMatchingCriterion = (clickedJob = {}) => {
       selfMatch,
       {
         $or: [
-          { $and: [{ tags: { $in: tags } }, { location: regex(location) }] },
-          { $and: [{ tags: { $in: tags } }, { type }] },
-          { $and: [{ location: regex(location) }, { type }] },
-          { $and: [{ title: regex(title) }, { tags: { $in: tags } }] },
-          { $and: [{ title: regex(title) }, { location: regex(location) }] },
-          { $and: [{ title: regex(title) }, { type }] },
+          {
+            $and: [
+              { tags: { $in: tags } },
+              locationCondition,
+              languageCondition,
+            ],
+          },
+          {
+            $and: [{ tags: { $in: tags } }, { type }, languageCondition],
+          },
+          {
+            $and: [locationCondition, { type }, languageCondition],
+          },
+          {
+            $and: [titleCondition, { tags: { $in: tags } }, languageCondition],
+          },
+          {
+            $and: [titleCondition, locationCondition, languageCondition],
+          },
+          {
+            $and: [titleCondition, { type }, languageCondition],
+          },
         ],
       },
     ],
@@ -52,9 +77,10 @@ export const recentViewMatchingCriterion = (clickedJob = {}) => {
       {
         $or: [
           { tags: { $in: tags } },
-          { location: regex(location) },
+          locationCondition,
           { type },
-          { title: regex(title) },
+          titleCondition,
+          languageCondition,
         ],
       },
     ],

@@ -5,31 +5,59 @@ import { escapeRegex } from "../utils.js";
  * moderate, and loose levels based on the user's(seeker) profile.
  */
 export const profileBasedMatchingCriterion = (user) => {
-  if (!user?.seekerProfile) return [];
-
   const {
     location,
-    seekerProfile: { preferences = [], skills = [], position = "" },
+    seekerProfile: {
+      preferences = [],
+      skills = [],
+      position = "",
+      languages = [],
+    } = {},
   } = user;
+
+  const isProfileIncomplete =
+    !location ||
+    !position ||
+    !skills.length ||
+    !preferences.length ||
+    !languages.length;
+
+  if (isProfileIncomplete) {
+    return [];
+  }
+
+  const titleCondition = { title: new RegExp(escapeRegex(position), "i") };
+  //const languageCondition = { languages: { $in: languages } };
 
   const strict = {
     $and: [
       { location: location },
       { tags: { $in: skills } },
       { type: { $in: preferences } },
-      { title: new RegExp(escapeRegex(position), "i") },
+      titleCondition,
+      //languageCondition,
     ],
   };
 
   const moderate = {
     $or: [
-      { $and: [{ location: location }, { tags: { $in: skills } }] },
-      { $and: [{ type: { $in: preferences } }, { tags: { $in: skills } }] },
       {
         $and: [
           { location: location },
-          { title: new RegExp(escapeRegex(position), "i") },
+          { tags: { $in: skills } },
+          //languageCondition,
         ],
+      },
+      {
+        $and: [
+          { type: { $in: preferences } },
+          { tags: { $in: skills } },
+          //languageCondition,
+        ],
+      },
+      {
+        // $and: [{ location: location }, titleCondition, languageCondition],
+        $and: [{ location: location }, titleCondition],
       },
     ],
   };
@@ -39,7 +67,8 @@ export const profileBasedMatchingCriterion = (user) => {
       { location: location },
       { tags: { $in: skills } },
       { type: { $in: preferences } },
-      { title: new RegExp(escapeRegex(position), "i") },
+      titleCondition,
+      //languageCondition,
     ],
   };
 

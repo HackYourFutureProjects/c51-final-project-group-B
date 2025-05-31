@@ -2,19 +2,32 @@ import { useState } from "react";
 import JobCard from "./JobCard";
 import PropTypes from "prop-types";
 
+/**
+ * SimilarJobs component renders a list of similar job postings.
+ * - Shows first 3 jobs by default.
+ * - Users can toggle between showing all jobs or only the first 3.
+ * - Uses JobCard component for each job rendering.
+ *
+ * Props:
+ * - jobs: array of job objects to display.
+ * - styles: CSS module styles object for styling.
+ */
 const SimilarJobs = ({ jobs, styles }) => {
   const [showAll, setShowAll] = useState(false);
+  // Show all jobs if toggled, else show first 3
   const jobsToShow = showAll ? jobs : jobs.slice(0, 3);
 
   return (
     <div className={styles.similarJobsSection}>
       <p className={styles.similarJobsTitle}>Similar Job Posts</p>
       <div className={styles.similarJobsList}>
-        {jobsToShow.map((job, index) => (
-          <JobCard job={job} key={index} styles={styles} />
+        {jobsToShow.map((job) => (
+          // Use job.id as key for better uniqueness instead of index
+          <JobCard job={job} key={job.id} styles={styles} />
         ))}
       </div>
 
+      {/* Toggle buttons to show more or less */}
       {!showAll && jobs.length > 3 && (
         <button
           className={styles.showMoreButton}
@@ -61,6 +74,3 @@ SimilarJobs.propTypes = {
 };
 
 export default SimilarJobs;
-// SimilarJobs.jsx
-// This component displays a list of similar job posts. It allows users to toggle between showing a limited number of jobs or all available jobs.
-// It uses the JobCard component to render each job and includes a button to show more or fewer jobs based on user interaction.

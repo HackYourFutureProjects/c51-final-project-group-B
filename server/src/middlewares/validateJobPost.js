@@ -53,8 +53,8 @@ export const validateJobPost = [
     .withMessage("Title is required")
     .isString()
     .withMessage("Title must be a string")
-    .isLength({ min: 8, max: 200 })
-    .withMessage("Title must be between 8 and 200 characters"),
+    .isLength({ min: 3, max: 200 })
+    .withMessage("Title must be between 3 and 200 characters"),
 
   body("description")
     .trim()
@@ -157,8 +157,6 @@ export const validateUserType = (userType) => async (req, res, next) => {
       msg: `Access denied. Only ${userType}s can access this resource.`,
     });
   }
-
-  console.log("User: ", userType);
   req.fullUser = user;
 
   next();
@@ -167,7 +165,6 @@ export const validateUserType = (userType) => async (req, res, next) => {
 /** Validates if a job exists */
 export const validateJobPostExists = async (req, res, next) => {
   const jobId = req.params.id;
-  console.log(jobId);
 
   if (!mongoose.Types.ObjectId.isValid(jobId)) {
     return res

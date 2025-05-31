@@ -1,5 +1,45 @@
-import { User } from "../models/User.js";
 import JobPost from "../models/JobPost.js";
+
+/**
+ * A generic function that we can use to search job posts based on a given criteria
+ *  It takes 6 parameters:
+ *
+ *  1: criteria: is a MongoDB object that we construct depending on what
+ *     filters or search terms we want.
+ *     e.g. const criteria = {
+ *               location: "Amsterdam",
+ *               tags: { $in: ["Full-time", "Remote"] },
+ *               title: /developer/i,
+ *            };
+ *
+ *  2: selectedFields: fields that we want to include in response.
+ *  3: populatedFields: fields that we want to include in from the referenced object, if any
+ *  sort, skip and limit are obvious ^_^
+ *  Note: we can even make this more generic by passing Model type and rename it 'findAnything'
+ */
+export const findJobs = async (
+  criteria = {},
+  selectedFields = " ",
+  populateFields = " ",
+  sort = { createdAt: -1 },
+  skip = 0,
+  limit = 10,
+) => {
+  let query = JobPost.find(criteria)
+    .select(selectedFields)
+    .sort(sort)
+    .skip(skip)
+    .limit(limit);
+
+  if (populateFields) {
+    query = query.populate({
+      path: "postedBy",
+      select: "companyProfile.companyName profilePhoto",
+    });
+  }
+
+  return await query.lean();
+};
 
 /**
  * Fetches recommended jobs using a tiered matching strategy.
@@ -23,21 +63,40 @@ export const recommendByCriteria = async (
   typeLabel,
   fallbackQuery,
 ) => {
+  if (!input) {
+    return {
+      success: false,
+      status: 400,
+      msg: "Invalid input for job recommendations.",
+    };
+  }
+
   const criteriaList = criteriaFn(input);
   let recommendedJobs = [];
-
   let matchLevel = "";
-  for (const criteria of criteriaList) {
-    matchLevel = criteria.type;
-    recommendedJobs = await JobPost.find(criteria.value).limit(10);
-    if (recommendedJobs.length) break;
-  }
 
-  if (!recommendedJobs.length) {
+  if (!criteriaList.length) {
     matchLevel = "recent";
     recommendedJobs = await fallbackQuery();
-  }
+  } else {
+    for (const criteria of criteriaList) {
+      matchLevel = criteria.type;
+      recommendedJobs = await findJobs(
+        criteria.value,
+        "title tags location description createdAt",
+        "postedBy",
+        { createdAt: -1 },
+        0,
+        10,
+      );
+      if (recommendedJobs.length) break;
+    }
 
+    if (!recommendedJobs.length) {
+      matchLevel = "recent";
+      recommendedJobs = await fallbackQuery();
+    }
+  }
   if (!recommendedJobs.length) {
     return { success: false, status: 404, msg: "No recommendations found." };
   }
@@ -48,21 +107,4 @@ export const recommendByCriteria = async (
     type: typeLabel,
     matchLevel: matchLevel,
   };
-};
-
-/** Populates job post with company info */
-export const populateJobsWithCompany = async (jobPosts) => {
-  return Promise.all(
-    jobPosts.map(async (jobPost) => {
-      const company = await User.findById(jobPost.postedBy)
-        .select("companyProfile.companyName profilePhoto")
-        .lean();
-
-      return {
-        ...jobPost.toObject(),
-        companyName: company?.companyProfile?.companyName || null,
-        profilePhoto: company?.profilePhoto,
-      };
-    }),
-  );
 };

@@ -1,70 +1,62 @@
 /**
  * Constructs an array of job matching criteria with strict, moderate, and loose levels
  * based on the recent clicked job post.
+ *
  * Ensures the clicked job itself is excluded from results.
+ *
+ * Note: This is basic implementation we can always improve(make it smart)by adding weight to the fields
+ *  like preference 3, skills 2... and calculate the score
  */
-export const recentViewMatchingCriterion = (clickedJob) => {
-  const { tags = [], location = "", type, title = "", _id } = clickedJob;
+
+import { escapeRegex } from "../utils.js";
+
+export const recentViewMatchingCriterion = (clickedJob = {}) => {
+  const { tags = [], location = "", type = "", title = "", _id } = clickedJob;
+  if (!_id) return [];
+
+  // To prevent unintended matches when the input contains special regex characters.
+  // for example C++, + is a regex quantifier so must me escaped
+  const regex = (val) => new RegExp(escapeRegex(val), "i");
+
+  const selfMatch = { _id: { $ne: _id } }; // do NOT include the clicked job
 
   const strict = {
     $and: [
+      selfMatch,
       { tags: { $in: tags } },
-      { location: new RegExp(location, "i") },
-      { type: type },
-      { title: new RegExp(title, "i") },
-      { _id: { $ne: _id } },
+      { location: regex(location) },
+      { type },
+      { title: regex(title) },
     ],
   };
 
   const moderate = {
-    $or: [
+    $and: [
+      selfMatch,
       {
-        $and: [
-          { tags: { $in: tags } },
-          { location: new RegExp(location, "i") },
-          { _id: { $ne: _id } },
-        ],
-      },
-      {
-        $and: [{ tags: { $in: tags } }, { type: type }, { _id: { $ne: _id } }],
-      },
-      {
-        $and: [
-          { location: new RegExp(location, "i") },
-          { type: type },
-          { _id: { $ne: _id } },
-        ],
-      },
-      {
-        $and: [
-          { title: new RegExp(title, "i") },
-          { tags: { $in: tags } },
-          { _id: { $ne: _id } },
-        ],
-      },
-      {
-        $and: [
-          { title: new RegExp(title, "i") },
-          { location: new RegExp(location, "i") },
-          { _id: { $ne: _id } },
-        ],
-      },
-      {
-        $and: [
-          { title: new RegExp(title, "i") },
-          { type: type },
-          { _id: { $ne: _id } },
+        $or: [
+          { $and: [{ tags: { $in: tags } }, { location: regex(location) }] },
+          { $and: [{ tags: { $in: tags } }, { type }] },
+          { $and: [{ location: regex(location) }, { type }] },
+          { $and: [{ title: regex(title) }, { tags: { $in: tags } }] },
+          { $and: [{ title: regex(title) }, { location: regex(location) }] },
+          { $and: [{ title: regex(title) }, { type }] },
         ],
       },
     ],
   };
 
   const loose = {
-    $or: [
-      { tags: { $in: tags }, _id: { $ne: _id } },
-      { location: new RegExp(location, "i"), _id: { $ne: _id } },
-      { type: type, _id: { $ne: _id } },
-      { title: new RegExp(title, "i"), _id: { $ne: _id } },
+    $and: [
+      selfMatch,
+      {
+        $or: [
+          { tags: { $in: tags } },
+          { location: regex(location) },
+          { type },
+          { title: regex(title) },
+        ],
+      },
     ],
   };
 

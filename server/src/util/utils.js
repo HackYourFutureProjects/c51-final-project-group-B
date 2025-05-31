@@ -8,3 +8,14 @@ export const removeDuplicates = (doc, fields) => {
 
 export const startOfToday = () => new Date(new Date().setHours(0, 0, 0, 0));
 export const endOfToday = () => new Date(new Date().setHours(23, 59, 59, 999));
+
+/**
+ *
+ * This is used to  escape special characters in user input
+ * before using it in a regular expression.
+ * This prevents regex injection and ensures that the input is treated
+ * as plain text, not as a regex pattern.
+ */
+export const escapeRegex = (text) => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};

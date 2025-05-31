@@ -1,7 +1,11 @@
 import { User } from "../models/User.js";
 import JobPost from "../models/JobPost.js";
-import { MAX_POSTS_PER_DAY } from "../constants.js";
+
 import { endOfToday, startOfToday } from "../util/utils.js";
+import { findJobs } from "../helpers/jobPostHelper.js";
+import { escapeRegex } from "../util/utils.js";
+
+import { MAX_POSTS_PER_DAY } from "../constants.js";
 
 /**
  * Create a new job post.
@@ -113,27 +117,49 @@ export const updateJob = async (req, res) => {
 };
 
 /**
- *  Get all job posts along with specific company info (company name and logo)
+ *  Get all job posts along company inf based on a given
+ *  criteria or key which is {} by default.
+ *
+ *  If we provide page number and limit it will find all
+ *  jobs by skipping (page-1)*limit.
  */
 
 export const jobs = async (req, res) => {
-  const jobPosts = await JobPost.find();
-  if (!jobPosts.length) {
-    return res.status(404).json({ success: false, msg: "No job posts found." });
+  const { location, title, tags, page = 1, limit = 10 } = req.query;
+
+  const criteria = {};
+
+  if (location) {
+    const safeLocation = escapeRegex(location);
+    criteria.location = { $regex: safeLocation, $options: "i" };
   }
 
-  const jobs = await Promise.all(
-    jobPosts.map(async (jobPost) => {
-      const company = await User.findById(jobPost.postedBy)
-        .select("companyProfile.companyName profilePhoto")
-        .lean();
+  if (title) {
+    const safeTitle = escapeRegex(title);
+    criteria.title = { $regex: safeTitle, $options: "i" };
+  }
 
-      return {
-        ...jobPost.toObject(),
-        companyName: company?.companyProfile?.companyName || null,
-        profilePhoto: company?.profilePhoto,
-      };
-    }),
+  if (tags) {
+    const tagList = tags.split(",").map((tag) => tag.trim());
+    criteria.tags = {
+      $elemMatch: {
+        $in: tagList.map((tag) => new RegExp(`^${escapeRegex(tag)}$`, "i")),
+      },
+    };
+  }
+
+  const pageNumber = Math.max(1, parseInt(page));
+  const limitNumber = Math.max(1, parseInt(limit));
+
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const jobs = await findJobs(
+    criteria,
+    "title tags location description createdAt",
+    "postedBy",
+    { createdAt: -1 },
+    skip,
+    limitNumber,
   );
 
   return res.status(200).json({ success: true, data: jobs });

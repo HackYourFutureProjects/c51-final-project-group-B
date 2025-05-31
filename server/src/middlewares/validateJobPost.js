@@ -53,8 +53,8 @@ export const validateJobPost = [
     .withMessage("Title is required")
     .isString()
     .withMessage("Title must be a string")
-    .isLength({ min: 8, max: 200 })
-    .withMessage("Title must be between 8 and 200 characters"),
+    .isLength({ min: 3, max: 200 })
+    .withMessage("Title must be between 3 and 200 characters"),
 
   body("description")
     .trim()
@@ -83,6 +83,7 @@ export const validateJobPost = [
       arr.every((tag) => typeof tag === "string" && tag.trim().length <= 200),
     )
     .withMessage("Each requirement must be a string with max 200 characters."),
+
   body("numberOfOpenings")
     .exists()
     .withMessage("Number of openings is required")
@@ -114,6 +115,19 @@ export const validateJobPost = [
     )
     .withMessage("Each tag must be a string with max 40 characters."),
 
+  body("languages")
+    .optional()
+    .isArray()
+    .withMessage("Languages must be an array.")
+    .bail()
+    .custom((arr) => arr.length <= MAX_NR_TAGS)
+    .withMessage(`Maximum ${MAX_NR_TAGS} langs allowed.`)
+    .bail()
+    .custom((arr) =>
+      arr.every((tag) => typeof tag === "string" && tag.trim().length <= 40),
+    )
+    .withMessage("Each lang must be a string with max 40 characters."),
+
   body("expireOn").optional().isISO8601().withMessage("Invalid date format"),
 
   body("salaryMax")
@@ -140,8 +154,8 @@ export const validateJobPost = [
   validate,
 ];
 
-/** Validates if user's userType is 'company' */
-export const validateIsCompany = async (req, res, next) => {
+/** Validates if user's userType is 'company' or 'seeker' */
+export const validateUserType = (userType) => async (req, res, next) => {
   const id = req.user?.id;
 
   const user = await User.findById(id);
@@ -151,11 +165,13 @@ export const validateIsCompany = async (req, res, next) => {
       .json({ success: false, msg: `No user with ${id} is found.` });
   }
 
-  if (user && user.userType !== "company") {
-    return res
-      .status(403)
-      .json({ success: false, msg: "Only company can post a job." });
+  if (user && user.userType !== userType) {
+    return res.status(403).json({
+      success: false,
+      msg: `Access denied. Only ${userType}s can access this resource.`,
+    });
   }
+  req.fullUser = user;
 
   next();
 };

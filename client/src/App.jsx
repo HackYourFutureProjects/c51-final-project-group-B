@@ -9,6 +9,7 @@ import Register from "./pages/Forms/Register";
 import Login from "./pages/Forms/Login";
 import { PublicRoute } from "./routes/PublicRoute";
 import ProfilePage from "./pages/UserProfile/ProfilePage";
+import JobDetail from "./pages/JobDetail/JobDetail";
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
           <Route path="/" element={<Body />} />
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
-
+          <Route path="/jobs/:id" element={<JobDetail />} />
           <Route path="/profile/*" element={<ProfilePage />} />
 
           <Route

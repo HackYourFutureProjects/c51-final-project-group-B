@@ -3,18 +3,20 @@ import JobCard from "./JobCard";
 import PropTypes from "prop-types";
 
 /**
- * SimilarJobs component renders a list of similar job postings.
- * - Shows first 3 jobs by default.
- * - Users can toggle between showing all jobs or only the first 3.
- * - Uses JobCard component for each job rendering.
- *
- * Props:
- * - jobs: array of job objects to display.
- * - styles: CSS module styles object for styling.
+ * Helper function to map job object to JobCard props shape
  */
+const mapJobToCardProps = (job) => ({
+  id: job.id,
+  title: job.jobTitle,
+  type: job.jobType,
+  description: job.detail?.map((detailItem) => detailItem.desc).join(" ") || "",
+  location: job.location,
+  company: job.company,
+  createdAt: job.createdAt,
+});
+
 const SimilarJobs = ({ jobs, styles }) => {
   const [showAll, setShowAll] = useState(false);
-  // Show all jobs if toggled, else show first 3
   const jobsToShow = showAll ? jobs : jobs.slice(0, 3);
 
   return (
@@ -22,12 +24,10 @@ const SimilarJobs = ({ jobs, styles }) => {
       <p className={styles.similarJobsTitle}>Similar Job Posts</p>
       <div className={styles.similarJobsList}>
         {jobsToShow.map((job) => (
-          // Use job.id as key for better uniqueness instead of index
-          <JobCard job={job} key={job.id} styles={styles} />
+          <JobCard job={mapJobToCardProps(job)} key={job.id} styles={styles} />
         ))}
       </div>
 
-      {/* Toggle buttons to show more or less */}
       {!showAll && jobs.length > 3 && (
         <button
           className={styles.showMoreButton}

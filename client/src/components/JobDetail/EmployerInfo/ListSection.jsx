@@ -5,8 +5,8 @@ import AccordionSection from "./AccordionSection";
 const ListSection = ({ icon, title, items, styles }) => (
   <AccordionSection icon={icon} title={title} styles={styles}>
     <ul className={styles.requirementsList}>
-      {items.map((item, i) => (
-        <li key={i} className={styles.requirementItem}>
+      {items.map((item) => (
+        <li key={item} className={styles.requirementItem}>
           <MdCheckCircle className={styles.requirementIcon} />
           {item}
         </li>

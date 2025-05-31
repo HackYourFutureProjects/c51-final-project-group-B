@@ -59,6 +59,14 @@ export function UserProvider({ children }) {
     await userService.logout();
     setUser(null);
   };
+
+  // delete account function
+
+  const deleteAccount = async () => {
+    await userService.deleteAccount();
+    setUser(null);
+  };
+
   // update profile function
   const updateProfile = async (data) => {
     const updated = await userService.updateProfile(data);
@@ -74,6 +82,7 @@ export function UserProvider({ children }) {
         login,
         logout,
         updateProfile,
+        deleteAccount,
       }}
     >
       {children}

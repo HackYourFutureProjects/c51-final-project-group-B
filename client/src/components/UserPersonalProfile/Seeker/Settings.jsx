@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useUser } from "../../../contexts/UserContext";
 import { uploadFileToCloudinary } from "../../../util/cloudinaryUpload";
@@ -13,10 +14,11 @@ import ProfilePhotoSection from "../Shared/SettingsSections/ProfilePhotoSection"
 import EmailLocationPassword from "../Shared/SettingsSections/EmailLocationPassword";
 import ResumeSection from "./ResumeSection";
 import PersonalDetailsSection from "./PersonalDetailsSection";
+import DeleteAccountButton from "../Shared/SettingsSections/DeleteAccountButton";
 
 const SeekerSettings = () => {
-  const { user, updateProfile, loading } = useUser();
-
+  const { user, updateProfile, loading, deleteAccount } = useUser();
+  const navigate = useNavigate();
   const [feedback, setFeedback] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -94,6 +96,9 @@ const SeekerSettings = () => {
         updatePayload.email = data.email;
       if (dirtyFields.password && data.password.trim().length >= 8)
         updatePayload.password = data.password;
+      // location field
+      if (dirtyFields.location && data.location !== user.location)
+        updatePayload.location = data.location;
 
       //  profile fields
       const seekerProfileUpdates = {};
@@ -194,8 +199,8 @@ const SeekerSettings = () => {
 
       await updateProfile(updatePayload);
       setFeedback("Profile updated successfully!");
-
-      reset(undefined, { keepValues: true }); // reset dirtyFields
+      // Reset the form values to the updated user data
+      reset(data, { keepValues: true });
     } catch (error) {
       setUploadError(
         error.message || "Something went wrong while updating the profile.",
@@ -274,6 +279,7 @@ const SeekerSettings = () => {
             }}
             placeholder="e.g. English, Spanish"
           />
+
           <ArrayInputSection
             label="Preferences (comma separated):"
             name="preferences"
@@ -320,8 +326,22 @@ const SeekerSettings = () => {
       </form>
 
       <hr className={styles.settingsDivider} />
-
-      {/* Delete will come later*/}
+      {/* Delete account button */}
+      <DeleteAccountButton
+        userEmail={user.email}
+        isProcessing={isProcessing}
+        onDelete={async () => {
+          setIsProcessing(true);
+          try {
+            await deleteAccount();
+            navigate("/");
+          } catch {
+            setUploadError("Failed to delete account.");
+          } finally {
+            setIsProcessing(false);
+          }
+        }}
+      />
     </div>
   );
 };

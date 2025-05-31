@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useUser } from "../../../contexts/UserContext";
 import { uploadFileToCloudinary } from "../../../util/cloudinaryUpload";
@@ -9,10 +10,11 @@ import EmailLocationPassword from "../Shared/SettingsSections/EmailLocationPassw
 import ArrayInputSection from "../Shared/SettingsSections/ArrayInputSection";
 import CompanyDetailsSection from "./CompanyDetailsSection";
 import { arrayFromString } from "../../../util/arrayFromString";
+import DeleteAccountButton from "../Shared/SettingsSections/DeleteAccountButton";
 
 const Settings = () => {
-  const { user, updateProfile, loading } = useUser();
-
+  const { user, updateProfile, loading, deleteAccount } = useUser();
+  const navigate = useNavigate();
   const [feedback, setFeedback] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -147,7 +149,8 @@ const Settings = () => {
       await updateProfile(updatePayload);
 
       setFeedback("Profile updated successfully!");
-      reset(undefined, { keepValues: true });
+      // Reset the form values to the updated user data
+      reset(data, { keepValues: true });
     } catch {
       setUploadError("Failed to update profile. Please try again.");
     } finally {
@@ -220,12 +223,30 @@ const Settings = () => {
 
         <button
           type="submit"
-          className="btn btn-primary"
+          className={styles.updateBtn}
           disabled={isSubmitting || isProcessing}
         >
           {isSubmitting || isProcessing ? "Updating..." : "Update Profile"}
         </button>
       </form>
+
+      <hr className={styles.settingsDivider} />
+      {/* Delete account button */}
+      <DeleteAccountButton
+        userEmail={user.email}
+        isProcessing={isProcessing}
+        onDelete={async () => {
+          setIsProcessing(true);
+          try {
+            await deleteAccount();
+            navigate("/");
+          } catch {
+            setUploadError("Failed to delete account.");
+          } finally {
+            setIsProcessing(false);
+          }
+        }}
+      />
     </div>
   );
 };

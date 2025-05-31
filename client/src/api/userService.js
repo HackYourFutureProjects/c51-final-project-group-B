@@ -39,4 +39,10 @@ export function register(userData) {
     body: userData,
   });
 }
-// additional functions can be added ..
+
+// this function is used to delete the user account.
+export function deleteAccount() {
+  return httpClient("/users/delete", {
+    method: "POST",
+  });
+}

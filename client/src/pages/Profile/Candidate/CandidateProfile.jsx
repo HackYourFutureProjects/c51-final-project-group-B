@@ -96,7 +96,7 @@ const CandidateProfile = () => {
         {/* languages section */}
         <section>
           {user?.seekerProfile?.languages && (
-            <TagSection tags={user.seekerProfile.languages} type="langs" />
+            <TagSection tags={user.seekerProfile.languages} type="languages" />
           )}
         </section>
       </div>

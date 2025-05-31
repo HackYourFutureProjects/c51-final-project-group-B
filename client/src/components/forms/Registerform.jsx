@@ -153,7 +153,7 @@ const Registerform = () => {
           {...register("confirmPassword", {
             required: "Please confirm your password",
             validate: (value) =>
-              value === watch("password") || "Confirm password",
+              value === watch("password") || "Passwords do not match",
           })}
         />
         {errors.confirmPassword && (

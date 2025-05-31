@@ -68,7 +68,7 @@ const CompanyProfile = () => {
 
         {/* {value section} */}
         <section>
-          <TagSection tags={user.companyProfile.values || []} type="values" />
+          <TagSection tags={user.companyProfile?.values || []} type="values" />
         </section>
       </div>
     );

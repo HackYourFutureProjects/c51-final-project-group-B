@@ -15,6 +15,7 @@ const CompanyProfile = () => {
     (response) => {
       const user = response?.user;
       setUser(user?.userType?.toLowerCase() === "company" ? user : null);
+      console.log("Company Profile Data:", user);
     },
   );
 
@@ -47,31 +48,27 @@ const CompanyProfile = () => {
         </section>
 
         {/* about section  */}
+
         <section>
-          {user?.companyProfile?.about ? (
-            <TagSection tags={[user.companyProfile.about]} type="about" />
-          ) : (
-            <p className={styles.emptyText}>Info about company is empty</p>
-          )}
+          <TagSection
+            tags={
+              user?.companyProfile?.about ? [user.companyProfile.about] : []
+            }
+            type="about"
+          />
         </section>
 
         {/* branches section */}
         <section>
-          {user?.companyProfile?.branches && length > 0 ? (
-            <TagSection tags={user.companyProfile.branches} type="branches" />
-          ) : (
-            <p className={styles.emptyText}>Branches not provided</p>
-          )}
+          <TagSection
+            tags={user?.companyProfile?.branches || []}
+            type="branches"
+          />
         </section>
 
         {/* {value section} */}
         <section>
-          {user?.companyProfile?.values &&
-          user?.companyProfile?.values.length > 0 ? (
-            <TagSection tags={user.companyProfile.values} type="values" />
-          ) : (
-            <p className={styles.emptyText}>Values of company not provided</p>
-          )}
+          <TagSection tags={user.companyProfile.values || []} type="values" />
         </section>
       </div>
     );

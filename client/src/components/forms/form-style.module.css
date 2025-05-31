@@ -19,7 +19,6 @@
 
 .btn.active {
   background-color: var(--primary-color);
-  color: var(--heading-color);
 }
 
 .form {
@@ -69,6 +68,10 @@ input[type="submit"] {
   -moz-border-radius: var(--default-sm-border-radius);
   -ms-border-radius: var(--default-sm-border-radius);
   -o-border-radius: var(--default-sm-border-radius);
+  -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
+  -ms-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
 }
 
 input[type="submit"]:hover {
@@ -107,6 +110,14 @@ input[type="submit"]:hover {
   text-decoration: none;
   transition: all 0.2s ease;
   color: var(--btn-text-color);
+  -webkit-border-radius: var(--default-sm-border-radius);
+  -moz-border-radius: var(--default-sm-border-radius);
+  -ms-border-radius: var(--default-sm-border-radius);
+  -o-border-radius: var(--default-sm-border-radius);
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
 }
 
 .active {

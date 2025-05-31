@@ -101,7 +101,7 @@ const Registerform = () => {
         ) : (
           <>
             <input
-              placeholder="first Name"
+              placeholder="First Name"
               className={css.input}
               {...register("firstName", {
                 required: "first name is required",
@@ -112,7 +112,7 @@ const Registerform = () => {
             )}
 
             <input
-              placeholder="last Name"
+              placeholder="Last Name"
               className={css.input}
               {...register("lastName", { required: "last name is required" })}
             />
@@ -125,7 +125,7 @@ const Registerform = () => {
         <input
           className={css.input}
           type="email"
-          placeholder="email"
+          placeholder="Email"
           {...register("email", { required: "Email is required" })}
         />
         {errors.email && <p className={css.error}>{errors.email.message}</p>}
@@ -133,7 +133,7 @@ const Registerform = () => {
         <input
           className={css.input}
           type="password"
-          placeholder="password"
+          placeholder="Password"
           {...register("password", {
             required: "Password is required",
             minLength: {
@@ -149,7 +149,7 @@ const Registerform = () => {
         <input
           className={css.input}
           type="password"
-          placeholder="confirm password"
+          placeholder="Confirm password"
           {...register("confirmPassword", {
             required: "Please confirm your password",
             validate: (value) =>

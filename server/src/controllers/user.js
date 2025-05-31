@@ -178,3 +178,23 @@ export async function logout(req, res) {
     });
   }
 }
+
+// Deletes a user account by ID.
+export async function deleteAccount(req, res) {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found." });
+    }
+    await user.deleteOne();
+    res.clearCookie("token");
+    return res.json({ success: true, msg: "Account deleted successfully." });
+  } catch (err) {
+    logError(err);
+    return res.status(500).json({
+      success: false,
+      msg: "Unable to delete account, please try again later.",
+    });
+  }
+}

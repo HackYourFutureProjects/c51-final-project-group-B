@@ -35,8 +35,7 @@ jobRouter.get(
 // GET /api/jobs/:id/similar-jobs-> gets recommendations based on recent viewed
 jobRouter.get(
   "/:id/similar-jobs",
-  authMiddleware,
-  asyncHandler(validateUserType("seeker")),
+  //asyncHandler(validateUserType("seeker")),
   asyncHandler(validateJobPostExists),
   asyncHandler(recommendationsByRecentView),
 );

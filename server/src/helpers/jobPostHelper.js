@@ -1,4 +1,5 @@
 import JobPost from "../models/JobPost.js";
+import { MIN_JOBS } from "../constants.js";
 
 /**
  * A generic function that we can use to search job posts based on a given criteria
@@ -73,15 +74,14 @@ export const recommendByCriteria = async (
 
   const criteriaList = criteriaFn(input);
   let recommendedJobs = [];
-  let matchLevel = "";
+  let matchLevelsUsed = [];
 
   if (!criteriaList.length) {
-    matchLevel = "recent";
+    matchLevelsUsed.push("recent");
     recommendedJobs = await fallbackQuery();
   } else {
     for (const criteria of criteriaList) {
-      matchLevel = criteria.type;
-      recommendedJobs = await findJobs(
+      const jobs = await findJobs(
         criteria.value,
         "title tags location description createdAt",
         "postedBy",
@@ -89,22 +89,27 @@ export const recommendByCriteria = async (
         0,
         10,
       );
-      if (recommendedJobs.length) break;
+      if (jobs.length) {
+        recommendedJobs.push(...jobs);
+        matchLevelsUsed.push(criteria.type);
+        if (recommendedJobs.length >= MIN_JOBS) break;
+      }
     }
 
     if (!recommendedJobs.length) {
-      matchLevel = "recent";
+      matchLevelsUsed.push("recent");
       recommendedJobs = await fallbackQuery();
     }
   }
+
   if (!recommendedJobs.length) {
     return { success: false, status: 404, msg: "No recommendations found." };
   }
 
   return {
     success: true,
-    data: recommendedJobs,
+    data: recommendedJobs.slice(0, MIN_JOBS),
     type: typeLabel,
-    matchLevel: matchLevel,
+    matchLevel: matchLevelsUsed.join(", "),
   };
 };

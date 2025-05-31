@@ -5,32 +5,47 @@ import JobHeader from "../../components/JobDetail/JobHeader";
 import JobStats from "../../components/JobDetail/JobStats";
 import JobAccordion from "../../components/JobDetail/EmployerInfo/JobAccordion";
 import ApplyButton from "../../components/JobDetail/ApplyButton";
-import SimilarJobs from "../../components/JobDetail/SimilarJob/SimilarJobs";
+// import SimilarJobs from "../../components/JobDetail/SimilarJob/SimilarJobs";
 import useFetch from "../../hooks/useFetch";
 
 const JobDetail = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
+  // const [similarJobs, setSimilarJobs] = useState([]);
 
-  // Initialize fetch with URL and callback to setJob
-  const { isLoading, error, performFetch, cancelFetch } = useFetch(
-    `/jobs/${id}`,
-    (response) => {
-      // Assuming API returns job data inside response.data
-      const fetchedJob = response?.data;
-      console.log("Fetched job:", fetchedJob);
-      setJob(fetchedJob);
-    },
-  );
+  // Fetch job details
+  const {
+    isLoading: isJobLoading,
+    error: jobError,
+    performFetch: fetchJob,
+    cancelFetch: cancelJobFetch,
+  } = useFetch(`/jobs/${id}`, (response) => {
+    const fetchedJob = response?.data;
+    setJob(fetchedJob);
+  });
+
+  // Fetch similar jobs
+  // const {
+  //   isLoading: isSimilarLoading,
+  //   error: similarError,
+  //   performFetch: fetchSimilar,
+  //   cancelFetch: cancelSimilarFetch,
+  // } = useFetch(`/jobs/similar/${id}`, (response) => {
+  //   setSimilarJobs(response?.data || []);
+  // });
 
   useEffect(() => {
-    performFetch();
-    return cancelFetch;
-  }, [id]); // re-fetch if id changes
+    fetchJob();
+    // fetchSimilar();
+    return () => {
+      cancelJobFetch();
+      // cancelSimilarFetch();
+    };
+  }, [id]);
 
-  if (isLoading)
+  if (isJobLoading)
     return <p className={styles.loading}>Loading job details...</p>;
-  if (error) return <p className={styles.error}>Error: {error}</p>;
+  if (jobError) return <p className={styles.error}>Error: {jobError}</p>;
   if (!job) return <p className={styles.noJob}>No job found.</p>;
 
   return (
@@ -42,11 +57,20 @@ const JobDetail = () => {
           <JobAccordion job={job} styles={styles} />
           <ApplyButton styles={styles} />
         </div>
-        <SimilarJobs jobs={[]} styles={styles} />{" "}
-        {/* Update with actual similar jobs */}
+        Render Similar Jobs
+        {/* {isSimilarLoading ? (
+          <p className={styles.loading}>Loading similar jobs...</p>
+        ) : similarError ? (
+          <p className={styles.error}>Error loading similar jobs.</p>
+        ) : (
+          <SimilarJobs jobs={similarJobs} styles={styles} />
+        )} */}
       </div>
     </div>
   );
 };
 
 export default JobDetail;
+
+// the apply button is not functional yet, it just renders a button this will be implemented later
+// SimilarJobs component is commented out for now, it can be uncommented when the similar jobs feature is implemented

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import styles from "./header-section.module.css";
 import defaultAvatar from "../../../../assets/woman.png";
+// import { use } from "react";
 
 const HeaderSection = ({ user }) => {
   const { userType, email, profilePhoto, location } = user;
@@ -11,17 +12,26 @@ const HeaderSection = ({ user }) => {
 
   // Company
   const { companyProfile = {} } = isCompany ? user : {};
-  const { companyName, headquarters, website, tagline, industry } =
+  const { companyName, headquarters, tagline, website, industry } =
     companyProfile;
 
   // Seeker
   const { seekerProfile = {} } = !isCompany ? user : {};
   const { firstName, lastName, position } = seekerProfile;
 
-  const name = isCompany ? companyName : `${firstName} ${lastName}`;
-  const roleOrIndustry = isCompany ? industry : position;
-  const locationOrHQ = isCompany ? headquarters : location;
+  const name = isCompany
+    ? companyName || "Company Name Not Provided"
+    : `${firstName || "Name Not Provided"} ${lastName || ""}`.trim();
+  const roleOrIndustry = isCompany
+    ? industry || "IIndustry not specified"
+    : position || "Position not specified";
 
+  const locationOrHQ = isCompany
+    ? headquarters || "Location not specified"
+    : location || "Location not specified";
+
+  const userEmail = email || "Email not provided";
+  const userWebsite = website || "Website not provided";
   return (
     <div className={styles.headerWrapper}>
       <div className={styles.leftSection}>
@@ -48,12 +58,12 @@ const HeaderSection = ({ user }) => {
           <div className={styles.contactDetails}>
             <p className={styles.profileItem}>
               <MdEmail className={styles.icon} />
-              {email}
+              {userEmail}
             </p>
             {isCompany && website && (
               <p className={styles.profileItem}>
                 <MdLanguage className={styles.icon} />
-                {website}
+                {userWebsite}
               </p>
             )}
             {locationOrHQ && (

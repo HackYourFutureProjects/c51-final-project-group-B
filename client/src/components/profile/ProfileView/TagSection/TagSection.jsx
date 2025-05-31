@@ -2,7 +2,7 @@ import {
   MdBuild,
   MdLanguage,
   MdApartment,
-  MdWorkOutline,
+  MdStar,
   MdAssignment,
 } from "react-icons/md";
 import PropTypes from "prop-types";
@@ -24,8 +24,9 @@ const typeConfig = {
     title: "Languages",
     icon: <MdLanguage />,
   },
+
   about: {
-    title: "About",
+    title: "About Us",
     icon: <MdAssignment />,
   },
   branches: {
@@ -34,7 +35,7 @@ const typeConfig = {
   },
   values: {
     title: "Values",
-    icon: <MdWorkOutline />,
+    icon: <MdStar />,
   },
 };
 const TagSection = ({ tags, type }) => {

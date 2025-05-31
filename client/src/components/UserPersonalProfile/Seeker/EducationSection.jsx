@@ -118,10 +118,20 @@ const EducationSection = ({
           </div>
         );
       })}
+      {/* Button to add new education entry[empty] */}
       <button
         type="button"
         className={styles.addBtn}
-        onClick={() => appendEdu({})}
+        onClick={() =>
+          appendEdu({
+            school: "",
+            degree: "",
+            fieldOfStudy: "",
+            educationLocation: "",
+            startDate: "",
+            endDate: "",
+          })
+        }
       >
         Add Education
       </button>

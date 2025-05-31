@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useUser } from "../../../../contexts/UserContext";
 import { Controller } from "react-hook-form";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdUpload } from "react-icons/md";
 import styles from "../settings.module.css";
 
 export default function ProfilePhotoSection({
@@ -52,7 +52,13 @@ export default function ProfilePhotoSection({
           <div className={styles.photoPlaceholder}>No Photo</div>
         )}
       </div>
-
+      <label
+        htmlFor="profilePhoto"
+        className={styles.uploadBtn}
+        title="Upload Photo"
+      >
+        <MdUpload size={22} style={{ verticalAlign: "middle" }} />
+      </label>
       <Controller
         control={control}
         name="profilePhoto"
@@ -64,6 +70,8 @@ export default function ProfilePhotoSection({
             onChange={(e) => onChange(e.target.files)}
             ref={ref}
             disabled={isProcessing}
+            // This input is hidden, the label acts as the button
+            style={{ display: "none" }}
           />
         )}
       />

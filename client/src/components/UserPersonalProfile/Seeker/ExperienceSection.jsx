@@ -118,10 +118,20 @@ const ExperienceSection = ({
           </div>
         );
       })}
+      {/* Button to add a new experience entry with empty defualts */}
       <button
         type="button"
         className={styles.addBtn}
-        onClick={() => appendExp({})}
+        onClick={() =>
+          appendExp({
+            company: "",
+            title: "",
+            workLocation: "",
+            startDate: "",
+            endDate: "",
+            description: "",
+          })
+        }
       >
         Add Experience
       </button>

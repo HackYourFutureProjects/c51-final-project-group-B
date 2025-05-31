@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useUser } from "../../../contexts/UserContext";
 import { Controller } from "react-hook-form";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdUpload } from "react-icons/md";
 import styles from "../Shared/settings.module.css";
 
 const ResumeSection = ({ resumeUrl, control, errors, isProcessing }) => {
@@ -51,7 +51,9 @@ const ResumeSection = ({ resumeUrl, control, errors, isProcessing }) => {
         </div>
       </div>
       <div>
-        <label htmlFor="resume">Upload New CV (PDF)</label>
+        <label htmlFor="resume" className={styles.uploadBtn} title="Upload CV">
+          <MdUpload size={22} style={{ verticalAlign: "middle" }} />
+        </label>
         <Controller
           control={control}
           name="resume"
@@ -63,6 +65,7 @@ const ResumeSection = ({ resumeUrl, control, errors, isProcessing }) => {
               onChange={(e) => onChange(e.target.files)}
               ref={ref}
               disabled={isProcessing}
+              style={{ display: "none" }}
             />
           )}
         />

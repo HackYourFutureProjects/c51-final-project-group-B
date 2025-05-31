@@ -13,10 +13,25 @@ export async function uploadFileToCloudinary(file) {
       method: "POST",
       body: formData,
     });
-    const data = await res.json();
+
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      data = {};
+    }
+    console.log("Cloudinary response:", data);
+
+    if (!res.ok) {
+      // check Cloudinary's error message if available
+      const message =
+        data.error?.message || `HTTP error! status: ${res.status}`;
+      throw new Error(message);
+    }
     if (data.error) {
       throw new Error(data.error.message);
     }
+
     return data.secure_url;
   } catch (err) {
     throw new Error(`Uploading failed: ${err.message}`);

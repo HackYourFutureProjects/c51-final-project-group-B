@@ -45,8 +45,10 @@ const ExperienceSection = ({
                   <label>Company</label>
                   <input
                     className={`input-field${errors.experiences?.[idx]?.company ? " input-error" : ""}`}
+                    maxLength={80}
                     {...register(`experiences.${idx}.company`, {
                       required: "Company is required",
+                      maxLength: { value: 80, message: "Max 80 characters" },
                     })}
                   />
                   {errors.experiences?.[idx]?.company && (
@@ -59,8 +61,10 @@ const ExperienceSection = ({
                   <label>Title</label>
                   <input
                     className={`input-field${errors.experiences?.[idx]?.title ? " input-error" : ""}`}
+                    maxLength={80}
                     {...register(`experiences.${idx}.title`, {
                       required: "Title is required",
+                      maxLength: { value: 80, message: "Max 80 characters" },
                     })}
                   />
                   {errors.experiences?.[idx]?.title && (
@@ -73,7 +77,10 @@ const ExperienceSection = ({
                   <label>Location</label>
                   <input
                     className="input-field"
-                    {...register(`experiences.${idx}.workLocation`)}
+                    maxLength={80}
+                    {...register(`experiences.${idx}.workLocation`, {
+                      maxLength: { value: 80, message: "Max 80 characters" },
+                    })}
                   />
                 </div>
                 <div className={styles.formField}>
@@ -96,14 +103,31 @@ const ExperienceSection = ({
                   <input
                     className="input-field"
                     type="date"
-                    {...register(`experiences.${idx}.endDate`)}
+                    {...register(`experiences.${idx}.endDate`, {
+                      validate: (endDate, formValues) => {
+                        const startDate =
+                          formValues.experiences?.[idx]?.startDate;
+                        if (endDate && startDate && endDate < startDate) {
+                          return "End date must be after start date";
+                        }
+                        return true;
+                      },
+                    })}
                   />
+                  {errors.experiences?.[idx]?.endDate && (
+                    <p className={styles.errorText}>
+                      {errors.experiences[idx].endDate.message}
+                    </p>
+                  )}
                 </div>
                 <div className={styles.formField}>
                   <label>Description</label>
                   <textarea
                     className="input-field"
-                    {...register(`experiences.${idx}.description`)}
+                    maxLength={500}
+                    {...register(`experiences.${idx}.description`, {
+                      maxLength: { value: 500, message: "Max 500 characters" },
+                    })}
                   />
                 </div>
                 <button

@@ -45,8 +45,10 @@ const EducationSection = ({
                   <label>School</label>
                   <input
                     className={`input-field${errors.education?.[idx]?.school ? " input-error" : ""}`}
+                    maxLength={80}
                     {...register(`education.${idx}.school`, {
                       required: "School is required",
+                      maxLength: { value: 80, message: "Max 80 characters" },
                     })}
                   />
                   {errors.education?.[idx]?.school && (
@@ -59,8 +61,10 @@ const EducationSection = ({
                   <label>Degree</label>
                   <input
                     className={`input-field${errors.education?.[idx]?.degree ? " input-error" : ""}`}
+                    maxLength={80}
                     {...register(`education.${idx}.degree`, {
                       required: "Degree is required",
+                      maxLength: { value: 80, message: "Max 80 characters" },
                     })}
                   />
                   {errors.education?.[idx]?.degree && (
@@ -73,14 +77,20 @@ const EducationSection = ({
                   <label>Field of Study</label>
                   <input
                     className="input-field"
-                    {...register(`education.${idx}.fieldOfStudy`)}
+                    maxLength={80}
+                    {...register(`education.${idx}.fieldOfStudy`, {
+                      maxLength: { value: 80, message: "Max 80 characters" },
+                    })}
                   />
                 </div>
                 <div className={styles.formField}>
                   <label>Location</label>
                   <input
                     className="input-field"
-                    {...register(`education.${idx}.educationLocation`)}
+                    maxLength={80}
+                    {...register(`education.${idx}.educationLocation`, {
+                      maxLength: { value: 80, message: "Max 80 characters" },
+                    })}
                   />
                 </div>
                 <div className={styles.formField}>
@@ -103,8 +113,22 @@ const EducationSection = ({
                   <input
                     className="input-field"
                     type="date"
-                    {...register(`education.${idx}.endDate`)}
+                    {...register(`education.${idx}.endDate`, {
+                      validate: (endDate, formValues) => {
+                        const startDate =
+                          formValues.education?.[idx]?.startDate;
+                        if (endDate && startDate && endDate < startDate) {
+                          return "End date must be after start date";
+                        }
+                        return true;
+                      },
+                    })}
                   />
+                  {errors.education?.[idx]?.endDate && (
+                    <p className={styles.errorText}>
+                      {errors.education[idx].endDate.message}
+                    </p>
+                  )}
                 </div>
                 <button
                   type="button"

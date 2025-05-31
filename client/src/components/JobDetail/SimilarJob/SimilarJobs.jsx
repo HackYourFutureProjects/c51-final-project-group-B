@@ -11,7 +11,8 @@ const mapJobToCardProps = (job) => ({
   type: job.jobType,
   description: job.detail?.map((detailItem) => detailItem.desc).join(" ") || "",
   location: job.location,
-  company: job.company,
+  companyProfile: job.company?.name || "",
+  profilePhoto: job.company?.profileUrl || "",
   createdAt: job.createdAt,
 });
 

@@ -9,8 +9,13 @@ import {
 } from "../controllers/jobPost.js";
 
 import {
+  recommendationsByRecentView,
+  recommendationsByProfile,
+} from "../controllers/jobRecommendations.js";
+
+import {
   validateJobPost,
-  validateIsCompany,
+  validateUserType,
   validateJobPostExists,
 } from "../middlewares/validateJobPost.js";
 
@@ -19,11 +24,28 @@ import asyncHandler from "../util/asyncHandler.js";
 
 const jobRouter = express.Router();
 
+// GET /api/jobs/recommendations -> gets recommendations based user profile
+jobRouter.get(
+  "/recommendations",
+  authMiddleware,
+  asyncHandler(validateUserType("seeker")),
+  asyncHandler(recommendationsByProfile),
+);
+
+// GET /api/jobs/:id/similar-jobs-> gets recommendations based on recent viewed
+jobRouter.get(
+  "/:id/similar-jobs",
+  authMiddleware,
+  asyncHandler(validateUserType("seeker")),
+  asyncHandler(validateJobPostExists),
+  asyncHandler(recommendationsByRecentView),
+);
+
 // POST /api/jobs -> create a new job post
 jobRouter.post(
   "/",
   authMiddleware,
-  validateIsCompany,
+  asyncHandler(validateUserType("company")),
   validateJobPost,
   asyncHandler(createJob),
 );
@@ -35,16 +57,16 @@ jobRouter.get("/:id", validateJobPostExists, asyncHandler(getJob));
 jobRouter.delete(
   "/:id",
   authMiddleware,
-  validateIsCompany,
-  validateJobPostExists,
+  asyncHandler(validateUserType("company")),
+  asyncHandler(validateJobPostExists),
   asyncHandler(deleteJob),
 );
 
 jobRouter.patch(
   "/:id",
   authMiddleware,
-  validateIsCompany,
-  validateJobPostExists,
+  asyncHandler(validateUserType("company")),
+  asyncHandler(validateJobPostExists),
   validateJobPost,
   asyncHandler(updateJob),
 );

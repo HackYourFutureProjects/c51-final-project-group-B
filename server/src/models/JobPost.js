@@ -20,7 +20,7 @@ const jobPostSchema = new Schema(
       type: String,
       trim: true,
       required: [true, "Job title is required."],
-      minlength: [8, "Title must be at least 8 characters"],
+      minlength: [3, "Title must be at least 8 characters"],
       maxlength: [200, "Title must be less than 200 characters"],
     },
 
@@ -83,6 +83,21 @@ const jobPostSchema = new Schema(
       validate: {
         validator: (arr) => arr.length <= MAX_NR_TAGS,
         message: "Max 10 tags allowed.",
+      },
+    },
+
+    languages: {
+      type: [
+        {
+          type: String,
+          maxlength: 40,
+          trim: true,
+        },
+      ],
+      default: [],
+      validate: {
+        validator: (arr) => arr.length <= MAX_NR_TAGS,
+        message: "Max 10 lang allowed.",
       },
     },
 

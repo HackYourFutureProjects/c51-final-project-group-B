@@ -21,7 +21,6 @@ const App = () => {
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
-          <Route path="*" element={<ErrorArea />} />
           <Route path="/profile/*" element={<ProfilePage />} />
 
           <Route
@@ -46,6 +45,7 @@ const App = () => {
               </PublicRoute>
             }
           />
+          <Route path="*" element={<ErrorArea />} />
         </Routes>
       </main>
       <Footer />

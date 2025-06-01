@@ -55,6 +55,8 @@ const JobStats = ({ job, styles }) => {
       <div className={styles.statBox}>
         <MdPeople className={styles.statIcon} />
         <span> Required</span>
+        <p>{job.numberOfOpenings ?? 0}</p>
+        <span> Applied </span>
         <p>{job.applicationCount ?? 0}</p>
       </div>
     </div>
@@ -68,6 +70,7 @@ JobStats.propTypes = {
     location: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     applicationCount: PropTypes.number,
+    numberOfOpenings: PropTypes.number,
   }).isRequired,
   styles: PropTypes.object.isRequired,
 };

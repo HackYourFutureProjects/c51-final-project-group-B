@@ -335,10 +335,32 @@ p {
   .mainContent {
     flex-direction: column;
   }
+  .container {
+    flex-direction: column;
+    padding: 1rem;
+    min-height: auto;
+  }
+
+  .applyButton {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    display: block;
+    margin: 0.5rem 0;
+  }
 }
 @media (max-width: 480px) {
   .mainContent {
     flex-direction: column;
+  }
+  .container {
+    padding: 0.5rem 1rem;
+  }
+
+  .applyButton {
+    padding: 1rem;
+    font-size: 1rem;
   }
 }
 @media (max-width: 1024px) {

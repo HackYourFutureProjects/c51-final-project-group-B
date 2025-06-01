@@ -54,7 +54,7 @@ const JobStats = ({ job, styles }) => {
       {/* Applicants Required Section */}
       <div className={styles.statBox}>
         <MdPeople className={styles.statIcon} />
-        <span>Applicants Required</span>
+        <span> Required</span>
         <p>{job.applicationCount ?? 0}</p>
       </div>
     </div>

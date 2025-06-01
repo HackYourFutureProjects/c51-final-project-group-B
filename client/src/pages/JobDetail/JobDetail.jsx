@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./Jobdetail.module.css";
+import styles from "./jobdetail.module.css";
 import JobHeader from "../../components/JobDetail/JobHeader";
 import JobStats from "../../components/JobDetail/JobStats";
 import JobAccordion from "../../components/JobDetail/EmployerInfo/JobAccordion";

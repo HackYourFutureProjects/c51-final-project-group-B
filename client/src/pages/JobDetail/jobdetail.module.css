@@ -26,6 +26,7 @@
 span,
 p {
   color: var(--text-secondary-color);
+  margin-left: 0.5rem;
 }
 
 .sectionHeader {
@@ -57,21 +58,6 @@ p {
   color: var(--text-secondary-color);
 }
 
-.showMoreButton {
-  margin-top: 1rem;
-  background-color: var(--info-color);
-  color: var(--btn-text-color);
-  border: none;
-  padding: 0.5rem 1.25rem;
-  border-radius: var(--default-sm-border-radius);
-  cursor: pointer;
-  font-weight: var(--font-weight-semibold);
-  transition: background-color 0.2s ease;
-}
-
-.showMoreButton:hover {
-  background-color: var(--info-color-dark);
-}
 .sectionTitle {
   font-weight: var(--font-weight-bold);
   margin-top: 1rem;
@@ -115,7 +101,7 @@ p {
 
 .applyButton {
   padding: 0.5rem 1rem;
-  margin: 0.5rem 0;
+  margin: 0.5rem 2rem;
   font-family: var(--btn-font-family);
   font-weight: var(--font-weight-semibold);
   border-radius: var(--default-sm-border-radius);
@@ -143,7 +129,7 @@ p {
 
 .jobCard {
   width: 100%;
-  max-width: 24rem;
+  max-width: 25rem;
   background-color: var(--bg-color);
   display: flex;
   flex-direction: column;
@@ -305,7 +291,7 @@ p {
 }
 
 .similarJobsSection {
-  margin-top: 2rem;
+  margin-top: 10rem;
   padding-left: 1rem;
   width: 100%;
 }
@@ -338,131 +324,6 @@ p {
 .similarJobItem:hover {
   box-shadow: var(--box-shadow-md);
 }
-
-.shareSaveContainer {
-  margin: 1rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-}
-
-.saveButton {
-  padding: 0.5rem 1rem;
-  background-color: var(--info-color);
-  border: none;
-  border-radius: var(--default-sm-border-radius);
-  color: var(--btn-text-color);
-  cursor: pointer;
-  font-weight: var(--font-weight-semibold);
-  transition: background-color 0.3s ease;
-}
-
-.saveButton:hover {
-  background-color: var(--info-color-dark);
-}
-
-.socialShare {
-  display: flex;
-  gap: 1rem;
-}
-
-.shareIcon {
-  text-decoration: none;
-  font-weight: var(--font-weight-semibold);
-  color: var(--info-color);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.shareIcon:hover {
-  color: var(--info-color-dark);
-}
-
-/* 
-Responsive adjustments 
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 2rem;
-    gap: 1rem;
-  }
-
-  .jobCard {
-    max-width: 100%;
-    padding: 1rem;
-  }
-
-  .jobTitle {
-    font-size: 1.25rem;
-  }
-
-  .companyLogo {
-    width: 48px;
-    height: 48px;
-  }
-
-  .jobDescription {
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
-  }
-
-  .accordionHeader {
-    font-size: 1rem;
-    padding: 0.5rem 0.75rem;
-  }
-
-  .requirementsList {
-    padding-left: 1rem;
-  }
-
-  .showMoreButton,
-  .applyButton,
-  .saveButton {
-    width: 100%;
-    text-align: center;
-    padding: 0.75rem;
-  }
-
-  .shareSaveContainer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .similarJobsList {
-    gap: 0.75rem;
-  }
-
-  .similarJobItem {
-    padding: 0.75rem;
-  }
-
-  .mainContent {
-    flex-direction: column;
-  }
-
-  .stats {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .stats {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .mainContent {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-*/
 
 @media (min-width: 1024px) {
   .mainContent {
@@ -520,7 +381,6 @@ Responsive adjustments
     padding-left: 1rem;
   }
 
-  .showMoreButton,
   .applyButton {
     width: 100%;
     text-align: center;

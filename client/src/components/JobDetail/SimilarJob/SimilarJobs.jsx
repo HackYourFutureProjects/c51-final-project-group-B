@@ -5,27 +5,43 @@ import PropTypes from "prop-types";
 /**
  * Helper function to map job object to JobCard props shape
  */
-const mapJobToCardProps = (job) => ({
-  id: job.id,
-  title: job.jobTitle,
-  type: job.jobType,
-  description: job.detail?.map((detailItem) => detailItem.desc).join(" ") || "",
-  location: job.location,
-  companyProfile: job.company?.name || "",
-  profilePhoto: job.company?.profileUrl || "",
-  createdAt: job.createdAt,
-});
+const mapJobToCardProps = (job) => {
+  const tags = job.tags || [];
+  const lastTag = tags.length > 0 ? tags[tags.length - 1] : "Other";
+
+  return {
+    id: job._id,
+    title: job.title,
+    type: lastTag, // take last tag as job type
+    description: job.description || "",
+    location: job.location,
+    companyProfile: job.postedBy?.companyProfile?.companyName || "",
+    profilePhoto: job.postedBy?.profilePhoto || "",
+    createdAt: job.createdAt,
+  };
+};
 
 const SimilarJobs = ({ jobs, styles }) => {
   const [showAll, setShowAll] = useState(false);
   const jobsToShow = showAll ? jobs : jobs.slice(0, 3);
 
+  // Debug: log any jobs missing an id
+  jobsToShow.forEach((job, index) => {
+    if (!job.id) {
+      console.warn(`Job at index ${index} is missing an id!`, job);
+    }
+  });
+
   return (
     <div className={styles.similarJobsSection}>
       <p className={styles.similarJobsTitle}>Similar Job Posts</p>
       <div className={styles.similarJobsList}>
-        {jobsToShow.map((job) => (
-          <JobCard job={mapJobToCardProps(job)} key={job.id} styles={styles} />
+        {jobsToShow.map((job, index) => (
+          <JobCard
+            job={mapJobToCardProps(job)}
+            key={job.id ?? `job-${index}`} // fallback key if id is missing
+            styles={styles}
+          />
         ))}
       </div>
 

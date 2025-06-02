@@ -48,7 +48,7 @@ const ApplyModalForm = ({ jobId, onClose }) => {
     setFeedback("");
     setUploadError("");
     if (!resumeUrl) {
-      alert("Please add your CV before applying.");
+      setFeedback("Please add your CV before applying.");
       return;
     }
 

@@ -1,9 +1,9 @@
+import { MAX_RECOMMENDATION_JOBS } from "../constants.js";
 import JobPost from "../models/JobPost.js";
-import { MIN_JOBS } from "../constants.js";
 
 /**
  * A generic function that we can use to search job posts based on a given criteria
- *  It takes 6 parameters:
+ *  It takes 7 parameters:
  *
  *  1: criteria: is a MongoDB object that we construct depending on what
  *     filters or search terms we want.
@@ -15,101 +15,91 @@ import { MIN_JOBS } from "../constants.js";
  *
  *  2: selectedFields: fields that we want to include in response.
  *  3: populatedFields: fields that we want to include in from the referenced object, if any
+ *  4: singleDoc false by default determine to use 'find' or 'findOne'
  *  sort, skip and limit are obvious ^_^
  *  Note: we can even make this more generic by passing Model type and rename it 'findAnything'
  */
 export const findJobs = async (
   criteria = {},
-  selectedFields = " ",
+  selectedFields = "",
   path = null,
+  singleDoc = false,
   sort = { createdAt: -1 },
   skip = 0,
-  limit = 10,
+  limit = 50,
 ) => {
-  let query = JobPost.find(criteria)
-    .select(selectedFields)
-    .sort(sort)
-    .skip(skip)
-    .limit(limit);
+  let query = singleDoc
+    ? JobPost.findOne(criteria)
+    : JobPost.find(criteria).skip(skip).limit(limit).sort(sort);
+
+  query = query.select(selectedFields).lean();
 
   if (path) {
     query = query.populate({
       path: "postedBy",
-      select: "companyProfile.companyName profilePhoto",
+      select: "companyProfile.companyName companyProfile.industry profilePhoto",
     });
   }
 
-  return await query.lean();
+  const result = await query.exec();
+  if (singleDoc) return result;
+
+  return result || [];
 };
 
 /**
- * Fetches recommended jobs using a tiered matching strategy.
+ * Retrieves a random set of job posts, excluding a specific job by ID.
  *
- * It always starts by looking for jobs that strictly match all the criteria.
- * If no results are found, it gradually relaxes the filters; first trying moderate,
- * then loose criteria.
- *
- * If even the loose criteria don’t return any jobs, it falls back to a default query,
- * like fetching the most recent job posts.
- *
- * This approach follows a progression from:
- * Strict → Moderate → Loose → Fallback
- *
- * Further we can add match level to the response.
+ * Steps:
+ * 1: Excludes the job with the given ID from the results.
+ * 2: Randomly samples a specified number of jobs.
+ * 3: Joins with the "users" collection to get details about who posted each job.
+ * 4: Unwinds the joined user data to simplify the structure.
  */
 
-export const recommendByCriteria = async (
-  criteriaFn,
-  input,
-  typeLabel,
-  fallbackQuery,
+import mongoose from "mongoose";
+
+export const getRandomJobs = async (
+  excludeId,
+  limit = MAX_RECOMMENDATION_JOBS,
 ) => {
-  if (!input) {
-    return {
-      success: false,
-      status: 400,
-      msg: "Invalid input for job recommendations.",
-    };
-  }
-
-  const criteriaList = criteriaFn(input);
-  let recommendedJobs = [];
-  let matchLevelsUsed = [];
-
-  if (!criteriaList.length) {
-    matchLevelsUsed.push("recent");
-    recommendedJobs = await fallbackQuery();
-  } else {
-    for (const criteria of criteriaList) {
-      const jobs = await findJobs(
-        criteria.value,
-        "title tags location description createdAt",
-        "postedBy",
-        { createdAt: -1 },
-        0,
-        10,
-      );
-      if (jobs.length) {
-        recommendedJobs.push(...jobs);
-        matchLevelsUsed.push(criteria.type);
-        if (recommendedJobs.length >= MIN_JOBS) break;
-      }
-    }
-
-    if (!recommendedJobs.length) {
-      matchLevelsUsed.push("recent");
-      recommendedJobs = await fallbackQuery();
-    }
-  }
-
-  if (!recommendedJobs.length) {
-    return { success: false, status: 404, msg: "No recommendations found." };
-  }
-
-  return {
-    success: true,
-    data: recommendedJobs.slice(0, MIN_JOBS),
-    type: typeLabel,
-    matchLevel: matchLevelsUsed.join(", "),
-  };
+  return JobPost.aggregate([
+    {
+      $match: {
+        $nor: [
+          { _id: new mongoose.Types.ObjectId(excludeId) },
+          { isActive: false },
+        ],
+      },
+    },
+    { $sample: { size: limit } },
+    {
+      $lookup: {
+        from: "users",
+        localField: "postedBy",
+        foreignField: "_id",
+        as: "postedBy",
+      },
+    },
+    { $unwind: "$postedBy" },
+    {
+      $project: {
+        title: 1,
+        tags: 1,
+        location: 1,
+        description: 1,
+        isActive: 1,
+        createdAt: 1,
+        postedBy: {
+          _id: 1,
+          companyProfile: {
+            companyName: "$postedBy.companyProfile.companyName",
+            industry: "$postedBy.companyProfile.industry",
+          },
+        },
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    { $limit: limit },
+  ]);
 };

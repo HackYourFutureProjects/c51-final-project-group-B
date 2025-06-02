@@ -130,6 +130,12 @@ const jobPostSchema = new Schema(
       },
     },
 
+    // isActive  true by default
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
     postedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -144,7 +150,7 @@ const jobPostSchema = new Schema(
 
 /** Remove duplicates from tags, requirements  and other array fields */
 jobPostSchema.pre("save", function (next) {
-  removeDuplicates(this, ["requirements", "tags"]);
+  removeDuplicates(this, ["requirements", "tags", "languages"]);
   next();
 });
 
@@ -164,15 +170,28 @@ jobPostSchema.pre("validate", function (next) {
 });
 
 /**
- * For now 'isActive' is set on save for testing purposes.
- * Once the Application schema exists, we will update it there instead.
+ * The 'isActive' field is currently updated only when a job application occurs,
+ * i.e., when applicationCount is incremented.
+ *
+ * Example from Application schema:
+ *   await jobPost.updateIsActiveStatus();
+ *
+ * However, to update 'isActive' based on the expireOn date passing,
+ * we need to check regularly.
+ * This can be done using tools like cron scheduler or Heroku Scheduler.
+ *
+ * To keep things simple, a script runs every time the server starts—
+ * see index.js at line 24 for the implementation.
+ *
+ * I tested and it worked!
  */
-jobPostSchema.pre("save", function (next) {
+
+jobPostSchema.methods.updateIsActiveStatus = function () {
   const canApply = !this.limit || this.applicationCount < this.limit;
   const isNotExpired = !this.expireOn || this.expireOn > new Date();
   this.isActive = canApply && isNotExpired;
-  next();
-});
+  return this.save();
+};
 
 const JobPost = model("JobPost", jobPostSchema);
 

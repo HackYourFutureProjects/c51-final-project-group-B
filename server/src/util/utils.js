@@ -6,6 +6,14 @@ export const removeDuplicates = (doc, fields) => {
   });
 };
 
+export const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 export const startOfToday = () => new Date(new Date().setHours(0, 0, 0, 0));
 export const endOfToday = () => new Date(new Date().setHours(23, 59, 59, 999));
 

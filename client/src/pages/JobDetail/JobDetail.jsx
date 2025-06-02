@@ -7,11 +7,13 @@ import JobAccordion from "../../components/JobDetail/EmployerInfo/JobAccordion";
 import ApplyButton from "../../components/JobDetail/ApplyButton";
 import SimilarJobs from "../../components/JobDetail/SimilarJob/SimilarJobs";
 import useFetch from "../../hooks/useFetch";
+import ApplyModalForm from "../../components/ApplyToJobs/ApplyModalForm";
 
 const JobDetail = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
   const [similarJobs, setSimilarJobs] = useState([]);
+  const [showApplyModal, setShowApplyModal] = useState(false);
 
   // Fetch job details
   const {
@@ -56,7 +58,17 @@ const JobDetail = () => {
           <JobHeader job={job} styles={styles} />
           <JobStats job={job} styles={styles} />
           <JobAccordion job={job} styles={styles} />
-          <ApplyButton styles={styles} />
+          {/* Allowing users to apply via the btn*/}
+          <ApplyButton
+            styles={styles}
+            onClick={() => setShowApplyModal(true)}
+          />
+          {showApplyModal && (
+            <ApplyModalForm
+              jobId={id}
+              onClose={() => setShowApplyModal(false)}
+            />
+          )}
         </div>
 
         {isSimilarLoading ? (
@@ -72,6 +84,3 @@ const JobDetail = () => {
 };
 
 export default JobDetail;
-
-// the apply button is not functional yet, it just renders a button this will be implemented later and  check based user applied or not
-// SimilarJobs component is commented out for now, it can be uncommented when the similar jobs feature is implemente

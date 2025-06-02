@@ -19,6 +19,28 @@ const ApplyModalForm = ({ jobId, onClose }) => {
   const [feedback, setFeedback] = useState("");
   const [uploadError, setUploadError] = useState("");
 
+  // check if user is logged in
+  if (!user) {
+    return (
+      <div className={styles.modalBackdrop}>
+        <div className={styles.modalContent}>
+          <div
+            style={{ padding: "2rem", textAlign: "center", color: "#e53e3e" }}
+          >
+            Please register or log in to apply for jobs.
+          </div>
+          <button
+            className={styles.closeBtn}
+            onClick={onClose}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // handle file upload for the resume
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -47,6 +69,7 @@ const ApplyModalForm = ({ jobId, onClose }) => {
     e.preventDefault();
     setFeedback("");
     setUploadError("");
+
     if (!resumeUrl) {
       setFeedback("Please add your CV before applying.");
       return;
@@ -88,9 +111,6 @@ const ApplyModalForm = ({ jobId, onClose }) => {
           )}
           <div>
             <div className={styles.title}>Easy Apply</div>
-            <div style={{ fontSize: "1rem", color: "#666" }}>
-              {user.firstName} {user.lastName}
-            </div>
           </div>
         </div>
         {/* Feedback */}

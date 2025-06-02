@@ -1,0 +1,186 @@
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 350px;
+  max-width: 95vw;
+  width: 400px;
+  position: relative;
+  animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--text-secondary-color, #888);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.closeBtn:hover {
+  color: var(--heading-color, #222);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--heading-font-family, "Poppins");
+  margin-bottom: 0.2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  font-family: var(--text-font-family, "Outfit");
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label {
+  font-size: 0.97rem;
+  color: var(--text-secondary-color, #666);
+  margin-bottom: 0.1rem;
+}
+
+.input {
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: var(--default-sm-border-radius);
+
+  padding: 0.6rem 0.9rem;
+  font-size: 1rem;
+}
+
+.input[disabled] {
+  color: var(--disabled-text, #888);
+  background: var(--disabled-bg, #f7f7f7);
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.submitBtn {
+  background: var(--primary-color);
+  color: var(--btn-text-color, #fff);
+  border: none;
+  border-radius: var(--default-sm-border-radius, 6px);
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--btn-font-family, "Poppins");
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.18s;
+}
+.submitBtn:hover {
+  background: var(--primary-color-dark, #4f46e5);
+}
+
+.cancelBtn {
+  background: none;
+  color: var(--text-secondary-color, #666);
+  border: none;
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: var(--btn-font-family, "Poppins");
+  font-weight: var(--font-weight-medium, 500);
+}
+.cancelBtn:hover {
+  color: var(--heading-color, #222);
+}
+.uploadBtn {
+  background: var(--hover-color, #eef2ff);
+  color: var(--primary-color, #6366f1);
+  border: 1.5px solid var(--primary-color, #6366f1);
+  border-radius: var(--default-sm-border-radius, 6px);
+  padding: 0.5rem 1.1rem;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold, 600);
+  cursor: pointer;
+  margin-top: 0.4rem;
+  display: inline-block;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border 0.2s;
+  outline: none;
+  box-shadow: none;
+  text-align: center;
+  font-family: var(--btn-font-family, "Poppins");
+}
+.uploadBtn:hover,
+.uploadBtn:focus {
+  background: var(--primary-color, #6366f1);
+  color: var(--btn-text-color);
+  border-color: var(--primary-color-dark, #4f46e5);
+}
+.uploadBtn[disabled] {
+  background: var(--disabled-bg, #e2e8f0);
+  color: var(--disabled-text, #a0aec0);
+  border-color: var(--border-color, #e5e7eb);
+  cursor: not-allowed;
+}
+
+.cvLink {
+  color: var(--primary-color, #6366f1);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold, 600);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.4em 0.5em;
+  border-radius: var(--default-xs-border-radius, 4px);
+  background: transparent;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  border: 1px solid transparent;
+}
+.cvLink:hover,
+.cvLink:focus {
+  background: var(--hover-color, #eef2ff);
+  color: var(--primary-color-dark, #4f46e5);
+  text-decoration: underline;
+  border-color: var(--primary-color, #6366f1);
+}

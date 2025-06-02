@@ -1,4 +1,4 @@
-import { MdEmail, MdLocationOn } from "react-icons/md";
+import { MdEmail, MdLocationOn, MdPublic } from "react-icons/md";
 import { useUser } from "../../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./header-section.module.css";
@@ -9,7 +9,7 @@ const OverviewHeader = () => {
   const navigate = useNavigate();
   if (!user) return null;
 
-  const { userType, email, profilePhoto, location } = user;
+  const { userType, email, profilePhoto, location, _id } = user;
 
   // Seeker fields
   const seekerProfile = user.seekerProfile || {};
@@ -32,6 +32,16 @@ const OverviewHeader = () => {
       navigate("/profile/company-settings");
     } else {
       navigate("/profile/seeker-settings");
+    }
+  };
+
+  // View as public
+
+  const handleViewPublicClick = () => {
+    if (userType === "company") {
+      navigate(`/users/company-profile/${_id}`);
+    } else {
+      navigate(`/users/candidate-profile/${_id}`);
     }
   };
 
@@ -68,10 +78,15 @@ const OverviewHeader = () => {
       </div>
       <div className={styles.rightSection}>
         <button
-          id="contactBtnId"
+          type="button"
           className="btn btn-primary"
-          onClick={handleEditClick}
+          style={{ marginRight: "0.5rem" }}
+          onClick={handleViewPublicClick}
+          title="View as Public"
         >
+          <MdPublic size={20} style={{ verticalAlign: "middle" }} />
+        </button>
+        <button className="btn btn-primary" onClick={handleEditClick}>
           Edit
         </button>
       </div>

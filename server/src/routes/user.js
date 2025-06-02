@@ -3,8 +3,8 @@ import {
   validateRegistration,
   validateLogin,
 } from "../middlewares/validateInput.js";
-import { login, register, logout } from "../controllers/user.js";
-
+import { login, register, logout, deleteAccount } from "../controllers/user.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 // ----- In this route we do the users auth actions, register, login and logout (the rest will be in profile route)
 
 const userRouter = express.Router();
@@ -12,5 +12,6 @@ const userRouter = express.Router();
 userRouter.post("/register", validateRegistration, register);
 userRouter.post("/login", validateLogin, login);
 userRouter.post("/logout", logout);
+userRouter.post("/delete", authMiddleware, deleteAccount);
 
 export default userRouter;

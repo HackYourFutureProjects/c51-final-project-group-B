@@ -19,15 +19,17 @@ const ApplyModalForm = ({ jobId, onClose }) => {
   const [feedback, setFeedback] = useState("");
   const [uploadError, setUploadError] = useState("");
 
-  // check if user is logged in
-  if (!user) {
+  // Check if user is logged in and is a job seeker
+  if (!user || user.userType !== "seeker") {
     return (
       <div className={styles.modalBackdrop}>
         <div className={styles.modalContent}>
           <div
             style={{ padding: "2rem", textAlign: "center", color: "#e53e3e" }}
           >
-            Please register or log in to apply for jobs.
+            {!user
+              ? "Please register or log in to apply for jobs."
+              : "Only job seekers can apply for jobs."}
           </div>
           <button
             className={styles.closeBtn}

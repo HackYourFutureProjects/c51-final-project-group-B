@@ -1,4 +1,3 @@
-import { User } from "../models/User.js";
 import JobPost from "../models/JobPost.js";
 
 import { endOfToday, startOfToday } from "../util/utils.js";
@@ -6,6 +5,7 @@ import { findJobs } from "../helpers/jobPostHelper.js";
 import { escapeRegex } from "../util/utils.js";
 
 import { MAX_POSTS_PER_DAY } from "../constants.js";
+import { MAX_NUM_JOBS } from "../constants.js";
 
 /**
  * Create a new job post.
@@ -53,13 +53,7 @@ export const createJob = async (req, res) => {
  * */
 export const getJob = async (req, res) => {
   const jobPost = req.jobPost;
-
-  const companyProfile = await User.findById(jobPost.postedBy)
-    .select("companyProfile.companyName profilePhoto")
-    .lean();
-
-  const jobInfo = { ...jobPost, ...companyProfile };
-  return res.status(200).json({ success: true, data: jobInfo });
+  return res.status(200).json({ success: true, data: jobPost });
 };
 
 /**
@@ -125,7 +119,7 @@ export const updateJob = async (req, res) => {
  */
 
 export const jobs = async (req, res) => {
-  const { location, title, tags, page = 1, limit = 10 } = req.query;
+  const { location, title, tags, page = 1, limit = MAX_NUM_JOBS } = req.query;
 
   const criteria = {};
 
@@ -155,8 +149,9 @@ export const jobs = async (req, res) => {
 
   const jobs = await findJobs(
     criteria,
-    "title tags location description createdAt",
+    "title tags location description isActive createdAt",
     "postedBy",
+    false,
     { createdAt: -1 },
     skip,
     limitNumber,

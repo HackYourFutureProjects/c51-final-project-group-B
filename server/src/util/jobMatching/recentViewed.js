@@ -1,94 +1,63 @@
+import JobPost from "../../models/JobPost.js";
+import { MAX_RECOMMENDATION_JOBS } from "../../constants.js";
+
 /**
- * Constructs an array of job matching criteria with strict, moderate, and loose levels
- * based on the recent clicked job post.
+ * Retrieves jobs posted by companies in the same industry as the clicked job’s company.
  *
- * Ensures the clicked job itself is excluded from results.
- *
- * Note: This is basic implementation we can always improve(make it smart)by adding weight to the fields
- *  like preference 3, skills 2... and calculate the score
+ * Steps: check the steps in the code too ^_^.
+ *  1: Excludes the clicked job itself from the results.
+ *  2: Joins with the "users" collection to get company details of the job posters.
+ *  3: Filters jobs to only those where the posting company’s industry matches the clicked job’s industry.
+ *  4: Selects relevant job fields and company info to return.
+ *  5: Sorts the results by newest first.
+ *  6: Limits the number of results to the specified limit  with default MAX_RECOMMENDATION_JOBS = 18.
  */
-
-import { escapeRegex } from "../utils.js";
-export const recentViewMatchingCriterion = (clickedJob = {}) => {
-  const {
-    tags = [],
-    location = "",
-    type = "",
-    title = "",
-    languages = [],
-    _id,
-  } = clickedJob;
-
-  if (!_id) return [];
-
-  const regex = (val) => new RegExp(escapeRegex(val), "i");
-
-  const selfMatch = { _id: { $ne: _id } };
-  const titleCondition = { title: regex(title) };
-  const locationCondition = { location: regex(location) };
-  const languageCondition = { languages: { $in: languages } };
-
-  const strict = {
-    $and: [
-      selfMatch,
-      { tags: { $in: tags } },
-      locationCondition,
-      { type },
-      titleCondition,
-      languageCondition,
-    ],
-  };
-
-  const moderate = {
-    $and: [
-      selfMatch,
-      {
-        $or: [
-          {
-            $and: [
-              { tags: { $in: tags } },
-              locationCondition,
-              languageCondition,
-            ],
-          },
-          {
-            $and: [{ tags: { $in: tags } }, { type }, languageCondition],
-          },
-          {
-            $and: [locationCondition, { type }, languageCondition],
-          },
-          {
-            $and: [titleCondition, { tags: { $in: tags } }, languageCondition],
-          },
-          {
-            $and: [titleCondition, locationCondition, languageCondition],
-          },
-          {
-            $and: [titleCondition, { type }, languageCondition],
-          },
-        ],
+export const getIndustryMatchedJobs = async (
+  clickedJob,
+  limit = MAX_RECOMMENDATION_JOBS,
+) => {
+  return JobPost.aggregate([
+    {
+      $match: {
+        $nor: [{ _id: clickedJob._id }, { isActive: false }],
       },
-    ],
-  };
-
-  const loose = {
-    $and: [
-      selfMatch,
-      {
-        $or: [
-          { tags: { $in: tags } },
-          locationCondition,
-          { type },
-          titleCondition,
-          languageCondition,
-        ],
+    },
+    {
+      $lookup: {
+        // step 2
+        from: "users",
+        localField: "postedBy",
+        foreignField: "_id",
+        as: "postedBy",
       },
-    ],
-  };
-
-  return [
-    { type: "strict", value: strict },
-    { type: "moderate", value: moderate },
-    { type: "loose", value: loose },
-  ];
+    },
+    { $unwind: "$postedBy" },
+    {
+      $match: {
+        // step 3
+        "postedBy.companyProfile.industry":
+          clickedJob.postedBy.companyProfile.industry,
+      },
+    },
+    {
+      $project: {
+        // step 4
+        title: 1,
+        tags: 1,
+        location: 1,
+        description: 1,
+        isActive: 1,
+        createdAt: 1,
+        postedBy: {
+          _id: 1,
+          companyProfile: {
+            companyName: "$postedBy.companyProfile.companyName",
+            industry: "$postedBy.companyProfile.industry",
+          },
+        },
+      },
+    },
+    { $sort: { createdAt: -1 } }, // step 5
+    { $limit: limit }, // step 6
+  ]);
 };

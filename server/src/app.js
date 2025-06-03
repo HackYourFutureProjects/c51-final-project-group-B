@@ -6,6 +6,8 @@ import userRouter from "./routes/user.js";
 import jobRouter from "./routes/jobPosts.js";
 import authRouter from "./routes/auths.js";
 
+import applicationsRouter from "./routes/applications.js";
+
 import { logError } from "./util/logging.js";
 
 // Create an express server
@@ -26,6 +28,7 @@ app.use("/api/profile", profileRouter);
 
 app.use("/api/auth", authRouter);
 app.use("/api/jobs", jobRouter);
+app.use("/api/applications", applicationsRouter);
 
 /**
  * There is a good guide on writing error handler.

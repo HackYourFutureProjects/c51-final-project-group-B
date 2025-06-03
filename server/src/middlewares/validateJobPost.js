@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 import { body, validationResult } from "express-validator";
 import { User } from "../models/User.js";
-import JobPost from "../models/JobPost.js";
+import { findJobs } from "../helpers/jobPostHelper.js";
 import {
   JOB_TYPES,
   MIN_NR_REQUIREMENTS,
@@ -186,15 +186,8 @@ export const validateJobPostExists = async (req, res, next) => {
       .json({ success: false, msg: "Invalid job post ID." });
   }
 
-  /** Mongoose doc states:
-   * Enabling the lean option tells Mongoose to skip instantiating
-   * a full Mongoose document and just give you the POJO which
-   * make query fast and less memory intensive.
-   *
-   * Check this link: https://mongoosejs.com/docs/tutorials/lean.html
-   * */
+  const jobPost = await findJobs({ _id: jobId }, "", "postedBy", true);
 
-  const jobPost = await JobPost.findById(jobId).lean();
   if (!jobPost) {
     return res
       .status(404)

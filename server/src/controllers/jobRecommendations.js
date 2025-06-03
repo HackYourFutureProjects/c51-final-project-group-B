@@ -1,86 +1,96 @@
-import { findJobs, recommendByCriteria } from "../helpers/jobPostHelper.js";
-import { profileBasedMatchingCriterion } from "../util/jobMatching/profileBased.js";
-import { recentViewMatchingCriterion } from "../util/jobMatching/recentViewed.js";
+import {
+  profileBasedMatchingCriterion,
+  getProfileBasedRecommendations,
+} from "../util/jobMatching/profileBased.js";
+import { MIN_JOBS } from "../constants.js";
+import { getIndustryMatchedJobs } from "../util/jobMatching/recentViewed.js";
+
+import { getRandomJobs } from "../helpers/jobPostHelper.js";
 
 /**
- * Job recommendations based on recently clicked and view job post by a user
+ * Finds similar jobs based on the industry of a job recently clicked or viewed by the user.
+ *
+ * It looks at the industry of the clicked job’s company and then fetches other jobs
+ * posted by companies in the same industry.
+ *
+ * If no jobs match the industry, it will return a random selection of jobs instead.
  */
+
 export const recommendationsByRecentView = async (req, res) => {
-  const fallbackQuery = () =>
-    findJobs(
-      { _id: { $ne: req.jobPost._id } },
-      "title tags location description",
-      "postedBy",
-      { createdAt: -1 },
-      0,
-      10,
-    );
+  const clickedJob = req.jobPost;
 
-  const response = await recommendByCriteria(
-    recentViewMatchingCriterion,
-    req.jobPost,
-    "recent-view-based",
-    fallbackQuery,
-  );
-
-  if (!response.success) {
-    return {
-      success: false,
-      status: 500,
-      msg: "Failed to get recommendations.",
-    };
+  if (!clickedJob?.postedBy?.companyProfile?.industry) {
+    const randomJobs = await getRandomJobs(clickedJob._id);
+    return res
+      .status(200)
+      .json({ success: true, data: randomJobs, source: "random" });
   }
 
-  return res.status(200).json(response);
+  let jobs = await getIndustryMatchedJobs(clickedJob);
+  let source = "matched";
+
+  if (!jobs.length) {
+    jobs = await getRandomJobs(clickedJob._id);
+    source = "random";
+  }
+
+  if (!jobs.length) {
+    return res.status(404).json({
+      success: false,
+      msg: "No job recommendations available at the moment.",
+    });
+  }
+
+  return res.status(200).json({ success: true, data: jobs, source });
 };
 
 /**
- * Job recommendations based on logged in user's profile
- * example: preference, skills, position and location
+ * Fetches recommended jobs using a tiered matching strategy.
+ *
+ * It always starts by looking for jobs that strictly match all the criteria.
+ * If no results are found, it gradually relaxes the filters; first trying moderate,
+ * then loose criteria.
+ *
+ * If even the loose criteria don’t return any jobs, it falls back to a default query,
+ * like fetching the most recent job posts.
+ *
+ * This approach follows a progression from:
+ * Strict -> Moderate -> Loose -> Fallback
+ *
+ * Further we can add match level to the response.
  */
 export const recommendationsByProfile = async (req, res) => {
   const user = req.fullUser;
+  const criteriaList = profileBasedMatchingCriterion(user);
 
-  const criteria = profileBasedMatchingCriterion(user);
-
-  const fallbackQuery = () =>
-    findJobs(
-      {},
-      "title tags location description",
-      "postedBy",
-      { createdAt: -1 },
-      0,
-      10,
-    );
-
-  // If user profile is incomplete, fallback but still remind them to complete their profile.
-  if (!criteria.length) {
-    const fallback = await fallbackQuery();
-
+  if (!criteriaList.length) {
+    const fallback = await getRandomJobs();
     return res.status(200).json({
       success: true,
       message:
-        "Showing recent jobs. Complete your profile to get better recommendations.",
+        "Showing random recent jobs. Complete your profile to get better recommendations.",
       data: fallback,
       personalized: false,
     });
   }
 
-  const response = await recommendByCriteria(
-    () => criteria,
-    user,
-    "profile-based",
-    fallbackQuery,
-  );
+  const { jobs, matchLevels } =
+    await getProfileBasedRecommendations(criteriaList);
 
-  if (!response.success) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to get recommendations.",
+  if (!jobs.length) {
+    const fallback = await getRandomJobs();
+    return res.status(200).json({
+      success: true,
+      message: "No matches found. Showing random jobs instead.",
+      data: fallback,
+      personalized: false,
     });
   }
 
   return res.status(200).json({
-    ...response,
+    success: true,
+    data: jobs.slice(0, MIN_JOBS),
+    type: "profile-based",
+    matchLevel: matchLevels.join(", "),
   });
 };

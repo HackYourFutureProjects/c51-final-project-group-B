@@ -1,13 +1,16 @@
 import proptypes from "prop-types";
 
-const ApplyButton = ({ styles }) => (
+const ApplyButton = ({ styles, onClick }) => (
   <div>
-    <button className={styles.applyButton}>Apply Now</button>
+    <button className={styles.applyButton} onClick={onClick}>
+      Apply Now
+    </button>
   </div>
 );
 
 ApplyButton.propTypes = {
   styles: proptypes.object.isRequired,
+  onClick: proptypes.func.isRequired,
 };
 
 export default ApplyButton;

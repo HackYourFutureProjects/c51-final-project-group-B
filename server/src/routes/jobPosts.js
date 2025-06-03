@@ -24,7 +24,7 @@ import asyncHandler from "../util/asyncHandler.js";
 
 const jobRouter = express.Router();
 
-// GET /api/jobs/recommendations -> gets recommendations based user profile
+// GET /api/jobs/recommendations -> gets job recommendations based user profile
 jobRouter.get(
   "/recommendations",
   authMiddleware,
@@ -32,7 +32,7 @@ jobRouter.get(
   asyncHandler(recommendationsByProfile),
 );
 
-// GET /api/jobs/:id/similar-jobs-> gets recommendations based on recent viewed
+// GET /api/jobs/:id/similar-jobs-> gets similar jobs based on clicked/recent viewed
 jobRouter.get(
   "/:id/similar-jobs",
   //asyncHandler(validateUserType("seeker")),

@@ -9,6 +9,9 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const userRouter = express.Router();
 // Using the validators middlewares to ensure clean data
+userRouter.post("/signup", validateRegistration, register);
+userRouter.post("/signin", validateLogin, login);
+
 userRouter.post("/register", validateRegistration, register);
 userRouter.post("/login", validateLogin, login);
 userRouter.post("/logout", logout);

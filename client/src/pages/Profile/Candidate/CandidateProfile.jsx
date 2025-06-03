@@ -45,12 +45,12 @@ const CandidateProfile = () => {
     content = (
       <div className={styles.profileContainer}>
         {/* profile header section */}
-        <section>
+        <section className={styles.profileSection}>
           <HeaderSection user={user} />
         </section>
 
         {/* study section  */}
-        <section>
+        <section className={styles.profileSection}>
           <HistorySection
             type="education"
             title="Education"
@@ -68,7 +68,7 @@ const CandidateProfile = () => {
         </section>
 
         {/* work experience section */}
-        <section>
+        <section className={styles.profileSection}>
           <HistorySection
             type="experience"
             title="Experience"
@@ -87,14 +87,14 @@ const CandidateProfile = () => {
         </section>
 
         {/* skills section  */}
-        <section>
+        <section className={styles.profileSection}>
           {user?.seekerProfile?.skills && (
             <TagSection tags={user.seekerProfile.skills} type="skills" />
           )}
         </section>
 
         {/* languages section */}
-        <section>
+        <section className={styles.profileSection}>
           {user?.seekerProfile?.languages && (
             <TagSection tags={user.seekerProfile.languages} type="langs" />
           )}

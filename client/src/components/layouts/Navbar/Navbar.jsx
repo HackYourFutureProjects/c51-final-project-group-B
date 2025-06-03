@@ -29,7 +29,7 @@ const Navbar = () => {
           {!user ? (
             <>
               <NavLink
-                to="/login"
+                to="/signin"
                 className={({ isActive }) =>
                   isActive
                     ? `${styles.navLink} ${styles.active}`
@@ -39,7 +39,7 @@ const Navbar = () => {
                 Login
               </NavLink>
               <NavLink
-                to="/register"
+                to="/signup"
                 className="btn btn-primary"
                 style={{ padding: "0.4rem .9rem" }}
               >

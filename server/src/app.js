@@ -1,8 +1,11 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+
 import profileRouter from "./routes/profile.js";
 import userRouter from "./routes/user.js";
 import jobRouter from "./routes/jobPosts.js";
+import authRouter from "./routes/auths.js";
+
 import { logError } from "./util/logging.js";
 
 // Create an express server
@@ -21,6 +24,7 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/profile", profileRouter);
 
+app.use("/api/auth", authRouter);
 app.use("/api/jobs", jobRouter);
 
 /**

@@ -32,6 +32,26 @@ const UserSchema = new Schema(
       default: "",
       maxlength: [300, "Location must be less than 300 characters"],
     },
+
+    /** These two fields are added for password recovery to work.
+     *
+     * 1: 'resetPasswordToken' is generated when a user request password rest request.
+     * It will contain data about the user that enables the server to conform that
+     * the password is reset by the one who requested it.
+     *
+     *
+     * 2: 'resetPasswordExpires' is used to invalidate the token after certain period
+     *  which in our case in an hour.
+     */
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+    },
+
     profilePhoto: {
       type: String,
       default: "",

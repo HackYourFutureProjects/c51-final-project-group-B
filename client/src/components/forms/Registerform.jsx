@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 const Registerform = () => {
   const [userType, setUserType] = useState("seeker");
+  const [serverError, setServerError] = useState("");
+  const [serverSuccess, setServerSuccess] = useState("");
 
   const {
     register,
@@ -36,6 +38,8 @@ const Registerform = () => {
     const fullData = { ...data, userType };
     console.log("Form Data:", fullData);
     try {
+      setServerError(""); // Reset server error
+      setServerSuccess("");
       const response = await fetch("api/users/register", {
         method: "POST",
         headers: {
@@ -43,16 +47,18 @@ const Registerform = () => {
         },
         body: JSON.stringify(fullData),
       });
+      const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(" Error, your registration was not successful!");
+        const message =
+          result?.msg || "Error, your registration was not successful!";
+        throw new Error(message);
       }
-      const result = await response.json();
-      console.log(result);
-      alert("Registration successful!");
+
+      setServerSuccess("Registration successful!");
       reset();
     } catch (error) {
-      alert(error.message);
+      setServerError(error.message);
     }
   };
 
@@ -80,6 +86,8 @@ const Registerform = () => {
           </button>
         </div>
         <h2 className={css.title}>Sign up</h2>
+        {serverError && <p className={css.error}>{serverError}</p>}
+        {serverSuccess && <p className={css.success}>{serverSuccess}</p>}
 
         {userType === "company" ? (
           <>

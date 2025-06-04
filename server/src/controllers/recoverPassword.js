@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import bcrypt from "bcrypt";
 
-import sendEmail from "../util/sendEmail.js";
+// import sendEmail from "../util/sendEmail.js";
 import { User } from "../models/User.js";
 import { HOUR_MS, PASSWORD_MIN_LENGTH, SALT_ROUNDS } from "../constants.js";
 
@@ -38,14 +38,14 @@ export const requestPasswordRecovery = async (req, res) => {
 
   await user.save();
 
-  const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
-  const message = `Click this link to reset your password: ${resetUrl}`;
+  // const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+  // const message = `Click this link to reset your password: ${resetUrl}`;
 
-  await sendEmail({
-    to: user.email,
-    subject: "Password Reset",
-    text: message,
-  });
+  // await sendEmail({
+  //   to: user.email,
+  //   subject: "Password Reset",
+  //   text: message,
+  // });
 
   res.json({ success: true, message: "Recovery email sent" });
 };

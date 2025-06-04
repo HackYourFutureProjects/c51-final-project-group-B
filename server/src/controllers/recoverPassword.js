@@ -38,6 +38,9 @@ export const requestPasswordRecovery = async (req, res) => {
 
   await user.save();
 
+  // I had to comment this out so the branch can deploy on Heroku.
+  // We still need to set EMAIL_USERNAME and EMAIL_PASSWORD in the Heroku env.
+
   // const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
   // const message = `Click this link to reset your password: ${resetUrl}`;
 

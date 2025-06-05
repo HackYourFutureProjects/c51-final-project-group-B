@@ -20,8 +20,6 @@ import SignupForm from "./components/forms/SignupForm";
 import VerifyUser from "./components/forms/VerifyUser";
 import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
 
-
-
 const App = () => {
   return (
     <>

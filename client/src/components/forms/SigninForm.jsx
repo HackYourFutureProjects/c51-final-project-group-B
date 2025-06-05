@@ -20,11 +20,23 @@ const SigninForm = () => {
   const onSubmit = async (data) => {
     try {
       await login(data);
-      toast.success("Login successful!");
+      toast.success("Login successfully!", {
+        style: {
+          backgroundColor: "var(--success-color)",
+          color: "#fff",
+          border: "1px solid transparent",
+        },
+      });
       reset();
       navigate("/profile");
     } catch (error) {
-      toast.error(error.message || "Login failed.");
+      toast.error(error.message || "Login failed.", {
+        style: {
+          backgroundColor: "var(--error-color)",
+          color: "#fff",
+          border: "1px solid transparent",
+        },
+      });
     }
   };
 
@@ -37,7 +49,7 @@ const SigninForm = () => {
           <input
             className={`${css.input} ${errors.email ? css.inputError : ""}`}
             type="email"
-            placeholder="Email"
+            placeholder="Enter email address"
             {...register("email", { required: "Email is required" })}
           />
           {errors.email && <p className={css.error}>{errors.email.message}</p>}
@@ -68,7 +80,7 @@ const SigninForm = () => {
           >
             <span>
               Don’t have an account?{" "}
-              <Link className={css.link} to="/signup">
+              <Link className={css.link} to="/signin">
                 Sign up
               </Link>
             </span>

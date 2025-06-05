@@ -80,13 +80,11 @@
 .userTypeSelector .btn:hover {
   background-color: var(--hover-color);
   color: var(--primary-color);
-  transform: translateY(-1px);
 }
 
 .userTypeSelector .btn.active {
   background-color: var(--primary-color);
   color: var(--btn-text-color);
-  transform: translateY(-2px);
 }
 
 .userTypeSelector .btn.active::before {

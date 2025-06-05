@@ -15,6 +15,7 @@ const ThemeToggle = ({ checked, onChange }) => {
     <Switch
       checked={checked}
       onChange={onChange}
+      aria-label="Toggle theme"
       checkedIcon={
         <MdDarkMode
           color={moonColor}

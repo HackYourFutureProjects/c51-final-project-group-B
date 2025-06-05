@@ -232,6 +232,7 @@ body {
 .badge-warning {
   background-color: var(--warning-color);
 }
+
 /* Avatar Styles: use this as class name when you to show the avatar on cards or apllicaitons etc.. */
 .Avatar {
   width: 42px;

@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
 import { useForm } from "react-hook-form";
+
 import css from "./form.module.css";
 import ToggleVisibility from "./ToggleVisibility";
 
@@ -33,7 +33,13 @@ const ResetPasswordForm = () => {
       throw new Error(error.message || "Password reset failed.");
     }
 
-    toast.success("Password successfully reset.", { duration: 5000 });
+    toast.success("Password successfully reset.", {
+      style: {
+        backgroundColor: "var(--success-color)",
+        color: "#fff",
+        border: "1px solid transparent",
+      },
+    });
     navigate("/signin");
   };
 

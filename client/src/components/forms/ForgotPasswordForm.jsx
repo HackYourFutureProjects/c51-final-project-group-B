@@ -21,7 +21,13 @@ const ForgotPasswordForm = () => {
 
     if (!res.ok) throw new Error("Failed to send password reset email.");
 
-    toast.success("Password reset email sent.");
+    toast.success("Password reset email sent.", {
+      style: {
+        backgroundColor: "var(--success-color)",
+        color: "#fff",
+        border: "1px solid transparent",
+      },
+    });
   };
 
   const onSubmit = asyncHandler(requestPasswordReset);

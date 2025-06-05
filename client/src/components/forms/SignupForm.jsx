@@ -38,7 +38,6 @@ const SignupForm = () => {
       delete data.companyName;
     }
     const fullData = { ...data, userType };
-    console.log(fullData);
 
     try {
       const response = await fetch("/api/users/register", {
@@ -55,11 +54,25 @@ const SignupForm = () => {
 
       toast.success(
         "Registration successful. Verification email has been sent.",
+        {
+          style: {
+            backgroundColor: "var(--success-color)",
+            color: "#fff",
+            border: "1px solid transparent",
+          },
+        },
       );
+
       navigate("/signin");
       reset();
     } catch (error) {
-      toast.error(error.message || "Registration failed.");
+      toast.error(error.message || "Registration failed.", {
+        style: {
+          backgroundColor: "var(--error-color)",
+          color: "#fff",
+          border: "1px solid transparent",
+        },
+      });
     }
   };
 

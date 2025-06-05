@@ -1,0 +1,124 @@
+.settingsForm {
+  width: 100%;
+  max-width: 570px;
+  background-color: var(--surface-color);
+  padding: 40px;
+  border-radius: var(--default-lg-border-radius);
+  box-shadow: var(--box-shadow-default);
+  margin: auto;
+}
+
+.settingsTitle {
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--heading-color);
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.formField {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formField label {
+  color: var(--text-secondary-color);
+  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.formField input,
+.formField textarea,
+.formField select {
+  width: 100%;
+  padding: 13px 22px;
+  border-radius: var(--default-sm-border-radius);
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  font-size: 16px;
+  color: var(--text-color);
+  outline: none;
+  resize: none;
+}
+
+.formField input:focus,
+.formField textarea:focus,
+.formField select:focus {
+  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow-md);
+}
+
+.formField input::placeholder,
+.formField textarea::placeholder {
+  color: var(--text-secondary-color);
+}
+
+.charCount {
+  font-size: 12px;
+  text-align: right;
+  margin-top: 5px;
+  color: var(--text-secondary-color);
+}
+
+.errorText {
+  color: var(--error-color);
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.formBoldFileInput {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.formBoldFileInput input[type="file"] {
+  font-size: 14px;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.formBoldFileInput input[type="file"]::file-selector-button {
+  display: none;
+}
+
+.formBoldFileInput input[type="file"]::before {
+  display: inline-block;
+  background: var(--bg-color);
+  border: 0.5px solid var(--border-color);
+  border-radius: var(--default-xs-border-radius);
+  padding: 3px 12px;
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+  font-size: 12px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 14px 25px;
+  font-size: 16px;
+  font-weight: var(--font-weight-medium);
+  color: var(--btn-text-color);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--default-sm-border-radius);
+  cursor: pointer;
+  margin-top: 25px;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover {
+  background-color: var(--primary-color-hover);
+}
+.twoColumn {
+  display: flex;
+  gap: 20px;
+}
+
+.twoColumn .formField {
+  flex: 1;
+}

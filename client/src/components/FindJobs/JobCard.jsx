@@ -123,8 +123,8 @@ const JobCard = ({ job }) => {
           {statusText}
         </span>
         <div className={styles.jobTagsRow}>
-          {tags.map((tag, idx) => (
-            <span className={styles.jobTag} key={idx}>
+          {tags.map((tag) => (
+            <span className={styles.jobTag} key={tag}>
               {tag}
             </span>
           ))}

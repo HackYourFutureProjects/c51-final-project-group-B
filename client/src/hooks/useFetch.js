@@ -38,7 +38,7 @@ const useFetch = (route, onReceived) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Add any args given to the function to the fetch function
-  const performFetch = (options) => {
+  const performFetch = (options = {}) => {
     setError(null);
     setIsLoading(true);
 
@@ -51,7 +51,7 @@ const useFetch = (route, onReceived) => {
 
     const fetchData = async () => {
       // We add the /api subsection here to make it a single point of change if our configuration changes
-      const url = `/api${route}`;
+      const url = `/api${options.routeOverride || route}`;
       const res = await fetch(url, { ...baseOptions, ...options, signal });
 
       if (!res.ok) {

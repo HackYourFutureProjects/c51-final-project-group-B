@@ -1,0 +1,61 @@
+.findJobsContainer {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+  min-height: calc(100vh - var(--navbar-height, 60px) - 50px);
+  background: var(--bg-color, #f3f4f6);
+  border-radius: var(--default-xl-border-radius, 10px);
+  box-shadow: var(--box-shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.findJobsContent {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  justify-content: center;
+}
+.findJobsListSection {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .findJobsContainer {
+    padding: 1.5rem 0.5rem;
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .findJobsContent {
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 100vw;
+    padding: 0;
+    align-items: stretch;
+  }
+  .findJobsListSection {
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .findJobsContainer {
+    padding: 0.5rem 0.1rem;
+  }
+  .findJobsContent {
+    gap: 0.7rem;
+  }
+  .findJobsListSection {
+    padding: 0;
+  }
+}

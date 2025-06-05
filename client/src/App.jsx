@@ -9,15 +9,16 @@ import Footer from "./components/layouts/Footer/Footer";
 import Register from "./pages/Forms/Register";
 import Login from "./pages/Forms/Login";
 import { PublicRoute } from "./routes/PublicRoute";
+import JobSeekerRoute from "./routes/JobSeekerRoute";
 import ProfilePage from "./pages/UserProfile/ProfilePage";
 import JobDetail from "./pages/JobDetail/JobDetail";
 import ErrorArea from "./pages/Error/ErrorArea";
-
 import SigninForm from "./components/forms/SigninForm";
 import ForgotPasswordForm from "./components/forms/ForgotPasswordForm";
 import ResetPasswordForm from "./components/forms/ResetPasswordForm";
 import SignupForm from "./components/forms/SignupForm";
 import VerifyUser from "./components/forms/VerifyUser";
+import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
 
 const App = () => {
   return (
@@ -29,6 +30,16 @@ const App = () => {
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
+
+          {/* the job seeker route is only accessible if the user is authenticated and has the role of jobseeker */}
+          <Route
+            path="/jobs/find"
+            element={
+              <JobSeekerRoute>
+                <FindJobsPage />
+              </JobSeekerRoute>
+            }
+          />
           <Route path="/profile/*" element={<ProfilePage />} />
 
           <Route

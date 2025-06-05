@@ -12,6 +12,7 @@ import ProfilePage from "./pages/UserProfile/ProfilePage";
 import JobDetail from "./pages/JobDetail/JobDetail";
 import ErrorArea from "./pages/Error/ErrorArea";
 import PostJob from "./pages/PostJob/PostJob";
+import EditJob from "./pages/PostJob/EditJob";
 const App = () => {
   return (
     <>
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/jobs/:id" element={<JobDetail />} />
           <Route path="/profile/*" element={<ProfilePage />} />
           <Route path="/post" element={<PostJob />} />
+          <Route path="/edit/:id" element={<EditJob />} />
           <Route
             path="/users/candidate-profile/:id"
             element={<CandidateProfile />}

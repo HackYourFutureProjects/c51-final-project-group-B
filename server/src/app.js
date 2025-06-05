@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import profileRouter from "./routes/profile.js";
 import userRouter from "./routes/user.js";
 import jobRouter from "./routes/jobPosts.js";
+import authRouter from "./routes/auths.js";
 import applicationsRouter from "./routes/applications.js";
 
 import { logError } from "./util/logging.js";
@@ -22,6 +23,7 @@ app.use(express.json());
  */
 app.use("/api/users", userRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/auth", authRouter);
 
 app.use("/api/jobs", jobRouter);
 app.use("/api/applications", applicationsRouter);

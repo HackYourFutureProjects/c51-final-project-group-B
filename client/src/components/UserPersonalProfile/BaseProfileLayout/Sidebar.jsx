@@ -9,6 +9,8 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 
+import { toast } from "sonner";
+
 const Sidebar = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
@@ -17,6 +19,15 @@ const Sidebar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     await logout();
+
+    toast.success("Logout successfully!", {
+      style: {
+        backgroundColor: "var(--success-color)",
+        color: "#fff",
+        border: "1px solid transparent",
+      },
+    });
+
     navigate("/");
   };
 

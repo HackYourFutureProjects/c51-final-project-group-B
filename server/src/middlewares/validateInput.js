@@ -6,6 +6,7 @@ export function checkValidation(req, res, next) {
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
+
   next();
 }
 

@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner";
 import Body from "./components/Body/Body";
 import CreateUser from "./pages/User/CreateUser";
 import UserList from "./pages/User/UserList";
@@ -11,6 +12,13 @@ import { PublicRoute } from "./routes/PublicRoute";
 import ProfilePage from "./pages/UserProfile/ProfilePage";
 import JobDetail from "./pages/JobDetail/JobDetail";
 import ErrorArea from "./pages/Error/ErrorArea";
+
+import SigninForm from "./components/forms/SigninForm";
+import ForgotPasswordForm from "./components/forms/ForgotPasswordForm";
+import ResetPasswordForm from "./components/forms/ResetPasswordForm";
+import SignupForm from "./components/forms/SignupForm";
+import VerifyUser from "./components/forms/VerifyUser";
+
 const App = () => {
   return (
     <>
@@ -29,6 +37,45 @@ const App = () => {
           ></Route>
 
           {/* the login and register route are only accessible if the user is not authenticated  */}
+          {/* Signin or login form */}
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SigninForm />
+              </PublicRoute>
+            }
+          />
+
+          {/* Signup or register form */}
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignupForm />
+              </PublicRoute>
+            }
+          />
+
+          {/* Forgot password form */}
+          <Route
+            path="/forgot-password"
+            element={
+              <PublicRoute>
+                <ForgotPasswordForm />
+              </PublicRoute>
+            }
+          />
+
+          {/* Reset password form */}
+          <Route
+            path="/reset-password/:token"
+            element={
+              <PublicRoute>
+                <ResetPasswordForm />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/login"
             element={
@@ -45,9 +92,19 @@ const App = () => {
               </PublicRoute>
             }
           />
+          <Route
+            path="/verify-email/:token"
+            element={
+              <PublicRoute>
+                <VerifyUser />
+              </PublicRoute>
+            }
+          />
           <Route path="*" element={<ErrorArea />} />
         </Routes>
+        <Toaster position="top-right" />
       </main>
+
       <Footer />
     </>
   );

@@ -6,7 +6,7 @@ import styles from "./candidate-profile.module.css";
 import HeaderSection from "../../../components/profile/ProfileView/HeaderSection/HeaderSection";
 import HistorySection from "../../../components/profile/ProfileView/HistorySection/HistorySection";
 import TagSection from "../../../components/profile/ProfileView/TagSection/TagSection";
-
+import Loader from "../../../components/templates/Loader";
 // use this ids for testing 6830bc7faab575b0d0699f51
 
 const CandidateProfile = () => {
@@ -36,7 +36,11 @@ const CandidateProfile = () => {
 
   let content = null;
   if (isLoading) {
-    content = <div className={styles.profileContainer}>Loading...</div>;
+    content = (
+      <div className={styles.profileContainer}>
+        <Loader />
+      </div>
+    );
   } else if (error != null) {
     content = (
       <div className={styles.profileContainer}> Error: {error.toString()}</div>
@@ -45,12 +49,12 @@ const CandidateProfile = () => {
     content = (
       <div className={styles.profileContainer}>
         {/* profile header section */}
-        <section>
+        <section className={styles.profileSection}>
           <HeaderSection user={user} />
         </section>
 
         {/* study section  */}
-        <section>
+        <section className={styles.profileSection}>
           <HistorySection
             type="education"
             title="Education"
@@ -68,7 +72,7 @@ const CandidateProfile = () => {
         </section>
 
         {/* work experience section */}
-        <section>
+        <section className={styles.profileSection}>
           <HistorySection
             type="experience"
             title="Experience"
@@ -87,14 +91,14 @@ const CandidateProfile = () => {
         </section>
 
         {/* skills section  */}
-        <section>
+        <section className={styles.profileSection}>
           {user?.seekerProfile?.skills && (
             <TagSection tags={user.seekerProfile.skills} type="skills" />
           )}
         </section>
 
         {/* languages section */}
-        <section>
+        <section className={styles.profileSection}>
           {user?.seekerProfile?.languages && (
             <TagSection tags={user.seekerProfile.languages} type="langs" />
           )}

@@ -1,10 +1,23 @@
 import { NavLink } from "react-router-dom";
-import styles from "./navbar.module.css";
 import { useUser } from "../../../contexts/UserContext";
 import { MdPerson } from "react-icons/md";
+import ThemeToggle from "../../theme/ThemeToggle";
+import { useEffect, useState } from "react";
+
+import styles from "./navbar.module.css";
 
 const Navbar = () => {
   const { user } = useUser();
+
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    return localStorage.getItem("theme") === "dark-theme";
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark-theme", isDarkTheme);
+    localStorage.setItem("theme", isDarkTheme ? "dark-theme" : "light-theme");
+  }, [isDarkTheme]);
+
   return (
     <header>
       <nav className={styles.navbar}>
@@ -29,7 +42,7 @@ const Navbar = () => {
           {!user ? (
             <>
               <NavLink
-                to="/login"
+                to="/signin"
                 className={({ isActive }) =>
                   isActive
                     ? `${styles.navLink} ${styles.active}`
@@ -39,7 +52,7 @@ const Navbar = () => {
                 Login
               </NavLink>
               <NavLink
-                to="/register"
+                to="/signup"
                 className="btn btn-primary"
                 style={{ padding: "0.4rem .9rem" }}
               >
@@ -65,6 +78,9 @@ const Navbar = () => {
               )}
             </NavLink>
           )}
+        </div>
+        <div className="themeToggleContainer">
+          <ThemeToggle checked={isDarkTheme} onChange={setIsDarkTheme} />
         </div>
       </nav>
     </header>

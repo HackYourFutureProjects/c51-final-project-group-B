@@ -1,8 +1,12 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { User, Seeker, Company } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import validationErrorMessage from "../util/validationErrorMessage.js";
+
+import sendEmail from "../util/sendEmail.js";
+import { A_DAY_MS } from "../constants.js";
 
 /**
   Registering a new user (seeker or company) using discriminators.
@@ -84,13 +88,26 @@ export async function register(req, res) {
     // Create a new document with the constructed payload.
     const newUser = new UserModel(payload);
 
+    const token = crypto.randomBytes(20).toString("hex");
+    newUser.emailVerificationToken = token;
+    newUser.emailVerificationExpires = Date.now() + A_DAY_MS;
+
     // Save the new user document to the database.
     await newUser.save();
+
+    const verifyUrl = `${process.env.FRONTEND_URL}/verify-email/${token}`;
+    const message = `Welcome to TalentNest! Please verify your email by clicking this link: ${verifyUrl}`;
+
+    await sendEmail({
+      to: newUser.email,
+      subject: "Verify Your Email",
+      text: message,
+    });
 
     // Send a response with a success indicator.
     return res.status(201).json({
       success: true,
-      msg: "User registered successfully.",
+      msg: "User registered successfully. A verification email has been sent.",
     });
   } catch (err) {
     logError(err);
@@ -123,6 +140,13 @@ export async function login(req, res) {
       return res.status(401).json({
         success: false,
         msg: "Invalid credentials.",
+      });
+    }
+
+    if (!user.emailVerified) {
+      return res.status(401).json({
+        success: false,
+        msg: "Please verify your email address before signin.",
       });
     }
 

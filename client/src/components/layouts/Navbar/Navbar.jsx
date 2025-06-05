@@ -23,6 +23,21 @@ const Navbar = () => {
               Home
             </NavLink>
           </li>
+
+          {user && user.userType === "seeker" && (
+            <li>
+              <NavLink
+                to="/jobs/find"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navLink} ${styles.active}`
+                    : styles.navLink
+                }
+              >
+                Find Jobs
+              </NavLink>
+            </li>
+          )}
         </ul>
         <div className={styles.authActions}>
           {/* if a user is logged in (later we create better), show profile icon; otherwise, show login and signup links */}

@@ -11,6 +11,7 @@
   max-width: 900px;
   margin: 2rem auto;
 }
+
 h1 {
   font-size: 1.75rem;
   font-weight: var(--font-weight-bold);
@@ -19,6 +20,7 @@ h1 {
   margin-top: 2rem;
   text-align: center;
 }
+
 .formField {
   display: flex;
   flex-direction: column;
@@ -42,6 +44,7 @@ h1 {
   color: var(--text-color);
   transition: all 0.3s ease;
   background-color: var(--surface-color);
+  width: 100%;
 }
 
 .formField input[type="text"]:focus,
@@ -50,7 +53,7 @@ h1 {
 .formField select:focus,
 .formField textarea:focus {
   border-color: var(--primary-color);
-  box-shadow: var(--box-shadow-defaul);
+  box-shadow: var(--box-shadow-default);
   outline: none;
 }
 
@@ -118,4 +121,19 @@ textarea {
 
 .submitButton:hover {
   box-shadow: var(--box-shadow-md);
+}
+
+/* Responsive tweaks for very small screens */
+@media (max-width: 400px) {
+  .settingsForm {
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin-top: 1rem;
+  }
+  .submitButton {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
 }

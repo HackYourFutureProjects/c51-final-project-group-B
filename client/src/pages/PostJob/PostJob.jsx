@@ -1,7 +1,8 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import JobForm from "../../components/PostJob/JobForm";
-import styles from "../../components/PostJob/postJobSection.module.css";
+import styles from "../../components/PostJob/postjobsection.module.css";
+import { DAILY_POST_LIMIT } from "../../constants";
 
 const PostJob = () => {
   const [postsToday, setPostsToday] = useState(0);
@@ -9,7 +10,7 @@ const PostJob = () => {
   const [formReset, setFormReset] = useState(null);
 
   const onSubmit = async (data) => {
-    if (postsToday >= 5) {
+    if (postsToday >= DAILY_POST_LIMIT) {
       toast.error("You have reached the limit of 5 job posts today.");
       return;
     }
@@ -52,7 +53,13 @@ const PostJob = () => {
 
       if (!response.ok) {
         const errMsg = await response.text();
-        throw new Error(errMsg || "Submission failed");
+        let message;
+        try {
+          message = JSON.parse(errMsg).msg || "Submission failed";
+        } catch {
+          message = errMsg || "Submission failed";
+        }
+        throw new Error(message);
       }
 
       toast.success("Job posted successfully");
@@ -60,17 +67,20 @@ const PostJob = () => {
 
       if (formReset) formReset();
     } catch (error) {
-      console.error("Job post failed:", error);
-      toast.error(`${error.message}. Please try again.`);
+      toast.error(error.message || "Submission failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
   const incrementPostsCount = () => {
-    setPostsToday((prev) => prev + 1);
-    localStorage.setItem("postsToday", postsToday + 1);
+    setPostsToday((prev) => {
+      const updatedPostsToday = prev + 1;
+      localStorage.setItem("postsToday", updatedPostsToday);
+      return updatedPostsToday;
+    });
   };
-  console.log("Posts today:", postsToday);
+
   return (
     <>
       <Toaster position="top-center" />

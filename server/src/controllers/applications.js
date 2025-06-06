@@ -79,11 +79,48 @@ export const createApplication = async (req, res) => {
   }
 };
 
-/** Gets all applications submitted by the logged in user/seeker */
+/**
+ * Gets all applications submitted by the logged in user/job seeker
+ * including the associated job details and the company info who posted
+ * each job.
+ */
 export const applications = async (req, res) => {
   const applicant = req.fullUser;
 
-  const applications = await Application.find({ userId: applicant._id });
+  const applications = await Application.aggregate([
+    { $match: { userId: applicant._id } },
+    {
+      $lookup: {
+        from: "jobposts",
+        localField: "jobId",
+        foreignField: "_id",
+        as: "appliedJobs",
+      },
+    },
+    { $unwind: "$appliedJobs" },
+
+    {
+      $lookup: {
+        from: "users",
+        localField: "appliedJobs.postedBy",
+        foreignField: "_id",
+        as: "company",
+      },
+    },
+    { $unwind: "$company" },
+    {
+      $project: {
+        jobTitle: "$appliedJobs.title",
+        jobLocation: "$appliedJobs.location",
+        jobIsActive: "$appliedJobs.isActive",
+        jobExpireOn: "$appliedJobs.expireOn",
+        companyEmail: "$company.email",
+        companyName: "$company.companyProfile.companyName",
+        status: "$status",
+        appliedAt: "$createdAt",
+      },
+    },
+  ]);
 
   return res.status(200).json({ success: true, data: applications });
 };
@@ -109,9 +146,10 @@ export const getJobApplicants = async (req, res) => {
     { $unwind: "$applicant" },
     {
       $project: {
-        "applicant.firstName": "$applicant.seekerProfile.firstName",
-        "applicant.lastName": "$applicant.seekerProfile.lastName",
-        "applicant.email": 1,
+        firstName: "$applicant.seekerProfile.firstName",
+        lastName: "$applicant.seekerProfile.lastName",
+        resumeUrl: "$applicant.seekerProfile.resumeUrl",
+        email: 1,
         appliedAt: "$createdAt",
       },
     },

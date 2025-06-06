@@ -30,7 +30,7 @@ export const profileBasedMatchingCriterion = (user) => {
     return [];
   }
 
-  // Partial match is supported so title and position should not exactly same
+  // Partial match is supported so title and position do NOT have to be exactly same
   const titleCondition = { title: new RegExp(escapeRegex(position), "i") };
   const languageCondition = { languages: { $in: languages } };
   // Jobs with only isActive = true are included
@@ -85,7 +85,7 @@ export const getProfileBasedRecommendations = async (criteriaList) => {
   for (const criteria of criteriaList) {
     const jobs = await findJobs(
       criteria.value,
-      "title tags location description isActive createdAt",
+      "title tags type location description isActive createdAt",
       "postedBy",
       false,
       { createdAt: -1 },

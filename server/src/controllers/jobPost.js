@@ -130,7 +130,7 @@ export const jobs = async (req, res) => {
 
   const jobs = await findJobs(
     criterion,
-    "title tags location description isActive createdAt",
+    "title tags type location description isActive createdAt",
     "postedBy",
     false,
     { createdAt: -1 },

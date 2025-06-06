@@ -87,6 +87,7 @@ export const getRandomJobs = async (
       $project: {
         title: 1,
         tags: 1,
+        type: 1,
         location: 1,
         description: 1,
         isActive: 1,

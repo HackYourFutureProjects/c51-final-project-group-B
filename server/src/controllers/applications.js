@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 import Application from "../models/Applications.js";
 import JobPost from "../models/JobPost.js";
 import { logError } from "../util/logging.js";
@@ -75,4 +77,45 @@ export const createApplication = async (req, res) => {
     }
     return res.status(500).json({ success: false, msg: "Server error." });
   }
+};
+
+/** Gets all applications submitted by the logged in user/seeker */
+export const applications = async (req, res) => {
+  const applicant = req.fullUser;
+
+  const applications = await Application.find({ userId: applicant._id });
+
+  return res.status(200).json({ success: true, data: applications });
+};
+
+/**
+ * Gest all applicants for a specific job with their basic profile
+ * and application time.
+ */
+export const getJobApplicants = async (req, res) => {
+  const jobId = new mongoose.Types.ObjectId(req.params.id);
+
+  const applicants = await Application.aggregate([
+    { $match: { jobId: jobId } },
+
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "applicant",
+      },
+    },
+    { $unwind: "$applicant" },
+    {
+      $project: {
+        "applicant.firstName": "$applicant.seekerProfile.firstName",
+        "applicant.lastName": "$applicant.seekerProfile.lastName",
+        "applicant.email": 1,
+        appliedAt: "$createdAt",
+      },
+    },
+  ]);
+
+  return res.status(200).json({ success: true, data: applicants });
 };

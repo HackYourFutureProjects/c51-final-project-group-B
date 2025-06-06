@@ -6,6 +6,7 @@ import {
   deleteJob,
   updateJob,
   jobs,
+  getCompanyJobLists,
 } from "../controllers/jobPost.js";
 
 import {
@@ -13,9 +14,10 @@ import {
   recommendationsByProfile,
 } from "../controllers/jobRecommendations.js";
 
+import { validateUserType } from "../middlewares/validateUserType.js";
+
 import {
   validateJobPost,
-  validateUserType,
   validateJobPostExists,
 } from "../middlewares/validateJobPost.js";
 
@@ -23,6 +25,14 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import asyncHandler from "../util/asyncHandler.js";
 
 const jobRouter = express.Router();
+
+// GET /api/jobs/company/job-lists -> gets all jobs posted  by logged in company
+jobRouter.get(
+  "/company/job-lists",
+  authMiddleware,
+  asyncHandler(validateUserType("company")),
+  asyncHandler(getCompanyJobLists),
+);
 
 // GET /api/jobs/recommendations -> gets job recommendations based user profile
 jobRouter.get(
@@ -61,6 +71,7 @@ jobRouter.delete(
   asyncHandler(deleteJob),
 );
 
+// PATCH /api/jobs/:id -> delete existing job post
 jobRouter.patch(
   "/:id",
   authMiddleware,
@@ -70,7 +81,7 @@ jobRouter.patch(
   asyncHandler(updateJob),
 );
 
-// GET /api/jobs/ -> gets all job posts
+// GET /api/jobs/ -> gets all job posts plus filter them by given criteria
 jobRouter.get("/", asyncHandler(jobs));
 
 export default jobRouter;

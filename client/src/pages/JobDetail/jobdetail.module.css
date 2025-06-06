@@ -97,6 +97,7 @@ p {
 
 .accordionContent {
   padding: auto;
+  background-color: var(--surface-color);
 }
 
 .applyButton {

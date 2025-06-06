@@ -44,6 +44,7 @@ export const getIndustryMatchedJobs = async (
         // step 4
         title: 1,
         tags: 1,
+        type: 1,
         location: 1,
         description: 1,
         isActive: 1,

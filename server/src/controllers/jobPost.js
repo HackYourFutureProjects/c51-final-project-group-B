@@ -1,11 +1,12 @@
+import mongoose from "mongoose";
 import JobPost from "../models/JobPost.js";
 
 import { endOfToday, startOfToday } from "../util/utils.js";
 import { findJobs } from "../helpers/jobPostHelper.js";
-import { escapeRegex } from "../util/utils.js";
 
 import { MAX_POSTS_PER_DAY } from "../constants.js";
 import { MAX_NUM_JOBS } from "../constants.js";
+import { getJobSearchCriterion } from "../helpers/jobPostHelper.js";
 
 /**
  * Create a new job post.
@@ -119,37 +120,17 @@ export const updateJob = async (req, res) => {
  */
 
 export const jobs = async (req, res) => {
-  const { location, title, tags, page = 1, limit = MAX_NUM_JOBS } = req.query;
-
-  const criteria = {};
-
-  if (location) {
-    const safeLocation = escapeRegex(location);
-    criteria.location = { $regex: safeLocation, $options: "i" };
-  }
-
-  if (title) {
-    const safeTitle = escapeRegex(title);
-    criteria.title = { $regex: safeTitle, $options: "i" };
-  }
-
-  if (tags) {
-    const tagList = tags.split(",").map((tag) => tag.trim());
-    criteria.tags = {
-      $elemMatch: {
-        $in: tagList.map((tag) => new RegExp(`^${escapeRegex(tag)}$`, "i")),
-      },
-    };
-  }
+  const { page = 1, limit = MAX_NUM_JOBS } = req.query;
 
   const pageNumber = Math.max(1, parseInt(page));
   const limitNumber = Math.max(1, parseInt(limit));
-
   const skip = (pageNumber - 1) * limitNumber;
 
+  const criterion = getJobSearchCriterion(req.query);
+
   const jobs = await findJobs(
-    criteria,
-    "title tags location description isActive createdAt",
+    criterion,
+    "title tags type location description isActive createdAt",
     "postedBy",
     false,
     { createdAt: -1 },
@@ -157,5 +138,49 @@ export const jobs = async (req, res) => {
     limitNumber,
   );
 
-  return res.status(200).json({ success: true, data: jobs });
+  res.status(200).json({ success: true, data: jobs });
+};
+
+/**
+ *  Get all job posts posted by a certain company and filter them
+ *  based on a given criteria or key which is {} by default.
+ */
+export const getCompanyJobLists = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  const pageNumber = Math.max(1, parseInt(page));
+  const limitNumber = Math.max(1, parseInt(limit));
+  const skip = (pageNumber - 1) * limitNumber;
+
+  const criteria = getJobSearchCriterion(req.query, req.fullUser);
+  if (criteria.postedBy && typeof criteria.postedBy === "string") {
+    criteria.postedBy = new mongoose.Types.ObjectId(criteria.postedBy);
+  }
+
+  const jobs = await JobPost.aggregate([
+    { $match: criteria },
+    {
+      $lookup: {
+        from: "applications",
+        localField: "_id",
+        foreignField: "jobId",
+        as: "applications",
+      },
+    },
+    {
+      $project: {
+        title: 1,
+        location: 1,
+        type: 1,
+        isActive: 1,
+        applicationCount: 1,
+        expireOn: 1,
+      },
+    },
+    { $sort: { createdAt: -1 } },
+    { $skip: skip },
+    { $limit: limitNumber },
+  ]);
+
+  res.status(200).json({ success: true, data: jobs });
 };

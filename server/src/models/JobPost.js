@@ -1,11 +1,13 @@
 import { Schema, model } from "mongoose";
-import { PERIOD } from "../constants.js";
-import { JOB_TYPES } from "../constants.js";
+
 import { removeDuplicates } from "../util/utils.js";
+
 import {
+  PERIOD,
   MIN_NR_REQUIREMENTS,
   MAX_NR_REQUIREMENTS,
   MAX_NR_TAGS,
+  JOB_TYPES,
 } from "../constants.js";
 
 /**
@@ -114,6 +116,7 @@ const jobPostSchema = new Schema(
     limit: {
       type: Number,
       min: 1,
+      required: [true, "Limit is required."],
     },
 
     applicationCount: {

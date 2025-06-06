@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 import { body, validationResult } from "express-validator";
-import { User } from "../models/User.js";
 import { findJobs } from "../helpers/jobPostHelper.js";
+
 import {
   JOB_TYPES,
   MIN_NR_REQUIREMENTS,
@@ -84,6 +84,12 @@ export const validateJobPost = [
     )
     .withMessage("Each requirement must be a string with max 200 characters."),
 
+  body("limit")
+    .exists()
+    .withMessage("Limit is required.")
+    .isInt({ min: 1 })
+    .withMessage("Limit must be an integer greater than 0"),
+
   body("numberOfOpenings")
     .exists()
     .withMessage("Number of openings is required")
@@ -154,32 +160,9 @@ export const validateJobPost = [
   validate,
 ];
 
-/** Validates if user's userType is 'company' or 'seeker' */
-export const validateUserType = (userType) => async (req, res, next) => {
-  const id = req.user?.id;
-
-  const user = await User.findById(id);
-  if (!user) {
-    return res
-      .status(404)
-      .json({ success: false, msg: `No user with ${id} is found.` });
-  }
-
-  if (user && user.userType !== userType) {
-    return res.status(403).json({
-      success: false,
-      msg: `Access denied. Only ${userType}s can access this resource.`,
-    });
-  }
-  req.fullUser = user;
-
-  next();
-};
-
 /** Validates if a job exists */
 export const validateJobPostExists = async (req, res, next) => {
   const jobId = req.params.id;
-
   if (!mongoose.Types.ObjectId.isValid(jobId)) {
     return res
       .status(400)

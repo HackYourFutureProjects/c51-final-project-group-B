@@ -1,5 +1,6 @@
 import { MAX_RECOMMENDATION_JOBS } from "../constants.js";
 import JobPost from "../models/JobPost.js";
+import { escapeRegex } from "../util/utils.js";
 
 /**
  * A generic function that we can use to search job posts based on a given criteria
@@ -86,6 +87,7 @@ export const getRandomJobs = async (
       $project: {
         title: 1,
         tags: 1,
+        type: 1,
         location: 1,
         description: 1,
         isActive: 1,
@@ -102,4 +104,39 @@ export const getRandomJobs = async (
     { $sort: { createdAt: -1 } },
     { $limit: limit },
   ]);
+};
+
+export const getJobSearchCriterion = (query, user) => {
+  const { location, title, type, tags } = query;
+  const criteria = {};
+
+  if (location) {
+    const safeLocation = escapeRegex(location);
+    criteria.location = { $regex: safeLocation, $options: "i" };
+  }
+
+  if (title) {
+    const safeTitle = escapeRegex(title);
+    criteria.title = { $regex: safeTitle, $options: "i" };
+  }
+
+  if (type) {
+    const safeType = escapeRegex(type);
+    criteria.type = { $regex: safeType, $options: "i" };
+  }
+
+  if (tags) {
+    const tagList = tags.split(",").map((tag) => tag.trim());
+    criteria.tags = {
+      $elemMatch: {
+        $in: tagList.map((tag) => new RegExp(`^${escapeRegex(tag)}$`, "i")),
+      },
+    };
+  }
+
+  if (user?.userType === "company") {
+    criteria.postedBy = user.id || user._id;
+  }
+
+  return criteria;
 };

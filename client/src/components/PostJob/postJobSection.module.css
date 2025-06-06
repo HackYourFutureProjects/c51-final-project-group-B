@@ -1,124 +1,122 @@
+/* postJobSection.module.css */
+
 .settingsForm {
-  width: 100%;
-  max-width: 570px;
-  background-color: var(--surface-color);
-  padding: 40px;
-  border-radius: var(--default-lg-border-radius);
-  box-shadow: var(--box-shadow-default);
-  margin: auto;
-}
-
-.settingsTitle {
-  font-size: 24px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--heading-color);
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.formField {
-  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem;
+  border-radius: var(--default-xl-border-radius);
+  background-color: var(--surface-color);
+  box-shadow: var(--box-shadow-md);
+  max-width: 900px;
+  margin: 2rem auto;
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .formField label {
-  color: var(--text-secondary-color);
   font-weight: var(--font-weight-semibold);
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.formField input,
-.formField textarea,
-.formField select {
-  width: 100%;
-  padding: 13px 22px;
-  border-radius: var(--default-sm-border-radius);
-  border: 1px solid var(--border-color);
-  background: var(--surface-color);
-  font-size: 16px;
   color: var(--text-color);
-  outline: none;
-  resize: none;
+  font-size: 0.95rem;
 }
 
-.formField input:focus,
-.formField textarea:focus,
-.formField select:focus {
+.formField input[type="text"],
+.formField input[type="number"],
+.formField input[type="date"],
+.formField select,
+.formField textarea {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--default-lg-border-radius);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  background-color: var(--surface-color);
+}
+
+.formField input[type="text"]:focus,
+.formField input[type="number"]:focus,
+.formField input[type="date"]:focus,
+.formField select:focus,
+.formField textarea:focus {
   border-color: var(--primary-color);
-  box-shadow: var(--box-shadow-md);
+  box-shadow: var(--box-shadow-defaul);
+  outline: none;
 }
 
-.formField input::placeholder,
+.formField input[type="text"]::placeholder,
+.formField input[type="number"]::placeholder,
 .formField textarea::placeholder {
   color: var(--text-secondary-color);
+  font-family: "Outfit", sans-serif;
 }
 
-.charCount {
-  font-size: 12px;
-  text-align: right;
-  margin-top: 5px;
-  color: var(--text-secondary-color);
+.formField input:disabled,
+.formField select:disabled,
+.formField textarea:disabled {
+  background-color: var(--disabled-bg);
+  color: var(--disabled-text-color);
+  cursor: not-allowed;
 }
 
 .errorText {
   color: var(--error-color);
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.formBoldFileInput {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.formBoldFileInput input[type="file"] {
-  font-size: 14px;
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.formBoldFileInput input[type="file"]::file-selector-button {
-  display: none;
-}
-
-.formBoldFileInput input[type="file"]::before {
-  display: inline-block;
-  background: var(--bg-color);
-  border: 0.5px solid var(--border-color);
-  border-radius: var(--default-xs-border-radius);
-  padding: 3px 12px;
-  color: var(--text-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
   font-weight: var(--font-weight-medium);
-  font-size: 12px;
-  margin-right: 10px;
-  cursor: pointer;
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .twoColumn {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.charCount {
+  font-size: 0.8rem;
+  color: var(--text-secondary-color);
+  text-align: right;
+  margin-top: 0.25rem;
 }
 
 .submitButton {
-  width: 100%;
-  padding: 14px 25px;
-  font-size: 16px;
-  font-weight: var(--font-weight-medium);
-  color: var(--btn-text-color);
+  padding: 1rem 1.5rem;
   background-color: var(--primary-color);
+  color: var(--btn-text-color);
   border: none;
-  border-radius: var(--default-sm-border-radius);
+  border-radius: var(--default-lg-border-radius);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
-  margin-top: 25px;
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  margin-top: 1rem;
+  width: 65%;
+  align-self: center;
 }
 
 .submitButton:hover {
-  background-color: var(--primary-color-hover);
-}
-.twoColumn {
-  display: flex;
-  gap: 20px;
-}
-
-.twoColumn .formField {
-  flex: 1;
+  box-shadow: var(--box-shadow-md);
 }

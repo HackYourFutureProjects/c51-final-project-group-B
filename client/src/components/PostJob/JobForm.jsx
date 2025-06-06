@@ -4,6 +4,14 @@ import PropTypes from "prop-types";
 import styles from "./postJobSection.module.css";
 import { JOB_TYPES } from "../../constants.js";
 
+const getTodayDateFormatted = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
   const {
     register,
@@ -12,7 +20,12 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
     watch,
     reset,
     setError,
-  } = useForm({ defaultValues });
+  } = useForm({
+    defaultValues: {
+      ...defaultValues,
+      deadline: defaultValues?.deadline || getTodayDateFormatted(),
+    },
+  });
 
   // Reset form when defaultValues change
   useEffect(() => {
@@ -278,7 +291,9 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
             },
           })}
         />
-        <div className={styles.charCount}>{descriptionValue.length}/1000</div>
+        <div className={styles.charCount}>
+          {descriptionValue.length} / 1000 characters
+        </div>
       </FormField>
 
       {/* Requirements */}
@@ -306,7 +321,10 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
             },
           })}
         />
-        <div className={styles.charCount}>{requirementsValue.length}/1000</div>
+        <div className={styles.charCount}>
+          {" "}
+          {requirementsValue.length} / 1000 characters
+        </div>
       </FormField>
 
       {/* Deadline */}

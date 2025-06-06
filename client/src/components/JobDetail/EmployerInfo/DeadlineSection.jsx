@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { MdAccessTime } from "react-icons/md";
-import AccordionSection from "./AccordionSection";
 
 const DeadlineSection = ({ expireOn, styles }) => {
   const formatDate = (isoDate) =>
@@ -13,9 +12,13 @@ const DeadlineSection = ({ expireOn, styles }) => {
       : "No deadline specified";
 
   return (
-    <AccordionSection icon={MdAccessTime} title="Deadline" styles={styles}>
-      <p>{formatDate(expireOn)}</p>
-    </AccordionSection>
+    <div className={styles.deadlineSection}>
+      <MdAccessTime
+        size={20}
+        style={{ verticalAlign: "middle", marginRight: 8 }}
+      />
+      <span>{formatDate(expireOn)}</span>
+    </div>
   );
 };
 

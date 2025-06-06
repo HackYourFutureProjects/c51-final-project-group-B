@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import JobForm from "../../components/PostJob/JobForm";
-import styles from "../../components/PostJob/postjobsection.module.css";
+import styles from "../../components/PostJob/postJobSection.module.css";
 import { DAILY_POST_LIMIT } from "../../constants";
 
 const PostJob = () => {

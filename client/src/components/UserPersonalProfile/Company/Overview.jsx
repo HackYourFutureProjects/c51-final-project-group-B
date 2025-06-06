@@ -41,7 +41,6 @@ const Overview = () => {
     branches,
     values,
   } = companyProfile;
-
   return (
     <div className={styles.overviewContainer}>
       {/* Header */}

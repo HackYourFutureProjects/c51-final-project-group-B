@@ -24,7 +24,7 @@ export const usePersistedForm = (
 ) => {
   useEffect(() => {
     const persisted = localStorage.getItem(storageIdentifier);
-    const parsed = JSON.parse(persisted || {});
+    const parsed = JSON.parse(persisted);
     reset(parsed);
   }, [reset, storageIdentifier]);
 

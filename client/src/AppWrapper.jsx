@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
-import { SavedJobsProvider } from "./contexts/SavedJobsContext";
 
 /**
  * This component wraps our App with the providers we do not want to have in our tests
@@ -9,9 +8,7 @@ import { SavedJobsProvider } from "./contexts/SavedJobsContext";
 const AppWrapper = ({ children }) => {
   return (
     <Router>
-      <UserProvider>
-        <SavedJobsProvider>{children}</SavedJobsProvider>
-      </UserProvider>
+      <UserProvider>{children}</UserProvider>
     </Router>
   );
 };

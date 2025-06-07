@@ -19,6 +19,7 @@ import ResetPasswordForm from "./components/forms/ResetPasswordForm";
 import SignupForm from "./components/forms/SignupForm";
 import VerifyUser from "./components/forms/VerifyUser";
 import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
+import Feed from "./pages/Feed/Feed";
 
 const App = () => {
   return (
@@ -111,6 +112,8 @@ const App = () => {
               </PublicRoute>
             }
           />
+
+          <Route path="/feed" element={<Feed />} />
           <Route path="*" element={<ErrorArea />} />
         </Routes>
         <Toaster position="top-right" />

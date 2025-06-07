@@ -9,7 +9,6 @@ const JobList = () => {
   const { performFetch, cancelFetch } = useFetch(
     `/jobs/company/job-lists`,
     (response) => {
-      console.log("Jobs fetched:", response);
       setJobs(response?.data || []);
     },
   );
@@ -20,9 +19,6 @@ const JobList = () => {
       cancelFetch();
     };
   }, []);
-
-  console.log("Jobs fetched:", jobs);
-  console.log("First job:", jobs[9]);
 
   return (
     <div className={styles.jobList}>

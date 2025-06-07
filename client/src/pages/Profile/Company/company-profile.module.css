@@ -9,7 +9,7 @@
   grid-template-columns: 1fr;
 }
 
-section {
+.profileSection {
   background: var(--surface-color);
   border-radius: var(--default-md-border-radius);
   padding: 1.5rem;

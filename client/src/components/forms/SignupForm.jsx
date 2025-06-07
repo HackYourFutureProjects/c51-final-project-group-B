@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 
 import ToggleVisibility from "./ToggleVisibility";
 import css from "./form.module.css";
+import Loader from "../../components/templates/Loader";
+
+import usePersistedForm from "../../hooks/usePersistedForm";
+import { apiRequest } from "../../util/apiRequest";
 
 const SignupForm = () => {
-  const [userType, setUserType] = useState("seeker");
+  const [userType, setUserType] = useState(() => {
+    return localStorage.getItem("userType") || "seeker";
+  });
+
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -16,18 +23,14 @@ const SignupForm = () => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({});
+
+  /** Save and load form data from localStorage, excluding passwords */
+  usePersistedForm(watch, reset, "signupForm", ["password", "confirmPassword"]);
 
   useEffect(() => {
-    reset({
-      companyName: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
-  }, [userType, reset]);
+    localStorage.setItem("userType", userType);
+  }, [userType]);
 
   const onSubmit = async (data) => {
     delete data.confirmPassword;
@@ -39,41 +42,18 @@ const SignupForm = () => {
     }
     const fullData = { ...data, userType };
 
-    try {
-      const response = await fetch("/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(fullData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Your registration was not successful!");
-      }
-
-      toast.success(
+    apiRequest({
+      url: "/api/users/register",
+      body: fullData,
+      setLoading,
+      successMessage:
         "Registration successful. Verification email has been sent.",
-        {
-          style: {
-            backgroundColor: "var(--success-color)",
-            color: "#fff",
-            border: "1px solid transparent",
-          },
-        },
-      );
-
-      navigate("/signin");
-      reset();
-    } catch (error) {
-      toast.error(error.message || "Registration failed.", {
-        style: {
-          backgroundColor: "var(--error-color)",
-          color: "#fff",
-          border: "1px solid transparent",
-        },
-      });
-    }
+      onSuccess: () => {
+        localStorage.removeItem("signupForm");
+        navigate("/signin");
+        reset();
+      },
+    });
   };
 
   return (
@@ -210,8 +190,8 @@ const SignupForm = () => {
           )}
         </div>
 
-        <button type="submit" className={css.submit}>
-          Create Account
+        <button type="submit" className={css.submit} disabled={loading}>
+          {loading ? <Loader /> : "Create Account"}
         </button>
 
         <div className={css.linkContainer}>

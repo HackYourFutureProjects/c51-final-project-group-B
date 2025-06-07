@@ -38,7 +38,7 @@ p {
   gap: 0.5rem;
 }
 
-.companyInfoBlock {
+.companyInfo {
   padding: 0.5rem 0;
   margin: 1rem 1rem;
   color: var(--text-color);
@@ -110,6 +110,7 @@ p {
 .applyButton,
 .showMoreButton {
   padding: 0.5rem 1rem;
+  margin: 0.5rem 2rem;
   font-family: var(--btn-font-family);
   font-weight: var(--font-weight-semibold);
   border-radius: var(--default-sm-border-radius);
@@ -122,9 +123,7 @@ p {
   align-self: center;
   float: right;
 }
-.showMoreButton {
-  margin: 0.5rem 2rem;
-}
+
 .jobContainer {
   max-width: 900px;
   margin: 0 auto;
@@ -314,21 +313,6 @@ p {
   margin-top: 6rem;
   color: var(--heading-color);
 }
-.noJob {
-  text-align: center;
-  font-size: 1.25rem;
-  color: var(--text-color);
-  margin-top: 4rem;
-  font-weight: var(--font-weight-semibold);
-
-  border: 1px solid var(--border-color);
-  padding: 2rem;
-  border-radius: var(--default-xl-border-radius);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: var(--box-shadow-md);
-}
 
 .similarJobsList {
   display: flex;
@@ -365,15 +349,6 @@ p {
     flex-direction: column;
     padding: 1rem;
     min-height: auto;
-  }
-
-  .applyButton,
-  .showMoreButton {
-    float: right;
-    align-self: center;
-    padding: 0.75rem 1rem;
-    box-sizing: border-box;
-    margin: 0.5rem 0;
   }
 }
 @media (max-width: 480px) {
@@ -428,13 +403,6 @@ p {
   .requirementsList {
     padding-left: 1rem;
   }
-
-  .applyButton {
-    width: 100%;
-    text-align: center;
-    padding: 0.75rem;
-  }
-
   .similarJobsList {
     gap: 0.75rem;
   }

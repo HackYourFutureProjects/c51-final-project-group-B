@@ -1,42 +1,41 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useUser } from "../../contexts/UserContext";
 import ToggleVisibility from "./ToggleVisibility";
 import css from "./form.module.css";
+import Loader from "../../components/templates/Loader";
+import usePersistedForm from "../../hooks/usePersistedForm";
 
 const SigninForm = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useUser();
 
   const {
     register,
     reset,
+    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({});
+
+  usePersistedForm(watch, reset, "signinForm", ["password"]);
 
   const onSubmit = async (data) => {
     try {
       await login(data);
-      toast.success("Login successfully!", {
-        style: {
-          backgroundColor: "var(--success-color)",
-          color: "#fff",
-          border: "1px solid transparent",
-        },
-      });
+      toast.success("Logged in successfully!");
+
+      localStorage.removeItem("signinForm");
       reset();
       navigate("/profile");
     } catch (error) {
-      toast.error(error.message || "Login failed.", {
-        style: {
-          backgroundColor: "var(--error-color)",
-          color: "#fff",
-          border: "1px solid transparent",
-        },
-      });
+      toast.error(error.message || "Login failed.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,8 +65,9 @@ const SigninForm = () => {
             <p className={css.error}>{errors.password.message}</p>
           )}
         </div>
-
-        <input className={css.submit} type="submit" value="Log In" />
+        <button type="submit" className={css.submit} disabled={loading}>
+          {loading ? <Loader /> : "Sign In"}
+        </button>
 
         <div className={css.linkContainer}>
           <p
@@ -80,7 +80,7 @@ const SigninForm = () => {
           >
             <span>
               Don’t have an account?{" "}
-              <Link className={css.link} to="/signin">
+              <Link className={css.link} to="/signup">
                 Sign up
               </Link>
             </span>

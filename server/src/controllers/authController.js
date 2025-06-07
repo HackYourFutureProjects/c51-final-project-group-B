@@ -25,11 +25,16 @@ import { HOUR_MS, SALT_ROUNDS } from "../constants.js";
 export const requestPasswordRecovery = async (req, res) => {
   const { email } = req.body;
 
+  if (!email) {
+    return res.status(400).json({ success: false, msg: "Email is required." });
+  }
+
   const user = await User.findOne({ email });
+
   if (!user) {
-    return res.status(400).json({
+    return res.status(200).json({
       success: true,
-      message: "If the email exists, a recovery email has been sent",
+      msg: "If the email exists, a recovery email has been sent.",
     });
   }
 
@@ -38,6 +43,7 @@ export const requestPasswordRecovery = async (req, res) => {
   user.resetPasswordExpires = Date.now() + HOUR_MS;
 
   await user.save();
+
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;
   const message = `Click this link to reset your password: ${resetUrl}`;
 
@@ -47,7 +53,10 @@ export const requestPasswordRecovery = async (req, res) => {
     text: message,
   });
 
-  res.json({ success: true, message: "Recovery email has been sent." });
+  return res.status(200).json({
+    success: true,
+    msg: "A recovery email has been sent.",
+  });
 };
 
 /**
@@ -61,7 +70,6 @@ export const requestPasswordRecovery = async (req, res) => {
  *  5. Clears the reset token and expiration from the user’s data.
  *  6. Saves the updated user and sends a success response.
  */
-
 export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { password, confirmPassword } = req.body;
@@ -69,14 +77,14 @@ export const resetPassword = async (req, res) => {
   if (!password || password.length < 8) {
     return res.status(400).json({
       success: false,
-      message: "Password must be at least 8 characters long",
+      msg: "Password must be at least 8 characters long",
     });
   }
 
   if (password !== confirmPassword) {
     return res
       .status(400)
-      .json({ success: false, message: "Passwords do not match" });
+      .json({ success: false, msg: "Passwords do not match" });
   }
 
   const user = await User.findOne({
@@ -98,7 +106,7 @@ export const resetPassword = async (req, res) => {
 
   await user.save();
 
-  res.json({ success: true, message: "Password updated successfully" });
+  res.json({ success: true, msg: "Password updated successfully" });
 };
 
 /** This function handles verification during registration  */
@@ -109,7 +117,7 @@ export const verifyEmail = async (req, res) => {
   });
 
   if (!user) {
-    return res.status(404).json({ success: false, message: "User not found." });
+    return res.status(404).json({ success: false, msg: "User not found." });
   }
 
   user.emailVerified = true;
@@ -120,5 +128,5 @@ export const verifyEmail = async (req, res) => {
 
   return res
     .status(200)
-    .json({ success: true, message: "Email verified successfully." });
+    .json({ success: true, msg: "Email verified successfully." });
 };

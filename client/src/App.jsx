@@ -119,7 +119,7 @@ const App = () => {
           />
           <Route path="*" element={<ErrorArea />} />
         </Routes>
-        <Toaster position="top-right" />
+        <Toaster position="top-right" duration={3000} />
       </main>
 
       <Footer />

@@ -1,5 +1,11 @@
+import JobList from "../../companyJobs/JobList";
+
 const Jobs = () => {
-  return <h1>Company Jobs</h1>;
+  return (
+    <>
+      <JobList />
+    </>
+  );
 };
 
 export default Jobs;

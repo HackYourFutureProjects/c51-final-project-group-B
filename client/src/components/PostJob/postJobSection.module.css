@@ -78,7 +78,12 @@ h1 {
   margin-top: 0.25rem;
   font-weight: var(--font-weight-medium);
 }
-
+.error {
+  color: var(--text-color);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-top: 1rem;
+}
 .twoColumn {
   display: grid;
   grid-template-columns: 1fr;

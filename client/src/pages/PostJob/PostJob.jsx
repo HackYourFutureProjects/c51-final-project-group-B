@@ -85,7 +85,7 @@ const PostJob = () => {
     <>
       <Toaster position="top-center" />
       <div className={styles.settingsWrapper}>
-        <h1 className={styles.settingsTitle}>Post a Job or Training</h1>
+        <h1 className={styles.settingsTitle}>Add a Vacancy </h1>
         <JobForm
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}

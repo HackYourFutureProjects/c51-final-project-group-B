@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import JobForm from "../../components/PostJob/JobForm";
 import styles from "../../components/PostJob/postJobSection.module.css";
 import useFetch from "../../hooks/useFetch";
+import Loading from "../../components/templates/Loader";
 
 const EditJob = () => {
   const { id } = useParams();
@@ -70,7 +71,7 @@ const EditJob = () => {
     }
   };
 
-  if (isLoading) return <p className={styles.loading}>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p className={styles.error}>Error: {error}</p>;
   if (!defaultValues) return null;
 
@@ -78,7 +79,7 @@ const EditJob = () => {
     <>
       <Toaster position="top-center" />
       <div className={styles.container}>
-        <h1>Edit Job</h1>
+        <h1>Edit Vacancy</h1>
         <JobForm
           isEditMode
           isSubmitting={isSubmitting}

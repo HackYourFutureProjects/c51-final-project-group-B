@@ -49,7 +49,7 @@ const SignupForm = () => {
       successMessage:
         "Registration successful. Verification email has been sent.",
       onSuccess: () => {
-        localStorage.removeItem("signForm");
+        localStorage.removeItem("signupForm");
         navigate("/signin");
         reset();
       },

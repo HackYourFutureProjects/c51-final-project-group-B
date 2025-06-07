@@ -1,0 +1,139 @@
+/* postJobSection.module.css */
+
+.settingsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem;
+  border-radius: var(--default-xl-border-radius);
+  background-color: var(--surface-color);
+  box-shadow: var(--box-shadow-md);
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--heading-color);
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formField label {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.formField input[type="text"],
+.formField input[type="number"],
+.formField input[type="date"],
+.formField select,
+.formField textarea {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--default-lg-border-radius);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  background-color: var(--surface-color);
+  width: 100%;
+}
+
+.formField input[type="text"]:focus,
+.formField input[type="number"]:focus,
+.formField input[type="date"]:focus,
+.formField select:focus,
+.formField textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow-default);
+  outline: none;
+}
+
+.formField input[type="text"]::placeholder,
+.formField input[type="number"]::placeholder,
+.formField textarea::placeholder {
+  color: var(--text-secondary-color);
+  font-family: "Outfit", sans-serif;
+}
+
+.formField input:disabled,
+.formField select:disabled,
+.formField textarea:disabled {
+  background-color: var(--disabled-bg);
+  color: var(--disabled-text-color);
+  cursor: not-allowed;
+}
+
+.errorText {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .twoColumn {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.charCount {
+  font-size: 0.8rem;
+  color: var(--text-secondary-color);
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+.submitButton {
+  padding: 1rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--btn-text-color);
+  border: none;
+  border-radius: var(--default-lg-border-radius);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  margin-top: 1rem;
+  align-self: flex-end;
+}
+
+.submitButton:hover {
+  box-shadow: var(--box-shadow-md);
+}
+
+/* Responsive tweaks for very small screens */
+@media (max-width: 400px) {
+  .settingsForm {
+    padding: 1rem;
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin-top: 1rem;
+  }
+  .submitButton {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+}

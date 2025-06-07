@@ -9,7 +9,7 @@ const Body = () => {
       <header
         className={`${styles.sectionContainer} ${styles.headerContainer}`}
       >
-        <h1>Search, Apply & get Your Dream Job or Training</h1>
+        <h1>Search, Apply & Get Your Dream Job or Training</h1>
         <p>
           New to the Netherlands and ready to start your career? Whether you’re
           looking for work or training opportunities but don’t know where to

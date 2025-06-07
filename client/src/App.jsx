@@ -19,6 +19,8 @@ import ResetPasswordForm from "./components/forms/ResetPasswordForm";
 import SignupForm from "./components/forms/SignupForm";
 import VerifyUser from "./components/forms/VerifyUser";
 import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
+import PostJob from "./pages/PostJob/PostJob";
+import EditJob from "./pages/PostJob/EditJob";
 
 const App = () => {
   return (
@@ -30,7 +32,8 @@ const App = () => {
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
-
+          <Route path="/post" element={<PostJob />} />
+          <Route path="/edit/:id" element={<EditJob />} />
           {/* the job seeker route is only accessible if the user is authenticated and has the role of jobseeker */}
           <Route
             path="/jobs/find"

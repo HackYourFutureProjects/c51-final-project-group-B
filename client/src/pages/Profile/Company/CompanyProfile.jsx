@@ -43,13 +43,13 @@ const CompanyProfile = () => {
     content = (
       <div className={styles.profileContainer}>
         {/* profile header section */}
-        <section>
+        <section className={styles.profileSection}>
           <HeaderSection user={user} />
         </section>
 
         {/* about section  */}
 
-        <section>
+        <section className={styles.profileSection}>
           <TagSection
             tags={
               user?.companyProfile?.about ? [user.companyProfile.about] : []
@@ -59,7 +59,7 @@ const CompanyProfile = () => {
         </section>
 
         {/* branches section */}
-        <section>
+        <section className={styles.profileSection}>
           <TagSection
             tags={user?.companyProfile?.branches || []}
             type="branches"
@@ -67,7 +67,7 @@ const CompanyProfile = () => {
         </section>
 
         {/* {value section} */}
-        <section>
+        <section className={styles.profileSection}>
           <TagSection tags={user.companyProfile?.values || []} type="values" />
         </section>
       </div>

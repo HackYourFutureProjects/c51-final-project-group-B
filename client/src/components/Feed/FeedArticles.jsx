@@ -1,4 +1,4 @@
-// this one were created to display a list of scroll articles in the feed, but switching now to a single article view.
+// This component was originally created to display a list of scrolling articles in the feed, but now switches to a single article view.
 import FeedArticle from "./FeedArticle";
 import styles from "./feed-sections.module.css";
 import PropTypes from "prop-types";

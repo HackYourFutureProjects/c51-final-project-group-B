@@ -64,6 +64,9 @@ export const getAuthFeeds = async (req, res) => {
     res.status(200).json({ success: true, data: feeds, page });
   } catch (err) {
     logError(err);
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ success: false, msg: err.message });
+    }
     res.status(500).json({ success: false, msg: err.message });
   }
 };

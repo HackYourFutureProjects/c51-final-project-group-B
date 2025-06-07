@@ -1,24 +1,22 @@
 import styles from "./findjob.module.css";
-import { MdSend, MdBookmarkBorder, MdBookmark } from "react-icons/md";
+import { MdSend, MdBookmarkBorder } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import FeedbackMessage from "../UserPersonalProfile/Shared/SettingsSections/FeedbackMessage";
 import PropTypes from "prop-types";
-import { useSavedJobs } from "../../contexts/SavedJobsContext";
 
 const JobCard = ({ job }) => {
   const navigate = useNavigate();
   const [showApplyModal, setShowApplyModal] = useState(false);
+
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const shareBtnRef = useRef(null);
 
-  const { savedJobs, addJob, removeJob } = useSavedJobs();
-  const isSaved = savedJobs.some((j) => j._id === job._id);
-
   if (!job) return null;
 
+  // checks
   const title = job.title || "Untitled";
   const companyName =
     job.postedBy?.companyProfile?.companyName || "Unknown Company";
@@ -38,6 +36,7 @@ const JobCard = ({ job }) => {
         ? "Active"
         : "Closed";
 
+  // action handlers
   const handleView = () => {
     if (job._id) {
       navigate(`/jobs/${job._id}`);
@@ -70,18 +69,6 @@ const JobCard = ({ job }) => {
     );
     setShowShareMenu(false);
   };
-
-  const handleToggleSave = () => {
-    if (isSaved) {
-      removeJob(job._id);
-      setFeedback("Removed from Saved Jobs");
-    } else {
-      addJob(job);
-      setFeedback("Saved job");
-    }
-    setTimeout(() => setFeedback(null), 2000);
-  };
-
   return (
     <div className={styles.jobCard}>
       {feedback && <FeedbackMessage feedback={feedback} />}
@@ -101,15 +88,10 @@ const JobCard = ({ job }) => {
         <div className={styles.jobCardHeaderIcons}>
           <button
             className={styles.saveIconBtn}
-            aria-label={isSaved ? "Unsave job" : "Save job"}
+            aria-label="Save job"
             type="button"
-            onClick={handleToggleSave}
           >
-            {isSaved ? (
-              <MdBookmark className={`${styles.saveIcon} ${styles.saved}`} />
-            ) : (
-              <MdBookmarkBorder className={styles.saveIcon} />
-            )}
+            <MdBookmarkBorder className={styles.saveIcon} />
           </button>
           <div style={{ position: "relative", display: "inline-block" }}>
             <button

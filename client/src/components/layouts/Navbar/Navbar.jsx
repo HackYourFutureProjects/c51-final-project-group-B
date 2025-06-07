@@ -36,6 +36,16 @@ const Navbar = () => {
               Home
             </NavLink>
           </li>
+          <li>
+            <NavLink
+              to="/feed"
+              className={({ isActive }) =>
+                isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
+              }
+            >
+              Feed
+            </NavLink>
+          </li>
 
           {user && user.userType === "seeker" && (
             <li>

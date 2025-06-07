@@ -21,7 +21,7 @@ const JobCard = ({ job }) => {
   const companyName = companyProfile || "";
 
   return (
-    <Link to={`/applications/:id`} className={css.jobCardLink}>
+    <Link to={`/jobs/:id`} className={css.jobCardLink}>
       <div className={css.jobCard}>
         <div className={css.jobCardHeader}>
           {companyLogo && (

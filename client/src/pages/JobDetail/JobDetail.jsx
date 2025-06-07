@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./jobdetail.module.css";
 import JobHeader from "../../components/JobDetail/JobHeader";
 import JobStats from "../../components/JobDetail/JobStats";
@@ -8,9 +8,11 @@ import ApplyButton from "../../components/JobDetail/ApplyButton";
 import SimilarJobs from "../../components/JobDetail/SimilarJob/SimilarJobs";
 import useFetch from "../../hooks/useFetch";
 import ApplyModalForm from "../../components/ApplyToJobs/ApplyModalForm";
+import Loading from "../../components/templates/Loader";
 
 const JobDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [similarJobs, setSimilarJobs] = useState([]);
   const [showApplyModal, setShowApplyModal] = useState(false);
@@ -27,7 +29,7 @@ const JobDetail = () => {
     setJob(fetchedJob);
   });
 
-  //Fetch similar jobs
+  // Fetch similar jobs
   const {
     isLoading: isSimilarLoading,
     error: similarError,
@@ -46,9 +48,14 @@ const JobDetail = () => {
     };
   }, [id]);
 
-  if (isJobLoading)
-    return <p className={styles.loading}>Loading job details...</p>;
-  if (jobError) return <p className={styles.error}>Error: {jobError}</p>;
+  useEffect(() => {
+    if (jobError || similarError) {
+      navigate("/error");
+    }
+  }, [jobError, similarError, navigate]);
+
+  if (isJobLoading) return <Loading />;
+
   if (!job) return <p className={styles.noJob}>No job found.</p>;
 
   return (
@@ -58,7 +65,6 @@ const JobDetail = () => {
           <JobHeader job={job} styles={styles} />
           <JobStats job={job} styles={styles} />
           <JobAccordion job={job} styles={styles} />
-          {/* Allowing users to apply via the btn*/}
           <ApplyButton
             styles={styles}
             onClick={() => setShowApplyModal(true)}
@@ -72,9 +78,7 @@ const JobDetail = () => {
         </div>
 
         {isSimilarLoading ? (
-          <p className={styles.loading}>Loading similar jobs...</p>
-        ) : similarError ? (
-          <p className={styles.error}>Error loading similar jobs.</p>
+          <Loading />
         ) : (
           <SimilarJobs jobs={similarJobs} styles={styles} />
         )}

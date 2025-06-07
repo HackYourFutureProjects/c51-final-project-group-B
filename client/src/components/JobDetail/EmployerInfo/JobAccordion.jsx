@@ -18,6 +18,7 @@ const JobAccordion = ({ job, styles }) => {
 
   return (
     <div className={styles.accordionSection}>
+      <DeadlineSection expireOn={expireOn} styles={styles} />
       <AccordionSection
         icon={MdBusiness}
         title="Company"
@@ -56,8 +57,6 @@ const JobAccordion = ({ job, styles }) => {
           styles={styles}
         />
       )}
-
-      <DeadlineSection expireOn={expireOn} styles={styles} />
     </div>
   );
 };

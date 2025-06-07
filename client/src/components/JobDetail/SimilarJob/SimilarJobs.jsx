@@ -6,13 +6,10 @@ import PropTypes from "prop-types";
  * Helper function to map job object to JobCard props shape
  */
 const mapJobToCardProps = (job) => {
-  const tags = job.tags || [];
-  const lastTag = tags.length > 0 ? tags[tags.length - 1] : "Other";
-
   return {
     id: job._id,
     title: job.title,
-    type: lastTag, // take last tag as job type
+    type: job.type,
     description: job.description || "",
     location: job.location,
     companyProfile: job.postedBy?.companyProfile?.companyName || "",

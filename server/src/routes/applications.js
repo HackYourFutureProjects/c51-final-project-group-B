@@ -3,6 +3,7 @@ import {
   createApplication,
   applications,
   getJobApplicants,
+  updateApplicationStatus,
 } from "../controllers/applications.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -29,4 +30,11 @@ applicationsRouter.get(
   asyncHandler(getJobApplicants),
 );
 
+// PATXH /api/applications/:id/status ->  Updates the status of an application
+applicationsRouter.patch(
+  "/:id/status",
+  authMiddleware,
+  asyncHandler(validateUserType("company")),
+  asyncHandler(updateApplicationStatus),
+);
 export default applicationsRouter;

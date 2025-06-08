@@ -5,6 +5,7 @@ import userRouter from "./routes/user.js";
 import jobRouter from "./routes/jobPosts.js";
 import authRouter from "./routes/auths.js";
 import applicationsRouter from "./routes/applications.js";
+import savedJobsRouter from "./routes/savedJobs.js";
 
 import { logError } from "./util/logging.js";
 
@@ -27,6 +28,7 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/jobs", jobRouter);
 app.use("/api/applications", applicationsRouter);
+app.use("/api/saved-jobs", savedJobsRouter);
 
 /**
  * There is a good guide on writing error handler.

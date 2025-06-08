@@ -83,3 +83,11 @@
     font-size: 0.8rem;
   }
 }
+
+.emptyText {
+  color: var(--text-secondary-color, #aaa);
+  font-style: italic;
+  font-size: 0.98em;
+  margin-top: 0.4em;
+  display: block;
+}

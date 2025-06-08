@@ -11,6 +11,7 @@ import Login from "./pages/Forms/Login";
 import { PublicRoute } from "./routes/PublicRoute";
 import JobSeekerRoute from "./routes/JobSeekerRoute";
 import ProfilePage from "./pages/UserProfile/ProfilePage";
+import CompanyProfile from "./pages/Profile/Company/CompanyProfile";
 import JobDetail from "./pages/JobDetail/JobDetail";
 import ErrorArea from "./pages/Error/ErrorArea";
 import SigninForm from "./components/forms/SigninForm";
@@ -46,6 +47,11 @@ const App = () => {
           <Route
             path="/users/candidate-profile/:id"
             element={<CandidateProfile />}
+          ></Route>
+
+          <Route
+            path="/users/company-profile/:id"
+            element={<CompanyProfile />}
           ></Route>
 
           {/* the login and register route are only accessible if the user is not authenticated  */}
@@ -116,7 +122,15 @@ const App = () => {
           <Route path="/feed" element={<Feed />} />
           <Route path="*" element={<ErrorArea />} />
         </Routes>
-        <Toaster position="top-right" />
+        <Toaster
+          position="top-right"
+          duration={3000}
+          toastOptions={{
+            style: {
+              marginTop: "3rem",
+            },
+          }}
+        />
       </main>
 
       <Footer />

@@ -1,0 +1,31 @@
+/* Style for profile page */
+
+.profileContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: 1fr;
+}
+
+.profileSection {
+  background: var(--surface-color);
+  border-radius: var(--default-md-border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow-default);
+}
+
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileContainer {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+}

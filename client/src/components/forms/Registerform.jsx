@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 const Registerform = () => {
   const [userType, setUserType] = useState("seeker");
+  const [serverError, setServerError] = useState("");
+  const [serverSuccess, setServerSuccess] = useState("");
 
   const {
     register,
@@ -36,6 +38,8 @@ const Registerform = () => {
     const fullData = { ...data, userType };
     console.log("Form Data:", fullData);
     try {
+      setServerError(""); // Reset server error
+      setServerSuccess("");
       const response = await fetch("api/users/register", {
         method: "POST",
         headers: {
@@ -43,16 +47,18 @@ const Registerform = () => {
         },
         body: JSON.stringify(fullData),
       });
+      const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(" Error, your registration was not successful!");
+        const message =
+          result?.msg || "Error, your registration was not successful!";
+        throw new Error(message);
       }
-      const result = await response.json();
-      console.log(result);
-      alert("Registration successful!");
+
+      setServerSuccess("Registration successful!");
       reset();
     } catch (error) {
-      alert(error.message);
+      setServerError(error.message);
     }
   };
 
@@ -80,6 +86,8 @@ const Registerform = () => {
           </button>
         </div>
         <h2 className={css.title}>Sign up</h2>
+        {serverError && <p className={css.error}>{serverError}</p>}
+        {serverSuccess && <p className={css.success}>{serverSuccess}</p>}
 
         {userType === "company" ? (
           <>
@@ -101,7 +109,7 @@ const Registerform = () => {
         ) : (
           <>
             <input
-              placeholder="first Name"
+              placeholder="First Name"
               className={css.input}
               {...register("firstName", {
                 required: "first name is required",
@@ -112,7 +120,7 @@ const Registerform = () => {
             )}
 
             <input
-              placeholder="last Name"
+              placeholder="Last Name"
               className={css.input}
               {...register("lastName", { required: "last name is required" })}
             />
@@ -125,7 +133,7 @@ const Registerform = () => {
         <input
           className={css.input}
           type="email"
-          placeholder="email"
+          placeholder="Email"
           {...register("email", { required: "Email is required" })}
         />
         {errors.email && <p className={css.error}>{errors.email.message}</p>}
@@ -133,7 +141,7 @@ const Registerform = () => {
         <input
           className={css.input}
           type="password"
-          placeholder="password"
+          placeholder="Password"
           {...register("password", {
             required: "Password is required",
             minLength: {
@@ -149,11 +157,11 @@ const Registerform = () => {
         <input
           className={css.input}
           type="password"
-          placeholder="confirm password"
+          placeholder="Confirm password"
           {...register("confirmPassword", {
             required: "Please confirm your password",
             validate: (value) =>
-              value === watch("password") || "Confirm password",
+              value === watch("password") || "Passwords do not match",
           })}
         />
         {errors.confirmPassword && (
@@ -161,7 +169,7 @@ const Registerform = () => {
         )}
 
         <input type="submit" value="Sign Up" />
-        <p>
+        <p className={css.title}>
           already have account?{" "}
           <Link className={css.link} to="/login">
             Log in

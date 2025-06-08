@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../contexts/UserContext";
+import { useState } from "react";
 const LogInform = () => {
   const navigate = useNavigate();
+
+  const [serverError, setServerError] = useState("");
+  const [serverSuccess, setServerSuccess] = useState("");
 
   const {
     register,
@@ -18,12 +22,16 @@ const LogInform = () => {
 
   const onSubmit = async (data) => {
     try {
+      setServerError(""); // Reset server error
+      setServerSuccess("");
       await login(data); // use context login
-      alert("Login successful!");
+      setServerSuccess("Login successful!");
       reset();
       navigate("/profile");
     } catch (error) {
-      alert(error.message);
+      const msg =
+        error?.response?.data?.message || error.message || "Login failed";
+      setServerError(msg);
     }
   };
 
@@ -31,6 +39,9 @@ const LogInform = () => {
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
         <h2 className={css.title}>Log In</h2>
+
+        {serverError && <p className={css.error}>{serverError}</p>}
+        {serverSuccess && <p className={css.success}>{serverSuccess}</p>}
 
         <input
           className={css.input}
@@ -57,7 +68,8 @@ const LogInform = () => {
         )}
 
         <input className={css.submit} type="submit" value="Log In" />
-        <p>
+        <p className={css.title}>Forgot password ?</p>
+        <p className={css.title}>
           don t have account?{" "}
           <Link className={css.link} to="/register">
             Sign up

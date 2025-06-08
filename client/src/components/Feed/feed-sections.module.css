@@ -87,7 +87,7 @@
   box-shadow: 0 4px 16px var(--default-shadow-color, rgba(59, 130, 246, 0.1));
 }
 .selected {
-  border: 2px solid var(--border-color, #6366f1);
+  border: 2px solid var(--primary-color, #6366f1);
   background: var(--hover-color, #e0e7ff);
   box-shadow: 0 4px 16px var(--default-shadow-color, rgba(59, 130, 246, 0.13));
 }

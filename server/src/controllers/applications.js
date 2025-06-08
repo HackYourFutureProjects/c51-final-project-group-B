@@ -195,7 +195,7 @@ export const updateApplicationStatus = async (req, res) => {
   }
 
   application.status = status;
-  await application.save;
+  await application.save();
 
   return res
     .status(200)

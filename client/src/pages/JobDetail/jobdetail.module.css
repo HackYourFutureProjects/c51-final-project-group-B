@@ -70,7 +70,7 @@ p {
 .requirementsList {
   list-style: disc inside;
   padding-left: 1.5rem;
-  color: var(--text-color);
+  color: var(--text-secondary-color);
 }
 
 .requirementItem {
@@ -78,7 +78,7 @@ p {
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-  color: var(--text-color);
+  /* color: var(--text-color); */
 }
 
 .requirementIcon {
@@ -122,6 +122,10 @@ p {
   background-color: var(--primary-color);
   align-self: center;
   float: right;
+}
+.applyButton:hover,
+.showMoreButton:hover {
+  background-color: var(--primary-color-dark);
 }
 
 .jobContainer {
@@ -189,15 +193,11 @@ p {
 
 .jobDescription {
   padding: 0.75rem 0;
+  width: 100%;
   font-size: 0.875rem;
-  color: var(--text-color);
+  color: var(--text-secondary-color);
   line-height: 1.25rem;
   flex-grow: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
 }
 
 .jobFooter {
@@ -214,7 +214,8 @@ p {
   padding: 0.125rem 0.5rem;
   border-radius: var(--default-sm-border-radius);
   font-weight: var(--font-weight-semibold);
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .header {
@@ -302,7 +303,6 @@ p {
 
 .similarJobsSection {
   margin-top: 10rem;
-  padding-left: 1rem;
   width: 100%;
 }
 
@@ -350,6 +350,18 @@ p {
     padding: 1rem;
     min-height: auto;
   }
+  .similarJobsSection {
+    margin-top: 1rem;
+  }
+  .applyButton,
+  .showMoreButton {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    display: block;
+    margin: 0.5rem 0;
+  }
 }
 @media (max-width: 480px) {
   .mainContent {
@@ -359,9 +371,21 @@ p {
     padding: 0.5rem 1rem;
   }
 
-  .applyButton {
-    padding: 1rem;
-    font-size: 1rem;
+  .applyButton,
+  .showMoreButton {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .similarJobsSection {
+    margin-top: 1rem;
+  }
+  .jobCard {
+    width: fit-content;
   }
 }
 @media (max-width: 1024px) {

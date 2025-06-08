@@ -8,12 +8,13 @@
 
 .feedSearchBar {
   display: flex;
-  gap: 0.5rem;
+
+  gap: 0.3rem;
   margin-bottom: 1.5rem;
   background: var(--surface-color);
   border-radius: var(--default-xl-border-radius, 10px);
   box-shadow: 0 2px 8px var(--default-shadow-color, rgba(59, 130, 246, 0.06));
-  padding: 0.3rem 0.5rem;
+  padding: 0.1rem 0.1rem;
   align-items: center;
 }
 
@@ -41,7 +42,7 @@
   justify-content: center;
   background: var(--primary-color);
   border: none;
-  border-radius: var(--default-lg-border-radius, 8px);
+  border-radius: var(--default-lg-border-radius);
   padding: 0.6rem 0.8rem;
   cursor: pointer;
   transition:
@@ -290,10 +291,10 @@
     min-width: 140px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0.12rem 0.12rem;
+    padding: 0.1rem 0.1rem;
     gap: 0.08rem;
     background: var(--surface-color);
-    border-radius: var(--default-lg-border-radius, 8px);
+    border-radius: var(--default-lg-border-radius);
     box-shadow: 0 1px 4px var(--default-shadow-color, rgba(59, 130, 246, 0.06));
     margin-bottom: 0.8rem;
   }
@@ -311,8 +312,7 @@
   .feedSearchBtn {
     font-size: 1rem;
     padding: 0 0.7rem;
-    border-radius: 0 var(--default-sm-border-radius, 6px)
-      var(--default-sm-border-radius, 6px) 0;
+    border-radius: var(--default-sm-border-radius, 6px);
     height: 2.1rem;
     min-width: 2rem;
     max-width: 2.2rem;
@@ -448,8 +448,7 @@
   .feedSearchBtn {
     font-size: 0.85rem;
     padding: 0 0.5rem;
-    border-radius: 0 var(--default-xs-border-radius, 4px)
-      var(--default-xs-border-radius, 4px) 0;
+    border-radius: var(--default-xs-border-radius, 4px);
     height: 2rem;
     min-width: 2rem;
     max-width: 2.2rem;

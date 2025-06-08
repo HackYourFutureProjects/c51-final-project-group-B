@@ -20,16 +20,16 @@ savedJobsRoute.get(
   asyncHandler(savedJobs),
 );
 
-// POST /api/saved-jobs/ -> Creates a saved job for the logged in seeker
+// POST /api/saved-jobs/:id -> Creates a saved job for the logged in seeker
 savedJobsRoute.post(
   "/:id",
   authMiddleware,
   validateUserType("seeker"),
   validateJobPostExists,
-  createSavedJob,
+  asyncHandler(createSavedJob),
 );
 
-// DELETE /api/saved-jobs/ -> Deletes a saved job for the logged in seeker
+// DELETE /api/saved-jobs/:id -> Deletes a saved job for the logged in seeker
 savedJobsRoute.delete(
   "/:id",
   authMiddleware,

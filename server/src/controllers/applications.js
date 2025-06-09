@@ -175,7 +175,7 @@ export const getJobApplicants = async (req, res) => {
 
 /** Updates the status of an application */
 export const updateApplicationStatus = async (req, res) => {
-  const { _id: applicantId } = req.params;
+  const { id: applicationId } = req.params;
   const { status } = req.body;
 
   const validStatuses = [
@@ -194,19 +194,21 @@ export const updateApplicationStatus = async (req, res) => {
     });
   }
 
-  const application = await Application.findOne({ applicantId });
+  const application = await Application.findById(applicationId);
   if (!application) {
-    return res
-      .status(404)
-      .json({ success: false, message: "No application found." });
+    return res.status(404).json({
+      success: false,
+      message: "No application found.",
+    });
   }
 
   application.status = status;
   await application.save();
 
-  return res
-    .status(200)
-    .json({ success: true, updatedApplication: application });
+  return res.status(200).json({
+    success: true,
+    updatedApplication: application,
+  });
 };
 
 /** Withdraw an application submitted by a seeker */

@@ -5,14 +5,18 @@ import styles from "../../components/PostJob/postJobSection.module.css";
 import { DAILY_POST_LIMIT } from "../../constants";
 
 const PostJob = () => {
+  // Track how many jobs the user has posted today
   const [postsToday, setPostsToday] = useState(() => {
     const storedPostsToday = localStorage.getItem("postsToday");
     return storedPostsToday ? parseInt(storedPostsToday, 10) : 0;
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formReset, setFormReset] = useState(null);
 
+  // Handles the form submission logic
   const onSubmit = async (data) => {
+    // Enforce daily post limit
     if (postsToday >= DAILY_POST_LIMIT) {
       toast.error("You have reached the limit of 5 job posts today.");
       return;
@@ -20,6 +24,7 @@ const PostJob = () => {
 
     setIsSubmitting(true);
 
+    // Format form fields before sending
     const formatted = {
       ...data,
       numberOfOpenings: Number(data.numberOfOpenings || 1),
@@ -48,6 +53,7 @@ const PostJob = () => {
     };
 
     try {
+      // Submit job post to API
       const response = await fetch("/api/jobs/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -68,7 +74,7 @@ const PostJob = () => {
       toast.success("Job posted successfully");
       incrementPostsCount();
 
-      if (formReset) formReset();
+      if (formReset) formReset(); // Reset form fields after successful submission
     } catch (error) {
       toast.error(error.message || "Submission failed. Please try again.");
     } finally {
@@ -76,6 +82,7 @@ const PostJob = () => {
     }
   };
 
+  // Increments the local job post count and stores it in localStorage
   const incrementPostsCount = () => {
     setPostsToday((prev) => {
       const updatedPostsToday = prev + 1;
@@ -88,7 +95,7 @@ const PostJob = () => {
     <>
       <Toaster position="top-center" />
       <div className={styles.settingsWrapper}>
-        <h1 className={styles.settingsTitle}>Add a Vacancy </h1>
+        <h1 className={styles.settingsTitle}>Add a Vacancy</h1>
         <JobForm
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}

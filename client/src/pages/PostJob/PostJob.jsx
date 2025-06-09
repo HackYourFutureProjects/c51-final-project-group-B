@@ -5,7 +5,10 @@ import styles from "../../components/PostJob/postJobSection.module.css";
 import { DAILY_POST_LIMIT } from "../../constants";
 
 const PostJob = () => {
-  const [postsToday, setPostsToday] = useState(0);
+  const [postsToday, setPostsToday] = useState(() => {
+    const storedPostsToday = localStorage.getItem("postsToday");
+    return storedPostsToday ? parseInt(storedPostsToday, 10) : 0;
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formReset, setFormReset] = useState(null);
 

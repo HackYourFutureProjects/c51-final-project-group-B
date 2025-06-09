@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import Body from "./components/Body/Body";
 import CreateUser from "./pages/User/CreateUser";
 import UserList from "./pages/User/UserList";
+import EditJob from "./pages/PostJob/EditJob";
 import CandidateProfile from "./pages/Profile/Candidate/CandidateProfile";
 import Navbar from "./components/layouts/Navbar/Navbar";
 import Footer from "./components/layouts/Footer/Footer";
@@ -20,7 +21,6 @@ import SignupForm from "./components/forms/SignupForm";
 import VerifyUser from "./components/forms/VerifyUser";
 import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
 import PostJob from "./pages/PostJob/PostJob";
-import EditJob from "./pages/PostJob/EditJob";
 
 const App = () => {
   return (

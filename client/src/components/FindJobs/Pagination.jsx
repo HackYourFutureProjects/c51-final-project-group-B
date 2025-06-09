@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 const Pagination = ({ page, jobs, limit, onPageChange }) => {
   if (!jobs || jobs.length === 0) return null;
 
+  // const totalPages = Math.ceil(jobs.length / limit);
+
   return (
     <nav className={styles.paginationNav} aria-label="Pagination">
       <button
@@ -19,6 +21,7 @@ const Pagination = ({ page, jobs, limit, onPageChange }) => {
         className={styles.paginationBtn}
         onClick={() => onPageChange(page + 1)}
         disabled={jobs.length < limit}
+        // disabled={page >= totalPages}
         aria-label="Next page"
       >
         Next &raquo;

@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import { GoLocation } from "react-icons/go";
 import moment from "moment";
-import css from "./job-card.module.css";
+import styles from "./job-card.module.css";
 
 const JobCard = ({ job, onJobClick }) => {
   const {
     title,
     location,
+    resumeUrl,
     type,
     companyProfile,
     profilePhoto,
@@ -18,45 +19,70 @@ const JobCard = ({ job, onJobClick }) => {
   const companyLogo = profilePhoto || "";
   const companyName = companyProfile || "";
   return (
-    <div onClick={() => onJobClick(job)} className={css.jobCardLink}>
-      <div className={css.jobCard}>
-        <div className={css.jobCardHeader}>
+    <div onClick={() => onJobClick(job)} className={styles.jobCardLink}>
+      <div className={styles.jobCard}>
+        <div className={styles.jobCardHeader}>
           {companyLogo && (
             <img
               src={companyLogo}
               alt={companyName}
-              className={css.companyLogo}
+              className={styles.companyLogo}
             />
           )}
-          <div className={css.jobInfo}>
-            <p className={css.jobTitle}>{title}</p>
-            <span className={css.location}>
-              <GoLocation className={css.locationIcon} />
+          <div className={styles.jobInfo}>
+            <p className={styles.jobTitle}>{title}</p>
+            <span className={styles.location}>
+              <GoLocation className={styles.locationIcon} />
               {location}
             </span>
           </div>
         </div>
 
         <div>
-          <span className={css.applicationCount}>
+          <span className={styles.applicationCount}>
             Applications: {applicationCount || 0}
           </span>
         </div>
         <div>
-          <span className={css.expireOn}>
+          <span className={styles.expireOn}>
             Expires on: {moment(expireOn).format("MMM Do YYYY")}
           </span>
         </div>
 
         <div>
-          <span className={css.isActive}>
+          <span className={styles.isActive}>
             Status: {isActive ? "Active" : "Inactive"}
           </span>
         </div>
 
-        <div className={css.jobFooter}>
-          <span className={css.jobType}>{type}</span>
-          <button className="btn btn-primary"> Edit</button>
+        <div>
+          {resumeUrl && (
+            <div className={styles.resumeLink}>
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                View current CV
+              </a>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.jobFooter}>
+          <span className={styles.jobType}>{type}</span>
+          <button
+            className="btn btn-primary"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            Edit
+          </button>
         </div>
       </div>
     </div>
@@ -75,6 +101,7 @@ JobCard.propTypes = {
     isActive: PropTypes.bool,
     expireOn: PropTypes.string,
     applicationCount: PropTypes.number,
+    resumeUrl: PropTypes.string,
   }).isRequired,
   onJobClick: PropTypes.func.isRequired,
 };

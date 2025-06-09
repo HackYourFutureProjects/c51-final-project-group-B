@@ -110,6 +110,7 @@
   .profileName {
     font-size: 1.75rem;
   }
+
   .rightSection {
     position: static;
     margin: 0 auto;
@@ -136,4 +137,12 @@
   .profileName {
     font-size: 1.5rem;
   }
+}
+
+.tagline {
+  font-family: var(--heading-font-family);
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-light);
+  color: var(--text-color);
+  margin-top: 0.5rem;
 }

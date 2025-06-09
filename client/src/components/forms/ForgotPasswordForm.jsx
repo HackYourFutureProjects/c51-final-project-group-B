@@ -1,40 +1,40 @@
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
-import { asyncHandler } from "../../util/asyncHandler.js";
+import { apiRequest } from "../../util/apiRequest";
+import Loader from "../templates/Loader";
 import css from "./form.module.css";
+import usePersistedForm from "../../hooks/usePersistedForm";
 
 const ForgotPasswordForm = () => {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
+    watch,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const requestPasswordReset = async (data) => {
-    const res = await fetch("/api/auth/forgot-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: data.email }),
-    });
+  usePersistedForm(watch, reset, "requestForm");
 
-    if (!res.ok) throw new Error("Failed to send password reset email.");
-
-    toast.success("Password reset email sent.", {
-      style: {
-        backgroundColor: "var(--success-color)",
-        color: "#fff",
-        border: "1px solid transparent",
+  const requestPasswordReset = (data) => {
+    apiRequest({
+      url: "/api/auth/forgot-password",
+      body: { email: data.email },
+      setLoading,
+      successMessage: "If the email exists, password reset email is sent.",
+      onSuccess: () => {
+        localStorage.removeItem("requestForm");
       },
     });
   };
 
-  const onSubmit = asyncHandler(requestPasswordReset);
-
   return (
     <div className={css.container}>
-      <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={css.form} onSubmit={handleSubmit(requestPasswordReset)}>
         <h2 className={css.title}>Forgot Password</h2>
 
         <div className={css.inputGroup}>
@@ -47,8 +47,8 @@ const ForgotPasswordForm = () => {
           {errors.email && <p className={css.error}>{errors.email.message}</p>}
         </div>
 
-        <button className={css.submit} type="submit">
-          Send Reset Link
+        <button type="submit" className={css.submit} disabled={loading}>
+          {loading ? <Loader /> : "Send Reset Link"}
         </button>
         <div className={css.linkContainer}>
           <p

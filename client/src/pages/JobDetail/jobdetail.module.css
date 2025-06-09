@@ -4,10 +4,7 @@
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: var(--surface-color);
-  box-shadow: var(--box-shadow-default);
   display: flex;
-  border-radius: var(--default-lg-border-radius);
 }
 
 .mainContent {
@@ -19,8 +16,12 @@
 }
 
 .accordionSection {
-  padding: 1rem 0.5rem;
   margin: 1rem 0;
+  flex-grow: 1;
+}
+.jobDetailSection {
+  display: flex;
+  flex-direction: column;
 }
 
 span,
@@ -93,15 +94,22 @@ p {
   padding: 0.75rem 1rem;
   font-weight: var(--font-weight-bold);
   color: var(--heading-color);
+  background-color: var(--surface-color);
 }
 
+.accordionRoot {
+  background-color: var(--surface-color) !important;
+  border-radius: var(--default-lg-border-radius) !important;
+}
 .accordionContent {
   padding: auto;
+  background-color: var(--surface-color);
+  border-radius: var(--default-lg-border-radius);
 }
 
-.applyButton {
+.applyButton,
+.showMoreButton {
   padding: 0.5rem 1rem;
-  margin: 0.5rem 2rem;
   font-family: var(--btn-font-family);
   font-weight: var(--font-weight-semibold);
   border-radius: var(--default-sm-border-radius);
@@ -110,9 +118,13 @@ p {
   text-decoration: none;
   transition: all 0.2s ease;
   color: var(--btn-text-color);
-  background-color: var(--info-color);
+  background-color: var(--primary-color);
+  align-self: center;
+  float: right;
 }
-
+.showMoreButton {
+  margin: 0.5rem 2rem;
+}
 .jobContainer {
   max-width: 900px;
   margin: 0 auto;
@@ -130,7 +142,7 @@ p {
 .jobCard {
   width: 100%;
   max-width: 25rem;
-  background-color: var(--bg-color);
+  background-color: var(--surface-color);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -198,7 +210,7 @@ p {
 }
 
 .jobType {
-  background-color: var(--info-color);
+  background-color: var(--primary-color);
   color: var(--btn-text-color);
   padding: 0.125rem 0.5rem;
   border-radius: var(--default-sm-border-radius);
@@ -212,7 +224,6 @@ p {
   align-items: center;
   margin-top: 5rem;
   margin-bottom: 2rem;
-  margin-left: 4rem;
 }
 
 .companyInfo {
@@ -252,29 +263,29 @@ p {
 
 .certIcon {
   font-size: 1.75rem;
-  color: var(--info-color);
+  color: var(--primary-color);
 }
 
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
-  margin: 1rem 1rem;
+  margin: 1rem 0rem;
 }
 
 .statBox {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--bg-color);
   padding: 1rem;
   border-radius: var(--default-sm-border-radius);
   box-shadow: var(--box-shadow-default);
+  background-color: var(--surface-color);
 }
 
 .statIcon {
   font-size: 1.5rem;
-  color: var(--info-color);
+  color: var(--primary-color);
   margin-bottom: 0.25rem;
 }
 
@@ -302,6 +313,21 @@ p {
   margin-bottom: 1rem;
   margin-top: 6rem;
   color: var(--heading-color);
+}
+.noJob {
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin-top: 4rem;
+  font-weight: var(--font-weight-semibold);
+
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: var(--default-xl-border-radius);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: var(--box-shadow-md);
 }
 
 .similarJobsList {
@@ -341,12 +367,12 @@ p {
     min-height: auto;
   }
 
-  .applyButton {
-    width: 100%;
-    max-width: 100%;
+  .applyButton,
+  .showMoreButton {
+    float: right;
+    align-self: center;
     padding: 0.75rem 1rem;
     box-sizing: border-box;
-    display: block;
     margin: 0.5rem 0;
   }
 }

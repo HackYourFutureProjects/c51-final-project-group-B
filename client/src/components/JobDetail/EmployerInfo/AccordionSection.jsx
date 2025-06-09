@@ -1,10 +1,5 @@
 import PropTypes from "prop-types";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-} from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
 
 const AccordionSection = ({
@@ -12,14 +7,17 @@ const AccordionSection = ({
   title,
   children,
   styles,
-  defaultExpanded = false,
+  defaultExpanded = true,
 }) => (
-  <Accordion defaultExpanded={defaultExpanded}>
-    <AccordionSummary expandIcon={<ExpandMore />}>
-      <Typography className={styles.accordionHeader}>
+  <Accordion defaultExpanded={defaultExpanded} className={styles.accordionRoot}>
+    <AccordionSummary
+      expandIcon={<ExpandMore />}
+      className={styles.accordionSummary}
+    >
+      <div className={styles.accordionHeader}>
         <Icon className={styles.statIcon} />
         <span className={styles.sectionTitle}>{title}</span>
-      </Typography>
+      </div>
     </AccordionSummary>
     <AccordionDetails className={styles.accordionContent}>
       {children}

@@ -12,13 +12,7 @@ const VerifyUser = () => {
   const { isLoading, error, performFetch, cancelFetch } = useFetch(
     `/auth/verify-email/${token}`,
     () => {
-      toast.success("Email verified successfully.", {
-        style: {
-          backgroundColor: "var(--success-color)",
-          color: "#fff",
-          border: "1px solid transparent",
-        },
-      });
+      toast.success("Email verified successfully.");
     },
   );
 
@@ -30,13 +24,7 @@ const VerifyUser = () => {
   useEffect(() => {
     if (!isLoading) {
       if (error) {
-        toast.error("Email verification failed.", {
-          style: {
-            backgroundColor: "var(--error-color)",
-            color: "#fff",
-            border: "1px solid transparent",
-          },
-        });
+        toast.error("Email verification failed.");
         return navigate("/signin");
       }
       navigate("/signin");

@@ -146,6 +146,8 @@ export const getJobApplicants = async (req, res) => {
     { $unwind: "$applicant" },
     {
       $project: {
+        applicantId: "$userId",
+        applicationStatus: "$status",
         firstName: "$applicant.seekerProfile.firstName",
         lastName: "$applicant.seekerProfile.lastName",
         resumeUrl: "$applicant.seekerProfile.resumeUrl",
@@ -155,5 +157,47 @@ export const getJobApplicants = async (req, res) => {
     },
   ]);
 
+  if (!applicants.length) {
+    return res
+      .status(404)
+      .json({ success: false, message: "No applicants for this job found." });
+  }
+
   return res.status(200).json({ success: true, data: applicants });
+};
+
+/** Updates the status of an application */
+export const updateApplicationStatus = async (req, res) => {
+  const { _id: applicantId } = req.params;
+  const { status } = req.body;
+
+  const validStatuses = [
+    "pending",
+    "reviewed",
+    "accepted",
+    "rejected",
+    "shortlisted",
+    "withdrawn",
+  ];
+
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: `Status must be one of ${validStatuses.join(", ")}`,
+    });
+  }
+
+  const application = await Application.findOne({ applicantId });
+  if (!application) {
+    return res
+      .status(404)
+      .json({ success: false, message: "No application found." });
+  }
+
+  application.status = status;
+  await application.save;
+
+  return res
+    .status(200)
+    .json({ success: true, updatedApplication: application });
 };

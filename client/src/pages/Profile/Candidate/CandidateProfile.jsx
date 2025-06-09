@@ -100,7 +100,7 @@ const CandidateProfile = () => {
         {/* languages section */}
         <section className={styles.profileSection}>
           {user?.seekerProfile?.languages && (
-            <TagSection tags={user.seekerProfile.languages} type="langs" />
+            <TagSection tags={user.seekerProfile.languages} type="languages" />
           )}
         </section>
       </div>

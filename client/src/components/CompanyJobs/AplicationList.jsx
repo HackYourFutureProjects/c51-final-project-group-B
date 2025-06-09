@@ -1,27 +1,34 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import PropTypes from "prop-types";
+import AplicationCard from "./AplicationCard";
+import styles from "./aplication-list.module.css";
 
-const AplicationList = () => {
-  const [applications, setApplications] = useState([]);
+const AplicationList = ({ id }) => {
+  const [applicants, setApplicants] = useState([]);
 
-  const { performFetch, cancelFetch } = useFetch(
-    `/applications/:id`,
-    (response) => {
-      console.log("Jobs fetched:", response);
-      setApplications(response?.data || []);
-    },
-  );
+  const { performFetch } = useFetch(`/applications/${id}`, (response) => {
+    setApplicants(response?.data || []);
+  });
 
   useEffect(() => {
-    performFetch();
-    return () => {
-      cancelFetch();
-    };
-  }, []);
+    if (id) performFetch();
+  }, [id]);
 
-  console.log(applications);
-
-  return <div></div>;
+  return (
+    <div className={styles.aplicationList}>
+      {applicants.length > 0 ? (
+        applicants.map((applicant) => (
+          <AplicationCard key={applicant._id} applicant={applicant} />
+        ))
+      ) : (
+        <p>no one has applied</p>
+      )}
+    </div>
+  );
 };
 
+AplicationList.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 export default AplicationList;

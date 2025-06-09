@@ -146,6 +146,7 @@ export const getJobApplicants = async (req, res) => {
     { $unwind: "$applicant" },
     {
       $project: {
+        applicantId: "$userId",
         firstName: "$applicant.seekerProfile.firstName",
         lastName: "$applicant.seekerProfile.lastName",
         resumeUrl: "$applicant.seekerProfile.resumeUrl",

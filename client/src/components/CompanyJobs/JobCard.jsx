@@ -1,15 +1,13 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import { GoLocation } from "react-icons/go";
 import moment from "moment";
 import css from "./job-card.module.css";
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, onJobClick }) => {
   const {
     title,
     location,
     type,
-    createdAt,
     companyProfile,
     profilePhoto,
     isActive,
@@ -19,9 +17,8 @@ const JobCard = ({ job }) => {
 
   const companyLogo = profilePhoto || "";
   const companyName = companyProfile || "";
-
   return (
-    <Link to={`/jobs/:id`} className={css.jobCardLink}>
+    <div onClick={() => onJobClick(job)} className={css.jobCardLink}>
       <div className={css.jobCard}>
         <div className={css.jobCardHeader}>
           {companyLogo && (
@@ -59,10 +56,10 @@ const JobCard = ({ job }) => {
 
         <div className={css.jobFooter}>
           <span className={css.jobType}>{type}</span>
-          <span className={css.postedTime}>{moment(createdAt).fromNow()}</span>
+          <button className="btn btn-primary"> Edit</button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
@@ -79,7 +76,7 @@ JobCard.propTypes = {
     expireOn: PropTypes.string,
     applicationCount: PropTypes.number,
   }).isRequired,
-  styles: PropTypes.object.isRequired,
+  onJobClick: PropTypes.func.isRequired,
 };
 
 export default JobCard;

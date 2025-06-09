@@ -1,0 +1,207 @@
+.jobApplicationContainer1 {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-color);
+  border-radius: var(--default-xxl-border-radius);
+  margin: 20px;
+  box-shadow: 0 2px 17px 1px var(--default-shadow-color);
+}
+
+.jobApplicationBadge {
+  margin-bottom: 10px;
+  background-color: #00796b;
+  width: fit-content;
+  padding: 4px 8px;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  border-top-left-radius: var(--default-xl-border-radius);
+  border-bottom-right-radius: var(--default-xl-border-radius);
+}
+
+.jobApplicationOffer {
+  margin-left: 8px;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+  text-transform: capitalize;
+}
+
+/* Status badge variants */
+.badgeAccepted {
+  background-color: var(--surface-color);
+  color: var(--success-color, #00796b);
+}
+
+.badgePending {
+  background-color: var(--warning-color);
+  color: var(--text-color);
+}
+
+.badgeRejected {
+  background-color: var(--surface-color);
+  color: var(--error-color, #c62828);
+}
+
+.jobApplicationContainer {
+  padding: 16px;
+}
+
+.jobApplicationContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobApplicationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.jobApplicationImageMobile {
+  display: none;
+}
+
+.jobApplicationCatalogWithdraw {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.jobApplicationWithdrawBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.jobApplicationWithdrawBtnActive {
+  color: var(--error-color, #c62828);
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.2s ease;
+}
+
+.jobApplicationWithdrawBtnActive:hover {
+  color: var(--error-color, #b71c1c);
+}
+
+.jobApplicationDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.jobApplicationTitle {
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.jobApplicationDate {
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.jobApplicationTime {
+  display: inline;
+}
+
+.jobApplicationCompany {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.jobApplicationItems {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.jobApplicationItem {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.jobApplicationImage {
+  width: 100px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.jobApplicationDescription {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.showMoreLess {
+  margin-top: 12px;
+}
+
+.seeMoreLink {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+}
+.withdrawConfirmCard {
+  background-color: var(--surface-color);
+  border: 1px solid var(--warning-color, #ffcc80);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text-color);
+  box-shadow: var(--box-shadow-md);
+}
+
+.withdrawConfirmCard p {
+  margin: 0 0 12px;
+}
+
+.withdrawButtons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.cancelButton,
+.confirmButton {
+  padding: 6px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--default-sm-border-radius);
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: var(--surface-color);
+  color: var(--btn-text-color);
+}
+
+.confirmButton {
+  background-color: var(--error-color, #d32f2f);
+  color: var(--btn-text-color);
+}
+.postedBy {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+.jobApplicationTime {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-top: 4px;
+}

@@ -110,6 +110,7 @@ export const applications = async (req, res) => {
     { $unwind: "$company" },
     {
       $project: {
+        jobId: "$appliedJobs._id",
         jobTitle: "$appliedJobs.title",
         jobLocation: "$appliedJobs.location",
         jobIsActive: "$appliedJobs.isActive",
@@ -121,6 +122,12 @@ export const applications = async (req, res) => {
       },
     },
   ]);
+
+  if (!applications) {
+    return res
+      .status(404)
+      .json({ success: false, message: "No application found." });
+  }
 
   return res.status(200).json({ success: true, data: applications });
 };
@@ -200,4 +207,32 @@ export const updateApplicationStatus = async (req, res) => {
   return res
     .status(200)
     .json({ success: true, updatedApplication: application });
+};
+
+/** Withdraw an application submitted by a seeker */
+export const widthDrawApplication = async (req, res) => {
+  const { _id: userId } = req.fullUser;
+  const { id: applicationId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(applicationId)) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid application ID." });
+  }
+
+  const delApplication = await Application.findOneAndDelete({
+    _id: applicationId,
+    userId,
+  });
+
+  if (!delApplication) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Application not found." });
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: delApplication,
+  });
 };

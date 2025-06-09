@@ -1,25 +1,19 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState, useRef, useEffect } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import ApplicationList from "./ApplicationList";
 import SavedJobsList from "./SavedJobsList";
 
-const TabPanel = ({ children, value, index }) => {
-  return value === index ? <Box p={2}>{children}</Box> : null;
-};
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  value: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-};
-
 export default function ProfileTabs() {
   const [tabIndex, setTabIndex] = useState(0);
+  const swiperRef = useRef(null);
+
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
+    if (swiperRef.current) {
+      swiperRef.current.slideTo(newValue);
+    }
   };
 
   const handleSwiperSlideChange = (swiper) => {
@@ -27,27 +21,29 @@ export default function ProfileTabs() {
   };
 
   return (
-    <Box>
+    <Box sx={{ height: "100%", minHeight: "400px" }}>
       <Tabs value={tabIndex} onChange={handleTabChange}>
         <Tab label="My Applications" />
         <Tab label="Saved Jobs" />
       </Tabs>
 
       <Swiper
-        initialSlide={tabIndex}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
         onSlideChange={handleSwiperSlideChange}
-        onSwiper={(swiper) => swiper.slideTo(tabIndex, 0)} // sync tab change with swipe
         spaceBetween={30}
+        style={{ height: "100%", minHeight: "400px" }}
       >
-        <SwiperSlide>
-          <TabPanel value={tabIndex} index={0}>
+        <SwiperSlide style={{ height: "100%", minHeight: "400px" }}>
+          <Box p={2}>
             <ApplicationList />
-          </TabPanel>
+          </Box>
         </SwiperSlide>
-        <SwiperSlide>
-          <TabPanel value={tabIndex} index={1}>
+        <SwiperSlide style={{ height: "100%", minHeight: "400px" }}>
+          <Box p={2}>
             <SavedJobsList />
-          </TabPanel>
+          </Box>
         </SwiperSlide>
       </Swiper>
     </Box>

@@ -1,36 +1,54 @@
-import { useSavedJobs } from "../../contexts/SavedJobsContext";
-import JobCard from "../FindJobs/JobCard";
-import Loading from "../templates/Loader";
+// SavedJobsList.jsx
+import { useEffect, useState } from "react";
+import ApplicationJobCard from "./ApplicationJobCard";
+import useFetch from "../../hooks/useFetch";
+import { Toaster } from "react-hot-toast";
 
-const SavedJobsList = () => {
-  const { savedJobs, loading, removeJob } = useSavedJobs();
+function SavedJobsList() {
+  const [savedJobs, setSavedJobs] = useState([]);
 
-  if (loading) {
-    return <Loading />;
-  }
+  const {
+    isLoading,
+    error,
+    performFetch: fetchSavedJobs,
+    cancelFetch: cancelSavedJobsFetch,
+  } = useFetch("/saved-jobs", (response) => {
+    if (response.success) {
+      setSavedJobs(response.data);
+    }
+  });
+  console.log("Saved Jobs List Rendered", savedJobs);
+  useEffect(() => {
+    fetchSavedJobs();
+    return () => cancelSavedJobsFetch();
+  }, []);
+
+  if (isLoading) return <p>Loading saved jobs...</p>;
+  if (error) return <p>Error loading saved jobs: {error.message || error}</p>;
 
   return (
-    <div className="saved-job-cards">
-      {savedJobs.length === 0 ? (
-        <p className="saved-jobs-empty">
-          You haven&apos;t saved any jobs yet...
-        </p>
-      ) : (
-        savedJobs.map((job) => (
-          <div key={job._id} className="job-card">
-            <JobCard job={job} />
-            <button
-              className="remove-saved-job"
-              onClick={() => removeJob(job._id)}
-              type="button"
-            >
-              Remove from Saved Jobs
-            </button>
-          </div>
-        ))
-      )}
-    </div>
+    <>
+      <Toaster position="top-center" />
+      <div>
+        {savedJobs.length === 0 && <p>No saved jobs found.</p>}
+
+        {savedJobs.map((job) => (
+          <ApplicationJobCard
+            key={job.jobId}
+            jobTitle={job.jobTitle}
+            description={job.jobDescription}
+            jobId={job.jobId}
+            status="saved"
+            jobLocation="N/A" // or use a real value if available
+            appliedAt={job.createdAt}
+            jobExpireOn={new Date().toISOString()} // or fetch real expiry date
+            companyName="Company Name" // optionally replace with real data
+            onWithdraw={() => {}} // dummy handler if needed
+          />
+        ))}
+      </div>
+    </>
   );
-};
+}
 
 export default SavedJobsList;

@@ -74,7 +74,6 @@ const JobCard = ({ job }) => {
     setShowShareMenu(false);
   };
 
-  // NEW: handle save toggle with loading state
   const handleSaveToggle = async () => {
     setSaveLoading(true);
     try {
@@ -82,19 +81,19 @@ const JobCard = ({ job }) => {
         await removeJob(job._id);
         setFeedback("Job removed from saved!");
       } else {
-        await addJob(job);
+        console.log("Saving job with ID:", job._id); // Add this debug line
+        await addJob(job); // Pass full job object
         setFeedback("Job saved!");
       }
       setTimeout(() => setFeedback(null), 2000);
     } catch (err) {
       console.error("Error toggling save job", err);
-      setFeedback("Error saving job.");
+      setFeedback(err.message || "Error saving job.");
       setTimeout(() => setFeedback(null), 2000);
     } finally {
       setSaveLoading(false);
     }
   };
-
   return (
     <div className={styles.jobCard}>
       {feedback && <FeedbackMessage feedback={feedback} />}

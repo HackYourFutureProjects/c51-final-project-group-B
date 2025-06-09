@@ -4,51 +4,61 @@ import * as savedJobsService from "../api/saveJobs";
 
 const SavedJobsContext = createContext();
 
-export function SavedJobsProvider({ children }) {
+function SavedJobsProvider({ children }) {
   const [savedJobs, setSavedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch saved jobs from backend
   useEffect(() => {
     async function fetchSavedJobs() {
       try {
-        const jobs = await savedJobsService.getSavedJobs();
-        setSavedJobs(jobs);
-      } catch (err) {
-        console.error("Error fetching saved jobs", err);
+        const response = await savedJobsService.getSavedJobs();
+        const jobsArray = Array.isArray(response)
+          ? response
+          : Array.isArray(response?.savedJobs)
+            ? response.savedJobs
+            : [];
+        setSavedJobs(jobsArray);
+      } catch (error) {
+        console.error(error);
+        setSavedJobs([]);
       } finally {
         setLoading(false);
       }
     }
-
     fetchSavedJobs();
   }, []);
 
-  // Add a job (save)
+  // Accept the whole job object here, not just jobId
   const addJob = async (job) => {
-    try {
-      await savedJobsService.saveJob(job._id); // API expects jobId
-      setSavedJobs((prev) => {
-        if (prev.some((j) => j._id === job._id)) return prev;
-        return [...prev, job];
-      });
-    } catch (err) {
-      console.error("Error saving job", err);
+    if (!job || !job._id) {
+      throw new Error("Invalid job object or missing job._id");
     }
+    if (isSaved(job._id)) {
+      throw new Error("This job is saved already.");
+    }
+    await savedJobsService.saveJob(job._id);
+    const response = await savedJobsService.getSavedJobs();
+    const jobsArray = Array.isArray(response)
+      ? response
+      : Array.isArray(response?.savedJobs)
+        ? response.savedJobs
+        : [];
+    setSavedJobs(jobsArray);
   };
 
-  // Remove a job from saved
   const removeJob = async (jobId) => {
-    try {
-      await savedJobsService.removeSavedJob(jobId);
-      setSavedJobs((prev) => prev.filter((job) => job._id !== jobId));
-    } catch (err) {
-      console.error("Error removing job", err);
-    }
+    await savedJobsService.deleteSavedJob(jobId);
+    const response = await savedJobsService.getSavedJobs();
+    const jobsArray = Array.isArray(response)
+      ? response
+      : Array.isArray(response?.savedJobs)
+        ? response.savedJobs
+        : [];
+    setSavedJobs(jobsArray);
   };
 
-  // Check if job is saved
-  const isSaved = (jobId) => savedJobs.some((job) => job._id === jobId);
+  const isSaved = (jobId) =>
+    Array.isArray(savedJobs) && savedJobs.some((job) => job._id === jobId);
 
   return (
     <SavedJobsContext.Provider
@@ -59,10 +69,12 @@ export function SavedJobsProvider({ children }) {
   );
 }
 
-export function useSavedJobs() {
+function useSavedJobs() {
   return useContext(SavedJobsContext);
 }
 
 SavedJobsProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export { SavedJobsProvider, useSavedJobs };

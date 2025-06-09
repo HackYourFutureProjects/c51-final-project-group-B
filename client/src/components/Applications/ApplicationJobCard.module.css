@@ -187,7 +187,7 @@
 }
 
 .cancelButton {
-  background-color: var(--surface-color);
+  background-color: var(--error-color, #d32f2f);
   color: var(--btn-text-color);
 }
 
@@ -204,4 +204,57 @@
   font-size: 0.85rem;
   color: var(--text-color);
   margin-top: 4px;
+}
+.savedJobCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+  justify-content: center;
+}
+
+.jobCard {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.removeSavedJob {
+  margin-top: 12px;
+  background-color: #e53e3e;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.removeSavedJob:hover:not(:disabled) {
+  background-color: #c53030;
+}
+
+.removeSavedJob:disabled {
+  background-color: #f56565;
+  cursor: not-allowed;
+}
+
+.savedJobsEmpty {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin: 20px 0;
 }

@@ -5,7 +5,6 @@ import { GoLocation } from "react-icons/go";
 import { MdDateRange } from "react-icons/md";
 import moment from "moment";
 import styles from "./ApplicationJobCard.module.css";
-
 const ApplicationJobCard = (props) => {
   const {
     jobTitle,
@@ -17,14 +16,13 @@ const ApplicationJobCard = (props) => {
     jobId,
     description,
     onWithdraw,
+    mode = "application", // 'application' or 'saved'
   } = props;
 
   const [showConfirm, setShowConfirm] = useState(false);
-
   const capitalize = (str) =>
     str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
-  const badgeClass = styles[`badge${capitalize(status)}`] || "";
+  const badgeClass = status ? styles[`badge${capitalize(status)}`] : "";
   const isPending = status === "pending" || status === "applied";
 
   const handleWithdrawClick = () => {
@@ -44,43 +42,41 @@ const ApplicationJobCard = (props) => {
 
   return (
     <div className={styles.jobApplicationContainer1}>
-      <div className={`${styles.jobApplicationBadge} ${badgeClass}`}>
-        Status - <span className={styles.jobApplicationOffer}>{status}</span>
-      </div>
+      {mode === "application" && status && (
+        <div className={`${styles.jobApplicationBadge} ${badgeClass}`}>
+          Status - <span className={styles.jobApplicationOffer}>{status}</span>
+        </div>
+      )}
 
       <div className={styles.jobApplicationContainer}>
         <div className={styles.jobApplicationContent}>
           <div className={styles.jobApplicationHeader}>
-            {/* Mobile view - hidden in desktop */}
             <div className={styles.jobApplicationImageMobile}></div>
-
-            {/* Withdraw button stays here */}
             <div className={styles.jobApplicationCatalogWithdraw}></div>
 
-            <div
-              className={`${styles.jobApplicationWithdrawBtn} ${
-                isPending ? styles.jobApplicationWithdrawBtnActive : ""
-              }`}
-              onClick={handleWithdrawClick}
-              role="button"
-              tabIndex={isPending ? 0 : -1}
-            >
-              <div>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H15v-8h5V8zm-1 7V3.5L18.5 9zm4 12.66V16h5.66v2h-2.24l2.95 2.95-1.41 1.41L19 19.41v2.24h-2z"></path>
-                </svg>
+            {mode === "application" && (
+              <div
+                className={`${styles.jobApplicationWithdrawBtn} ${isPending ? styles.jobApplicationWithdrawBtnActive : ""}`}
+                onClick={handleWithdrawClick}
+                role="button"
+                tabIndex={isPending ? 0 : -1}
+              >
+                <div>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H15v-8h5V8zm-1 7V3.5L18.5 9zm4 12.66V16h5.66v2h-2.24l2.95 2.95-1.41 1.41L19 19.41v2.24h-2z"></path>
+                  </svg>
+                </div>
+                Withdraw application
               </div>
-              Withdraw application
-            </div>
+            )}
           </div>
         </div>
 
-        {/* Confirmation box */}
         {showConfirm && (
           <div className={styles.withdrawConfirmCard}>
             <p>
@@ -104,40 +100,45 @@ const ApplicationJobCard = (props) => {
           </div>
         )}
 
-        {/* Job Info */}
         <div className={styles.jobApplicationDetails}>
           <div>
-            {/* Removed Link here and replaced with div */}
             <div className={styles.jobApplicationTitle}>{jobTitle}</div>
 
-            <div className={styles.postedBy}>
-              Posted by <strong>{companyName}</strong>
-            </div>
-
-            <div className={styles.jobApplicationDate}>
-              <div className={styles.jobApplicationTime}>
-                Applied {moment(appliedAt).fromNow()}
+            {companyName && (
+              <div className={styles.postedBy}>
+                Posted by <strong>{companyName}</strong>
               </div>
-            </div>
+            )}
+
+            {appliedAt && (
+              <div className={styles.jobApplicationDate}>
+                <div className={styles.jobApplicationTime}>
+                  Applied {moment(appliedAt).fromNow()}
+                </div>
+              </div>
+            )}
 
             <div className={styles.jobApplicationItems}>
-              <div className={styles.jobApplicationItem}>
-                <GoLocation size={15} style={{ marginRight: "5px" }} />
-                {jobLocation}
-              </div>
-              <div className={styles.jobApplicationItem}>
-                <MdDateRange size={16} style={{ marginRight: "5px" }} />
-                {moment(jobExpireOn).format("MMMM Do, YYYY")}
-              </div>
+              {jobLocation && (
+                <div className={styles.jobApplicationItem}>
+                  <GoLocation size={15} style={{ marginRight: "5px" }} />
+                  {jobLocation}
+                </div>
+              )}
+              {jobExpireOn && (
+                <div className={styles.jobApplicationItem}>
+                  <MdDateRange size={16} style={{ marginRight: "5px" }} />
+                  {moment(jobExpireOn).format("MMMM Do, YYYY")}
+                </div>
+              )}
             </div>
           </div>
-
-          {/* No longer needed placeholder for logo */}
           <div className={styles.jobApplicationImage}></div>
         </div>
 
         <div className={styles.jobApplicationDescription}>
-          {description || `${companyName} is looking to hire a ${jobTitle}.`}
+          {description ||
+            `${companyName ? companyName : "This company"} is looking to hire a ${jobTitle}.`}
         </div>
 
         <div className={styles.showMoreLess}>
@@ -149,17 +150,17 @@ const ApplicationJobCard = (props) => {
     </div>
   );
 };
-
 ApplicationJobCard.propTypes = {
   jobTitle: PropTypes.string.isRequired,
-  jobLocation: PropTypes.string.isRequired,
-  appliedAt: PropTypes.string.isRequired,
-  jobExpireOn: PropTypes.string.isRequired,
-  companyName: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  jobLocation: PropTypes.string,
+  appliedAt: PropTypes.string,
+  jobExpireOn: PropTypes.string,
+  companyName: PropTypes.string,
+  status: PropTypes.string,
   jobId: PropTypes.string.isRequired,
   description: PropTypes.string,
   onWithdraw: PropTypes.func,
+  mode: PropTypes.oneOf(["application", "saved"]),
 };
 
 export default ApplicationJobCard;

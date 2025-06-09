@@ -1,22 +1,21 @@
 import { httpClient } from "./client";
 
-// Get all saved jobs
+// GET /api/saved-jobs
 export async function getSavedJobs() {
   return httpClient("/saved-jobs", {
     method: "GET",
   });
 }
 
-// Save a job
+// POST /api/saved-jobs/:id
 export async function saveJob(jobId) {
-  return httpClient("/saved-jobs", {
+  return httpClient(`/saved-jobs/${jobId}`, {
     method: "POST",
-    body: { jobId },
   });
 }
 
-// Remove a saved job
-export async function removeSavedJob(jobId) {
+// DELETE /api/saved-jobs/:id
+export async function deleteSavedJob(jobId) {
   return httpClient(`/saved-jobs/${jobId}`, {
     method: "DELETE",
   });

@@ -5,18 +5,21 @@ import { useState, useRef } from "react";
 import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import FeedbackMessage from "../UserPersonalProfile/Shared/SettingsSections/FeedbackMessage";
 import PropTypes from "prop-types";
+import { useSavedJobs } from "../../contexts/SavedJobsContext";
 
 const JobCard = ({ job }) => {
   const navigate = useNavigate();
   const [showApplyModal, setShowApplyModal] = useState(false);
-
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const shareBtnRef = useRef(null);
 
+  const { isSaved, addJob, removeJob } = useSavedJobs();
+  const saved = isSaved(job._id);
+
   if (!job) return null;
 
-  // checks
+  // Fallback values
   const title = job.title || "Untitled";
   const companyName =
     job.postedBy?.companyProfile?.companyName || "Unknown Company";
@@ -36,24 +39,15 @@ const JobCard = ({ job }) => {
         ? "Active"
         : "Closed";
 
-  // action handlers
+  // Action handlers
   const handleView = () => {
-    if (job._id) {
-      navigate(`/jobs/${job._id}`);
-    }
+    if (job._id) navigate(`/jobs/${job._id}`);
   };
 
-  const handleApply = () => {
-    setShowApplyModal(true);
-  };
+  const handleApply = () => setShowApplyModal(true);
+  const handleCloseApply = () => setShowApplyModal(false);
 
-  const handleCloseApply = () => {
-    setShowApplyModal(false);
-  };
-
-  const handleShareClick = () => {
-    setShowShareMenu((prev) => !prev);
-  };
+  const handleShareClick = () => setShowShareMenu((prev) => !prev);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${window.location.origin}/jobs/${job._id}`);
@@ -69,9 +63,19 @@ const JobCard = ({ job }) => {
     );
     setShowShareMenu(false);
   };
+
+  const handleSaveToggle = () => {
+    if (saved) {
+      removeJob(job._id);
+    } else {
+      addJob(job);
+    }
+  };
+
   return (
     <div className={styles.jobCard}>
       {feedback && <FeedbackMessage feedback={feedback} />}
+
       <div className={styles.jobCardHeader}>
         <div>
           <div className={styles.jobTitle}>{title}</div>
@@ -85,14 +89,20 @@ const JobCard = ({ job }) => {
             )}
           </div>
         </div>
+
         <div className={styles.jobCardHeaderIcons}>
           <button
             className={styles.saveIconBtn}
-            aria-label="Save job"
+            aria-label={saved ? "Unsave job" : "Save job"}
+            onClick={handleSaveToggle}
             type="button"
           >
-            <MdBookmarkBorder className={styles.saveIcon} />
+            <MdBookmarkBorder
+              className={styles.saveIcon}
+              style={{ color: saved ? "#0070f3" : "inherit" }}
+            />
           </button>
+
           <div style={{ position: "relative", display: "inline-block" }}>
             <button
               className={styles.shareIconBtn}
@@ -116,8 +126,10 @@ const JobCard = ({ job }) => {
           </div>
         </div>
       </div>
+
       <div className={styles.companyName}>{companyName}</div>
       <div className={styles.jobDesc}>{desc}</div>
+
       <div className={styles.jobStatusRow}>
         <span className={isActive ? styles.activeStatus : styles.closedStatus}>
           {statusText}
@@ -130,6 +142,7 @@ const JobCard = ({ job }) => {
           ))}
         </div>
       </div>
+
       <div className={styles.jobCardFooter}>
         <button className={styles.jobCardBtnPrimary} onClick={handleApply}>
           Apply
@@ -138,14 +151,13 @@ const JobCard = ({ job }) => {
           View
         </button>
       </div>
+
       {showApplyModal && (
         <ApplyModalForm jobId={job._id} onClose={handleCloseApply} />
       )}
     </div>
   );
 };
-
-export default JobCard;
 
 JobCard.propTypes = {
   job: PropTypes.shape({
@@ -163,3 +175,5 @@ JobCard.propTypes = {
     isActive: PropTypes.bool,
   }).isRequired,
 };
+
+export default JobCard;

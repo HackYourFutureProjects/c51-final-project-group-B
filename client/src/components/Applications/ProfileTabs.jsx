@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { Tabs, Tab, Box } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-
-import SavedJobs from "./SavedJobs";
 import ApplicationList from "./ApplicationList";
+import SavedJobsList from "./SavedJobsList";
 
 const TabPanel = ({ children, value, index }) => {
   return value === index ? <Box p={2}>{children}</Box> : null;
@@ -48,7 +47,7 @@ export default function ProfileTabs() {
         </SwiperSlide>
         <SwiperSlide>
           <TabPanel value={tabIndex} index={1}>
-            <SavedJobs />
+            <SavedJobsList />
           </TabPanel>
         </SwiperSlide>
       </Swiper>

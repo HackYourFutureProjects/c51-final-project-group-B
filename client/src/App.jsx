@@ -12,6 +12,7 @@ import Login from "./pages/Forms/Login";
 import { PublicRoute } from "./routes/PublicRoute";
 import JobSeekerRoute from "./routes/JobSeekerRoute";
 import ProfilePage from "./pages/UserProfile/ProfilePage";
+import CompanyProfile from "./pages/Profile/Company/CompanyProfile";
 import JobDetail from "./pages/JobDetail/JobDetail";
 import ErrorArea from "./pages/Error/ErrorArea";
 import SigninForm from "./components/forms/SigninForm";
@@ -20,7 +21,10 @@ import ResetPasswordForm from "./components/forms/ResetPasswordForm";
 import SignupForm from "./components/forms/SignupForm";
 import VerifyUser from "./components/forms/VerifyUser";
 import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
+
 import PostJob from "./pages/PostJob/PostJob";
+import Feed from "./pages/Feed/Feed";
+
 
 const App = () => {
   return (
@@ -48,6 +52,11 @@ const App = () => {
           <Route
             path="/users/candidate-profile/:id"
             element={<CandidateProfile />}
+          ></Route>
+
+          <Route
+            path="/users/company-profile/:id"
+            element={<CompanyProfile />}
           ></Route>
 
           {/* the login and register route are only accessible if the user is not authenticated  */}
@@ -114,9 +123,19 @@ const App = () => {
               </PublicRoute>
             }
           />
+
+          <Route path="/feed" element={<Feed />} />
           <Route path="*" element={<ErrorArea />} />
         </Routes>
-        <Toaster position="top-right" />
+        <Toaster
+          position="top-right"
+          duration={3000}
+          toastOptions={{
+            style: {
+              marginTop: "3rem",
+            },
+          }}
+        />
       </main>
 
       <Footer />

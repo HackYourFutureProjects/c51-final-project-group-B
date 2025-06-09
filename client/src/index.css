@@ -8,6 +8,7 @@
   --primary-color-dark: #4f46e5;
   --secondary-color: #22c55e;
   --accent-color: #f43f5e;
+  --secondary-accent-color: #fbbf24;
   --text-color: #374151;
   --text-secondary-color: #6b7280;
   --heading-color: #111827;
@@ -15,10 +16,10 @@
   --border-color: #e5e7eb;
 
   /* Feedback Colors */
-  --success-color: #38a169;
-  --error-color: #e53e3e;
-  --warning-color: #f6ad55;
-  --info-color: #4299e1;
+  --success-color: rgba(56, 161, 105, 0.6); /* #38a169 */
+  --error-color: rgba(229, 62, 62, 0.6); /* #e53e3e */
+  --warning-color: rgba(246, 173, 85, 0.6); /* #f6ad55 */
+  --info-color: rgba(66, 153, 225, 0.6); /* #4299e1 */
 
   /* Button text color */
   --btn-text-color: #fff;
@@ -232,6 +233,32 @@ body {
 .badge-warning {
   background-color: var(--warning-color);
 }
+
+/* Configure Sonner globally with CSS Classes */
+[data-sonner-toast][data-type="success"] {
+  background-color: var(--success-color) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
+}
+
+[data-sonner-toast][data-type="error"] {
+  background-color: var(--error-color) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
+}
+
+[data-sonner-toast][data-type="info"] {
+  background-color: var(--info-color) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
+}
+
+/* This is because somewhere in our style we 
+have by tag section and is affecting the toast  */
+/* [data-sonner-toast] section {
+  background: none !important;
+  background-color: transparent !important;
+} */
 
 /* Avatar Styles: use this as class name when you to show the avatar on cards or apllicaitons etc.. */
 .Avatar {

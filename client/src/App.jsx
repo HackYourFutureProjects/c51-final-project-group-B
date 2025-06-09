@@ -25,7 +25,6 @@ import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
 import PostJob from "./pages/PostJob/PostJob";
 import Feed from "./pages/Feed/Feed";
 
-
 const App = () => {
   return (
     <>

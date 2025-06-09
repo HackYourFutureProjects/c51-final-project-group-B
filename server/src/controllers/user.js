@@ -33,7 +33,7 @@ export async function register(req, res) {
     if (await User.findOne({ email })) {
       return res.status(400).json({
         success: false,
-        msg: "Email already registered.",
+        msg: "Registration failed. Please check your inputs and try again.",
       });
     }
 

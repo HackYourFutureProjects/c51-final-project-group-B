@@ -1,13 +1,14 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import css from "./form.module.css";
 import ToggleVisibility from "./ToggleVisibility";
-
-import { asyncHandler } from "../../util/asyncHandler.js";
+import { apiRequest } from "../../util/apiRequest";
+import Loader from "../templates/Loader";
 
 const ResetPasswordForm = () => {
+  const [loading, setLoading] = useState(false);
   const { token } = useParams();
   const navigate = useNavigate();
 
@@ -18,36 +19,22 @@ const ResetPasswordForm = () => {
     formState: { errors },
   } = useForm();
 
-  const resetPassword = async (data) => {
-    const res = await fetch(`/api/auth/reset-password/${token}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+  const resetPassword = (data) => {
+    apiRequest({
+      url: `/api/auth/reset-password/${token}`,
+      body: {
         password: data.password,
         confirmPassword: data.confirmPassword,
-      }),
-    });
-
-    if (!res.ok) {
-      const error = await res.json();
-      throw new Error(error.message || "Password reset failed.");
-    }
-
-    toast.success("Password successfully reset.", {
-      style: {
-        backgroundColor: "var(--success-color)",
-        color: "#fff",
-        border: "1px solid transparent",
       },
+      setLoading,
+      successMessage: "Password successfully reset.",
+      onSuccess: () => navigate("/signin"),
     });
-    navigate("/signin");
   };
-
-  const onSubmit = asyncHandler(resetPassword);
 
   return (
     <div className={css.container}>
-      <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
+      <form className={css.form} onSubmit={handleSubmit(resetPassword)}>
         <h2 className={css.title}>Reset Password</h2>
 
         <div className={css.inputGroup}>
@@ -86,8 +73,8 @@ const ResetPasswordForm = () => {
           )}
         </div>
 
-        <button className={css.submit} type="submit">
-          Reset Password
+        <button type="submit" className={css.submit} disabled={loading}>
+          {loading ? <Loader /> : "Reset Password"}
         </button>
 
         <div className={css.linkContainer}>

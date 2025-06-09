@@ -28,7 +28,7 @@
   background: var(--bg-color);
   font-family: var(--text-font-family);
   border-bottom: 1px solid var(--border-color);
-  height: var(--navbar-height);
+  height: var(--navbar-height, 65px);
   position: relative;
 }
 
@@ -193,7 +193,7 @@
 .dropDownMenu {
   position: absolute;
   top: calc(100% - 5px);
-  right: -3px;
+  right: -70px;
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: var(--default-xl-border-radius);

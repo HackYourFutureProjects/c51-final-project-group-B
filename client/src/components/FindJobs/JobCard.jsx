@@ -1,17 +1,18 @@
 import styles from "./findjob.module.css";
-import { MdSend, MdBookmarkBorder } from "react-icons/md";
+import { MdSend, MdBookmarkBorder, MdBookmark } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import FeedbackMessage from "../UserPersonalProfile/Shared/SettingsSections/FeedbackMessage";
 import PropTypes from "prop-types";
-import { useSavedJobs } from "../../contexts/SavedJobsContext";
+import { useSavedJobs } from "../../contexts/SavedJobsContext"; // import saved jobs context
 
 const JobCard = ({ job }) => {
   const navigate = useNavigate();
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [saveLoading, setSaveLoading] = useState(false); // loading state for save button
   const shareBtnRef = useRef(null);
 
   const { isSaved, addJob, removeJob } = useSavedJobs();
@@ -19,7 +20,7 @@ const JobCard = ({ job }) => {
 
   if (!job) return null;
 
-  // Fallback values
+  // Fallback / computed values
   const title = job.title || "Untitled";
   const companyName =
     job.postedBy?.companyProfile?.companyName || "Unknown Company";
@@ -39,15 +40,24 @@ const JobCard = ({ job }) => {
         ? "Active"
         : "Closed";
 
-  // Action handlers
+  // action handlers
   const handleView = () => {
-    if (job._id) navigate(`/jobs/${job._id}`);
+    if (job._id) {
+      navigate(`/jobs/${job._id}`);
+    }
   };
 
-  const handleApply = () => setShowApplyModal(true);
-  const handleCloseApply = () => setShowApplyModal(false);
+  const handleApply = () => {
+    setShowApplyModal(true);
+  };
 
-  const handleShareClick = () => setShowShareMenu((prev) => !prev);
+  const handleCloseApply = () => {
+    setShowApplyModal(false);
+  };
+
+  const handleShareClick = () => {
+    setShowShareMenu((prev) => !prev);
+  };
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${window.location.origin}/jobs/${job._id}`);
@@ -64,18 +74,30 @@ const JobCard = ({ job }) => {
     setShowShareMenu(false);
   };
 
-  const handleSaveToggle = () => {
-    if (saved) {
-      removeJob(job._id);
-    } else {
-      addJob(job);
+  // NEW: handle save toggle with loading state
+  const handleSaveToggle = async () => {
+    setSaveLoading(true);
+    try {
+      if (saved) {
+        await removeJob(job._id);
+        setFeedback("Job removed from saved!");
+      } else {
+        await addJob(job);
+        setFeedback("Job saved!");
+      }
+      setTimeout(() => setFeedback(null), 2000);
+    } catch (err) {
+      console.error("Error toggling save job", err);
+      setFeedback("Error saving job.");
+      setTimeout(() => setFeedback(null), 2000);
+    } finally {
+      setSaveLoading(false);
     }
   };
 
   return (
     <div className={styles.jobCard}>
       {feedback && <FeedbackMessage feedback={feedback} />}
-
       <div className={styles.jobCardHeader}>
         <div>
           <div className={styles.jobTitle}>{title}</div>
@@ -89,20 +111,23 @@ const JobCard = ({ job }) => {
             )}
           </div>
         </div>
-
         <div className={styles.jobCardHeaderIcons}>
           <button
             className={styles.saveIconBtn}
             aria-label={saved ? "Unsave job" : "Save job"}
             onClick={handleSaveToggle}
+            disabled={saveLoading}
             type="button"
           >
-            <MdBookmarkBorder
-              className={styles.saveIcon}
-              style={{ color: saved ? "#0070f3" : "inherit" }}
-            />
+            {saved ? (
+              <MdBookmark
+                className={styles.saveIcon}
+                style={{ color: "#0070f3" }}
+              />
+            ) : (
+              <MdBookmarkBorder className={styles.saveIcon} />
+            )}
           </button>
-
           <div style={{ position: "relative", display: "inline-block" }}>
             <button
               className={styles.shareIconBtn}
@@ -126,10 +151,8 @@ const JobCard = ({ job }) => {
           </div>
         </div>
       </div>
-
       <div className={styles.companyName}>{companyName}</div>
       <div className={styles.jobDesc}>{desc}</div>
-
       <div className={styles.jobStatusRow}>
         <span className={isActive ? styles.activeStatus : styles.closedStatus}>
           {statusText}
@@ -142,7 +165,6 @@ const JobCard = ({ job }) => {
           ))}
         </div>
       </div>
-
       <div className={styles.jobCardFooter}>
         <button className={styles.jobCardBtnPrimary} onClick={handleApply}>
           Apply
@@ -151,7 +173,6 @@ const JobCard = ({ job }) => {
           View
         </button>
       </div>
-
       {showApplyModal && (
         <ApplyModalForm jobId={job._id} onClose={handleCloseApply} />
       )}

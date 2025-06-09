@@ -17,11 +17,12 @@ const SavedJobsList = () => {
         </p>
       ) : (
         savedJobs.map((job) => (
-          <div key={job.id} className="job-card">
+          <div key={job._id} className="job-card">
             <JobCard job={job} />
             <button
               className="remove-saved-job"
-              onClick={() => removeJob(job.id)}
+              onClick={() => removeJob(job._id)}
+              type="button"
             >
               Remove from Saved Jobs
             </button>

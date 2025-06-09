@@ -17,8 +17,7 @@ TabPanel.propTypes = {
 };
 
 export default function ProfileTabs() {
-  const [tabIndex, setTabIndex] = useState(0); // Start on My Applications
-
+  const [tabIndex, setTabIndex] = useState(0);
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };

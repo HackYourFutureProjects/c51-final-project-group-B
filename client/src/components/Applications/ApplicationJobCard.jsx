@@ -1,50 +1,77 @@
-import { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { GoLocation } from "react-icons/go";
 import { MdDateRange } from "react-icons/md";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
+import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
+import ConfirmDialog from "./ConfirmDialog";
 import styles from "./ApplicationJobCard.module.css";
-const ApplicationJobCard = (props) => {
-  const {
-    jobTitle,
-    jobLocation,
-    appliedAt,
-    jobExpireOn,
-    companyName,
-    status,
-    jobId,
-    description,
-    onWithdraw,
-    mode = "application", // 'application' or 'saved'
-  } = props;
+import { useState } from "react";
 
+const ApplicationJobCard = ({
+  jobTitle,
+  jobLocation,
+  appliedAt,
+  jobExpireOn,
+  companyName,
+  status = "pending",
+  jobId,
+  description,
+  onWithdraw,
+  mode = "application",
+  createdAt,
+  jobIsActive,
+  jobType,
+  onOpenApplyModal, // callback for Apply button click
+}) => {
   const [showConfirm, setShowConfirm] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
+
   const capitalize = (str) =>
-    str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
+
   const badgeClass = status ? styles[`badge${capitalize(status)}`] : "";
   const isPending = status === "pending" || status === "applied";
 
   const handleWithdrawClick = () => {
-    if (isPending) setShowConfirm(true);
+    if (mode === "application" && isPending) {
+      setConfirmAction("withdraw");
+      setShowConfirm(true);
+    }
   };
 
-  const handleConfirmWithdraw = () => {
-    if (typeof onWithdraw === "function") {
-      onWithdraw(jobId);
+  const handleDeleteClick = () => {
+    if (mode === "saved") {
+      setConfirmAction("delete");
+      setShowConfirm(true);
+    }
+  };
+
+  const handleConfirm = () => {
+    if (typeof onWithdraw === "function" && confirmAction) {
+      onWithdraw(jobId, confirmAction);
     }
     setShowConfirm(false);
   };
 
-  const handleCancelWithdraw = () => {
-    setShowConfirm(false);
-  };
+  const handleCancel = () => setShowConfirm(false);
+
+  // Determine badge for saved jobs
+  const savedStatus = jobIsActive ? "Active" : "Closed";
+  const savedBadgeClass = styles[`badge${savedStatus}`];
 
   return (
     <div className={styles.jobApplicationContainer1}>
       {mode === "application" && status && (
         <div className={`${styles.jobApplicationBadge} ${badgeClass}`}>
           Status - <span className={styles.jobApplicationOffer}>{status}</span>
+        </div>
+      )}
+
+      {mode === "saved" && (
+        <div className={`${styles.jobApplicationBadge} ${savedBadgeClass}`}>
+          {savedStatus}
         </div>
       )}
 
@@ -56,65 +83,69 @@ const ApplicationJobCard = (props) => {
 
             {mode === "application" && (
               <div
-                className={`${styles.jobApplicationWithdrawBtn} ${isPending ? styles.jobApplicationWithdrawBtnActive : ""}`}
+                className={`${styles.jobApplicationWithdrawBtn} ${
+                  isPending ? styles.jobApplicationWithdrawBtnActive : ""
+                }`}
                 onClick={handleWithdrawClick}
                 role="button"
                 tabIndex={isPending ? 0 : -1}
               >
-                <div>
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    width="20"
-                    height="20"
-                  >
-                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H15v-8h5V8zm-1 7V3.5L18.5 9zm4 12.66V16h5.66v2h-2.24l2.95 2.95-1.41 1.41L19 19.41v2.24h-2z"></path>
-                  </svg>
-                </div>
+                <FileOpenIcon
+                  style={{ width: 20, height: 20, marginRight: 6 }}
+                />
                 Withdraw application
+              </div>
+            )}
+
+            {mode === "saved" && (
+              <div
+                className={styles.jobApplicationDeleteBtn}
+                onClick={handleDeleteClick}
+                role="button"
+                tabIndex={0}
+              >
+                <DeleteIcon style={{ width: 20, height: 20 }} />
               </div>
             )}
           </div>
         </div>
 
         {showConfirm && (
-          <div className={styles.withdrawConfirmCard}>
-            <p>
-              Are you sure you want to withdraw your application from{" "}
-              <strong>{jobTitle}</strong>?
-            </p>
-            <div className={styles.withdrawButtons}>
-              <button
-                className={styles.cancelButton}
-                onClick={handleCancelWithdraw}
-              >
-                Cancel
-              </button>
-              <button
-                className={styles.confirmButton}
-                onClick={handleConfirmWithdraw}
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
+          <ConfirmDialog
+            action={confirmAction}
+            jobTitle={jobTitle}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+          />
         )}
 
         <div className={styles.jobApplicationDetails}>
           <div>
             <div className={styles.jobApplicationTitle}>{jobTitle}</div>
+            {/* Job type below title */}
+            {jobType && <div className={styles.jobType}>{jobType}</div>}
 
-            {companyName && (
-              <div className={styles.postedBy}>
-                Posted by <strong>{companyName}</strong>
-              </div>
+            {/* Application Mode: Company & Applied time on separate lines */}
+            {mode === "application" && (
+              <>
+                {companyName && (
+                  <div className={styles.postedBy}>
+                    Posted by <strong>{companyName}</strong>
+                  </div>
+                )}
+                {appliedAt && (
+                  <div className={styles.jobApplicationTime}>
+                    Applied {moment(appliedAt).fromNow()}
+                  </div>
+                )}
+              </>
             )}
 
-            {appliedAt && (
-              <div className={styles.jobApplicationDate}>
-                <div className={styles.jobApplicationTime}>
-                  Applied {moment(appliedAt).fromNow()}
-                </div>
+            {/* Saved Mode: Company & Posted time on the same line */}
+            {mode === "saved" && companyName && createdAt && (
+              <div className={styles.postedBy}>
+                Posted by <strong>{companyName}</strong> •{" "}
+                {moment(createdAt).fromNow()}
               </div>
             )}
 
@@ -138,29 +169,61 @@ const ApplicationJobCard = (props) => {
 
         <div className={styles.jobApplicationDescription}>
           {description ||
-            `${companyName ? companyName : "This company"} is looking to hire a ${jobTitle}.`}
+            `${companyName ?? "This company"} is looking to hire a ${jobTitle}.`}
         </div>
 
         <div className={styles.showMoreLess}>
-          <Link to={`/job/${jobId}`} className={styles.seeMoreLink}>
+          <Link to={`/jobs/${jobId}`} className={styles.seeMoreLink}>
             See More
           </Link>
+
+          {mode === "saved" && (
+            <Link
+              to={jobIsActive ? "#" : `/jobs/${jobId}/apply`}
+              className={`${styles.applyLink} ${
+                jobIsActive ? styles.applyLinkActive : styles.applyLinkInactive
+              }`}
+              onClick={(e) => {
+                if (jobIsActive) {
+                  e.preventDefault();
+                  if (typeof onOpenApplyModal === "function") {
+                    onOpenApplyModal();
+                  }
+                }
+              }}
+              tabIndex={jobIsActive ? 0 : -1}
+              aria-disabled={!jobIsActive}
+            >
+              Apply Now
+            </Link>
+          )}
         </div>
       </div>
     </div>
   );
 };
+
 ApplicationJobCard.propTypes = {
   jobTitle: PropTypes.string.isRequired,
   jobLocation: PropTypes.string,
   appliedAt: PropTypes.string,
   jobExpireOn: PropTypes.string,
   companyName: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.oneOf([
+    "pending",
+    "accepted",
+    "rejected",
+    "Active",
+    "closed",
+  ]),
   jobId: PropTypes.string.isRequired,
   description: PropTypes.string,
   onWithdraw: PropTypes.func,
   mode: PropTypes.oneOf(["application", "saved"]),
+  createdAt: PropTypes.string,
+  jobIsActive: PropTypes.bool,
+  jobType: PropTypes.string,
+  onOpenApplyModal: PropTypes.func,
 };
 
 export default ApplicationJobCard;

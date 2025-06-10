@@ -3,10 +3,13 @@
   flex-direction: column;
   background-color: var(--surface-color);
   border-radius: var(--default-xxl-border-radius);
-  margin: 20px;
+  margin: 20px 0 20px 20px;
   box-shadow: 0 2px 17px 1px var(--default-shadow-color);
+  max-width: 900px;
+  padding: 12px;
 }
 
+/* Status badge */
 .jobApplicationBadge {
   margin-bottom: 10px;
   background-color: #00796b;
@@ -26,13 +29,15 @@
   text-transform: capitalize;
 }
 
-/* Status badge variants */
-.badgeAccepted {
-  background-color: var(--surface-color);
-  color: var(--success-color, #00796b);
+/* Status variants */
+.badgeAccepted,
+.badgeActive {
+  background-color: var(--success-color, #00796b);
+  color: var(--text-color);
 }
 
-.badgePending {
+.badgePending,
+.badgeClosed {
   background-color: var(--warning-color);
   color: var(--text-color);
 }
@@ -42,8 +47,9 @@
   color: var(--error-color, #c62828);
 }
 
+/* Inner container */
 .jobApplicationContainer {
-  padding: 16px;
+  padding: 12px;
 }
 
 .jobApplicationContent {
@@ -55,17 +61,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
-}
-
-.jobApplicationImageMobile {
-  display: none;
-}
-
-.jobApplicationCatalogWithdraw {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  gap: 8px;
 }
 
 .jobApplicationWithdrawBtn {
@@ -75,19 +71,38 @@
   color: #888;
   cursor: not-allowed;
   pointer-events: none;
+  font-size: 13px;
+  padding: 6px 8px;
 }
 
 .jobApplicationWithdrawBtnActive {
   color: var(--error-color, #c62828);
   font-weight: var(--font-weight-medium);
-  font-size: 14px;
   cursor: pointer;
   pointer-events: auto;
+  font-size: 13px;
+  padding: 6px 8px;
   transition: color 0.2s ease;
 }
 
 .jobApplicationWithdrawBtnActive:hover {
   color: var(--error-color, #b71c1c);
+}
+
+.jobApplicationDeleteBtn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #d32f2f;
+  margin-left: auto;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 13px;
+}
+
+.jobApplicationDeleteBtn:hover {
+  background-color: rgba(211, 47, 47, 0.1);
 }
 
 .jobApplicationDetails {
@@ -98,10 +113,9 @@
 }
 
 .jobApplicationTitle {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: var(--font-weight-semibold);
   color: var(--text-color);
-  text-decoration: none;
 }
 
 .jobApplicationDate {
@@ -110,25 +124,21 @@
 }
 
 .jobApplicationTime {
-  display: inline;
-}
-
-.jobApplicationCompany {
-  color: var(--primary-color);
-  text-decoration: none;
-  margin-left: 4px;
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-top: 4px;
 }
 
 .jobApplicationItems {
   display: flex;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .jobApplicationItem {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-color);
 }
 
@@ -136,45 +146,86 @@
   width: 100px;
 }
 
-.image {
-  width: 100%;
-  height: auto;
-}
-
 .jobApplicationDescription {
-  margin-top: 16px;
-  font-size: 14px;
+  margin-top: 12px;
+  font-size: 13px;
   color: var(--text-color);
 }
 
+/* Show More and Apply Button container */
 .showMoreLess {
   margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px; /* space between See More and Apply */
+  justify-content: flex-start;
 }
 
-.seeMoreLink {
+.seeMoreLink,
+.applyLink {
   text-decoration: none;
   color: var(--primary-color);
   font-weight: var(--font-weight-medium);
-}
-.withdrawConfirmCard {
-  background-color: var(--surface-color);
-  border: 1px solid var(--warning-color, #ffcc80);
-  border-radius: 10px;
-  padding: 16px;
-  margin-top: 12px;
-  font-size: 14px;
-  color: var(--text-color);
-  box-shadow: var(--box-shadow-md);
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
 }
 
-.withdrawConfirmCard p {
-  margin: 0 0 12px;
+.seeMoreLink:hover {
+  text-decoration: underline;
+}
+
+.applyLinkInactive {
+  background-color: var(--disabled-bg, #ccc);
+  color: var(--disabled-text, #666);
+  cursor: not-allowed;
+}
+
+.postedBy {
+  font-size: 13px;
+  color: var(--text-color);
+  margin-top: 6px;
+}
+
+.jobType {
+  font-size: 12px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+  margin-top: 4px;
+}
+
+/* --- Confirmation Dialog Popup --- */
+
+.withdrawConfirmCard {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--surface-color);
+  border: 1px solid var(--warning-color, #ffcc80);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 14px;
+  color: var(--text-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 280px; /* smaller width */
+  z-index: 1001;
+}
+
+/* Overlay behind popup */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
 }
 
 .withdrawButtons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: flex-end;
+  margin-top: 16px;
 }
 
 .cancelButton,
@@ -194,67 +245,4 @@
 .confirmButton {
   background-color: var(--error-color, #d32f2f);
   color: var(--btn-text-color);
-}
-.postedBy {
-  margin-top: 6px;
-  font-size: 0.9rem;
-  color: var(--text-color);
-}
-.jobApplicationTime {
-  font-size: 0.85rem;
-  color: var(--text-color);
-  margin-top: 4px;
-}
-.savedJobCards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  padding: 16px;
-  justify-content: center;
-}
-
-.jobCard {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  width: 300px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.removeSavedJob {
-  margin-top: 12px;
-  background-color: #e53e3e;
-  border: none;
-  padding: 10px;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.removeSavedJob:hover:not(:disabled) {
-  background-color: #c53030;
-}
-
-.removeSavedJob:disabled {
-  background-color: #f56565;
-  cursor: not-allowed;
-}
-
-.savedJobsEmpty {
-  font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-top: 40px;
-}
-
-.error {
-  color: red;
-  text-align: center;
-  margin: 20px 0;
 }

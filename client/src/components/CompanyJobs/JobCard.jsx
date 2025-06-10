@@ -7,7 +7,6 @@ const JobCard = ({ job, onJobClick }) => {
   const {
     title,
     location,
-    resumeUrl,
     type,
     companyProfile,
     profilePhoto,
@@ -55,24 +54,6 @@ const JobCard = ({ job, onJobClick }) => {
           </span>
         </div>
 
-        <div>
-          {resumeUrl && (
-            <div className={styles.resumeLink}>
-              <a
-                href={resumeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                View current CV
-              </a>
-            </div>
-          )}
-        </div>
-
         <div className={styles.jobFooter}>
           <span className={styles.jobType}>{type}</span>
           <button
@@ -101,7 +82,6 @@ JobCard.propTypes = {
     isActive: PropTypes.bool,
     expireOn: PropTypes.string,
     applicationCount: PropTypes.number,
-    resumeUrl: PropTypes.string,
   }).isRequired,
   onJobClick: PropTypes.func.isRequired,
 };

@@ -6,7 +6,6 @@ import styles from "./aplication-list.module.css";
 
 const AplicationList = ({ id }) => {
   const [applicants, setApplicants] = useState([]);
-
   const { performFetch } = useFetch(`/applications/${id}`, (response) => {
     setApplicants(response?.data || []);
   });

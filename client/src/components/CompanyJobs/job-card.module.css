@@ -53,14 +53,6 @@
   font-size: 0.95rem;
 }
 
-.resumeLink {
-  text-decoration: none;
-  color: var(--primary-color);
-  font-weight: var(--font-weight-semibold);
-  display: flex;
-  justify-content: end;
-}
-
 .locationIcon {
   font-size: 1rem;
 }

@@ -89,3 +89,11 @@
   background-color: var(--secondary-color);
   color: var(--btn-text-color);
 }
+
+.resumeLink {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  justify-content: end;
+}

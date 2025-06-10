@@ -4,7 +4,7 @@ import {
   applications,
   getJobApplicants,
   updateApplicationStatus,
-  widthDrawApplication,
+  withDrawApplication,
 } from "../controllers/applications.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -36,7 +36,7 @@ applicationsRouter.delete(
   "/:id",
   authMiddleware,
   asyncHandler(validateUserType("seeker")),
-  asyncHandler(widthDrawApplication),
+  asyncHandler(withDrawApplication),
 );
 
 // PATXH /api/applications/:id/status ->  Updates the status of an application

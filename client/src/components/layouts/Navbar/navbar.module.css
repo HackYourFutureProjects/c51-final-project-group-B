@@ -193,7 +193,7 @@
 .dropDownMenu {
   position: absolute;
   top: calc(100% - 5px);
-  right: -70px;
+  right: var(--dropdown-menu-offset, -70px);
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: var(--default-xl-border-radius);

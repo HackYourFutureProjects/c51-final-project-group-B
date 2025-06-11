@@ -249,6 +249,7 @@ const Navbar = () => {
             className={styles.hamburgerButton}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
           </button>

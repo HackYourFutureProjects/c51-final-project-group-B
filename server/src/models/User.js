@@ -75,6 +75,19 @@ const UserSchema = new Schema(
       type: Boolean,
       required: [true, "You must agree to the Terms and Privacy Policy"],
       default: false,
+      validate: {
+        validator: (v) => v === true,
+        message: "You must explicitly agree to the Terms and Privacy Policy.",
+      },
+    },
+    agreedToPrivacy: {
+      type: Boolean,
+      required: [true, "You must agree to the Privacy Policy"],
+      default: false,
+      validate: {
+        validator: (v) => v === true,
+        message: "You must explicitly agree to the Privacy Policy.",
+      },
     },
   },
   BaseOptions,
@@ -89,6 +102,7 @@ UserSchema.statics.validateUser = function (userObj) {
     "location",
     "profilePhoto",
     "agreedToTerms",
+    "agreedToPrivacy",
   ];
   const validatedMsg = validateAllowedFields(userObj, allowedKeys);
   if (validatedMsg) errorList.push(validatedMsg);

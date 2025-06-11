@@ -26,6 +26,7 @@ export async function register(req, res) {
       lastName,
       companyName,
       agreedToTerms,
+      agreedToPrivacy,
     } = req.body;
 
     //  Check that the userType is either "seeker" or "company".
@@ -35,7 +36,7 @@ export async function register(req, res) {
         msg: "Invalid user type.",
       });
     }
-    if (!agreedToTerms) {
+    if (!agreedToTerms || !agreedToPrivacy) {
       return res.status(400).json({
         success: false,
         msg: "You must agree to the Terms and Privacy Policy.",

@@ -3,6 +3,7 @@ import { User } from "../models/User.js";
 import Message from "../models/Message.js";
 import Conversation from "../models/Conversation.js";
 import cookie from "cookie";
+import { logError } from "../util/logging.js";
 
 //  track userId - socketId
 export const onlineUsers = new Map();
@@ -31,6 +32,7 @@ export default function initChatSocket(io) {
       if (!user) throw new Error("User not found");
       onlineUsers.set(userId, socket.id);
     } catch (err) {
+      logError("Socket connection error:", err);
       socket.emit("unauthorized", "Invalid or missing token");
       socket.disconnect();
       return;
@@ -82,6 +84,7 @@ export default function initChatSocket(io) {
           recipient: { _id: recipientId },
         });
       } catch (err) {
+        logError("Error sending message:", err);
         socket.emit("error", "Failed to send message");
       }
     });
@@ -108,7 +111,7 @@ export default function initChatSocket(io) {
           });
         }
       } catch (err) {
-        console.error("Error handling conversation_read:", err);
+        logError("Error handling conversation_read:", err);
       }
     });
 

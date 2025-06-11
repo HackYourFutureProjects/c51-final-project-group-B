@@ -76,10 +76,17 @@
 
 /* ChatWindow  */
 .readReceipt {
-  color: #4fc3f7;
+  color: var(--secondary-accent-color, #fbbf24);
   margin-left: 6px;
   font-size: 1em;
   vertical-align: middle;
+}
+
+.chatWindowMsgTime {
+  color: var(--text-color,);
+  font-size: 0.8em;
+  margin-left: 4px;
+  font-weight: var(--font-weight-semibold.500);
 }
 .chatWindow {
   flex: 1;
@@ -128,12 +135,13 @@
   min-height: 0;
   max-height: 100%;
   font-family: var(--text-font-family, "Outfit");
+  font-weight: var(--font-weight-normal, 400);
 }
 
 .chatWindowMsgSelf {
   align-self: flex-end;
-  background: var(--primary-color, #1976d2);
-  color: var(--btn-text-color, #fff);
+  background: var(--info-color, rgba(66, 153, 225, 0.6));
+  color: var(--text-color, #222);
   padding: 8px 14px;
   border-radius: var(--default-xl-border-radius, 16px)
     var(--default-xl-border-radius, 16px) 4px
@@ -157,7 +165,13 @@
   word-break: break-word;
   font-family: var(--text-font-family, "Outfit");
 }
-
+.chatWindowMsgSelf,
+.chatWindowMsgOther {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  box-sizing: border-box;
+}
 .chatWindowMsgText {
   font-size: 1em;
   font-family: var(--text-font-family, "Outfit");
@@ -169,6 +183,9 @@
   margin-top: 2px;
   text-align: right;
   font-family: var(--text-font-family, "Outfit");
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  align-self: flex-end;
 }
 
 .chatWindowEmpty,
@@ -227,4 +244,173 @@
   background: var(--disabled-bg, #b0c4de);
   color: var(--disabled-text, #fff);
   cursor: not-allowed;
+}
+@media (max-width: 900px) {
+  .convList {
+    width: 200px;
+    min-width: 120px;
+    max-width: 220px;
+    font-size: 0.97em;
+  }
+}
+@media (max-width: 600px) {
+  .convList {
+    width: 110px;
+    min-width: 80px;
+    max-width: 120px;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 900px) {
+  .convListItem {
+    padding: 8px 6px;
+  }
+}
+@media (max-width: 600px) {
+  .convListItem {
+    padding: 6px 4px;
+  }
+}
+
+.convListAvatar {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  margin-right: 8px;
+  font-size: 1.3rem;
+}
+@media (max-width: 600px) {
+  .convListAvatar {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    margin-right: 4px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .convListName {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 900px) {
+  .chatWindowHeader {
+    padding: 10px;
+    font-size: 0.98em;
+  }
+  .chatWindowAvatar {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 1.2rem;
+    margin-right: 8px;
+  }
+  .chatWindowName {
+    font-size: 1em;
+  }
+  .chatWindowMessages {
+    padding: 10px 6px;
+    font-size: 0.98em;
+  }
+}
+
+@media (max-width: 600px) {
+  .chatWindowHeader {
+    padding: 4px 2px;
+    min-height: 36px;
+  }
+  .chatWindowMessages {
+    padding: 4px 2px;
+  }
+  .chatWindowMsgSelf,
+  .chatWindowMsgOther {
+    padding: 4px 7px;
+    margin-bottom: 4px;
+    font-size: 0.93em;
+    min-height: 28px;
+  }
+  .chatWindowMsgMeta {
+    font-size: 0.7em;
+    margin-top: 1px;
+  }
+  .messageInputForm {
+    padding: 4px 2px;
+    min-height: 36px;
+  }
+  .messageInput {
+    padding: 6px 6px;
+    font-size: 0.95em;
+  }
+  .messageSendBtn {
+    padding: 5px 8px;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatWindowHeader,
+  .messageInputForm {
+    min-height: 28px;
+    padding: 2px 1px;
+  }
+  .chatWindowMessages {
+    padding: 4px 1px;
+    font-size: 0.95em;
+  }
+  .chatWindowMsgSelf,
+  .chatWindowMsgOther {
+    font-size: 0.95em;
+    padding: 5px 7px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .messageInputForm {
+    padding: 8px 8px;
+  }
+  .messageInput {
+    font-size: 0.98em;
+    padding: 8px 10px;
+  }
+  .messageSendBtn {
+    font-size: 0.98em;
+    padding: 7px 12px;
+  }
+}
+@media (max-width: 600px) {
+  .messageInputForm {
+    padding: 6px 4px;
+  }
+  .messageInput {
+    font-size: 0.97em;
+    padding: 7px 7px;
+  }
+  .messageSendBtn {
+    font-size: 0.97em;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .messageInputForm {
+    padding: 4px 2px;
+  }
+  .messageInput {
+    font-size: 0.95em;
+    padding: 5px 4px;
+  }
+  .messageSendBtn {
+    font-size: 0.95em;
+    padding: 5px 6px;
+  }
 }

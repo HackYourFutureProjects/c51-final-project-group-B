@@ -61,7 +61,7 @@ const ChatWindow = ({ conversationId }) => {
             >
               <div className={styles.chatWindowMsgText}>{msg.text}</div>
               <div className={styles.chatWindowMsgMeta}>
-                <span>
+                <span className={styles.chatWindowMsgTime}>
                   {new Date(msg.createdAt).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",

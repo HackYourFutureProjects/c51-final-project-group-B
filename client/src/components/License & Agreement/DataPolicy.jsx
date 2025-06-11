@@ -169,9 +169,9 @@ const DataPolicy = () => {
         </h2>
         <p className={styles.policyText}>
           We may update this Privacy Policy from time to time. Any changes will
-          be posted on this page with an updated "Effective Date." We encourage
-          you to review this policy periodically to stay informed about how we
-          are protecting your information.
+          be posted on this page with an updated &quot;Effective Date.&quot; We
+          encourage you to review this policy periodically to stay informed
+          about how we are protecting your information.
         </p>
       </section>
       <section className={styles.policySection}>

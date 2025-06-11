@@ -112,6 +112,7 @@ export const applications = async (req, res) => {
     { $unwind: "$company" },
     {
       $project: {
+        jobId: "$appliedJobs._id",
         jobTitle: "$appliedJobs.title",
         jobLocation: "$appliedJobs.location",
         jobIsActive: "$appliedJobs.isActive",
@@ -123,6 +124,12 @@ export const applications = async (req, res) => {
       },
     },
   ]);
+
+  if (!applications) {
+    return res
+      .status(404)
+      .json({ success: false, message: "No application found." });
+  }
 
   return res.status(200).json({ success: true, data: applications });
 };

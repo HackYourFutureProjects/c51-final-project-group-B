@@ -18,14 +18,27 @@ import { A_DAY_MS } from "../constants.js";
 export async function register(req, res) {
   try {
     //  Destructure fields from the request body.
-    const { email, password, userType, firstName, lastName, companyName } =
-      req.body;
+    const {
+      email,
+      password,
+      userType,
+      firstName,
+      lastName,
+      companyName,
+      agreedToTerms,
+    } = req.body;
 
     //  Check that the userType is either "seeker" or "company".
     if (!["seeker", "company"].includes(userType)) {
       return res.status(400).json({
         success: false,
         msg: "Invalid user type.",
+      });
+    }
+    if (!agreedToTerms) {
+      return res.status(400).json({
+        success: false,
+        msg: "You must agree to the Terms and Privacy Policy.",
       });
     }
 

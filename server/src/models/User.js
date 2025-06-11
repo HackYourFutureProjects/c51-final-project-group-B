@@ -71,6 +71,11 @@ const UserSchema = new Schema(
       type: String,
       default: "",
     },
+    agreedToTerms: {
+      type: Boolean,
+      required: [true, "You must agree to the Terms and Privacy Policy"],
+      default: false,
+    },
   },
   BaseOptions,
 );
@@ -78,7 +83,13 @@ const UserSchema = new Schema(
 // Validate allowed fields for the base user.
 UserSchema.statics.validateUser = function (userObj) {
   const errorList = [];
-  const allowedKeys = ["email", "passwordHash", "location", "profilePhoto"];
+  const allowedKeys = [
+    "email",
+    "passwordHash",
+    "location",
+    "profilePhoto",
+    "agreedToTerms",
+  ];
   const validatedMsg = validateAllowedFields(userObj, allowedKeys);
   if (validatedMsg) errorList.push(validatedMsg);
   if (!userObj.email) errorList.push("Email is required.");

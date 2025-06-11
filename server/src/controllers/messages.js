@@ -124,6 +124,12 @@ export const getUserConversations = async (req, res) => {
         } else if (otherUser.userType === "company") {
           displayName = otherUser.companyProfile.companyName;
         }
+        // Count unread messages ( our app is small so we can do it here to have real time update  )
+        const unreadCount = await Message.countDocuments({
+          conversationId: convo._id,
+          recipient: userId,
+          read: false,
+        });
         return {
           _id: convo._id,
           participants: convo.participants,
@@ -136,6 +142,7 @@ export const getUserConversations = async (req, res) => {
                 profilePhoto: otherUser.profilePhoto,
               }
             : null,
+          unreadCount,
         };
       }),
     );

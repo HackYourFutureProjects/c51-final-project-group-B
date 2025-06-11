@@ -40,13 +40,7 @@ export function ChatProvider({ children }) {
 
   useEffect(() => {
     if (!window.socket || !user || !user._id) return;
-    const handleMessagesRead = ({ conversationId, readerId }) => {
-      console.log(
-        "Received messages_read for",
-        conversationId,
-        "from",
-        readerId,
-      );
+    const handleMessagesRead = ({ conversationId }) => {
       setMessages((prev) => {
         const msgs = prev[conversationId] || [];
         return {

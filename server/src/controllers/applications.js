@@ -225,3 +225,62 @@ export const updateApplicationStatus = async (req, res) => {
     updatedApplication: application,
   });
 };
+
+/**
+ * This function handles withdrawal of an application submitted by a job seeker.
+ *
+ * mongoose transaction is used to make sure that either both the deletion of an application
+ * and the update of the applicationCount in the JobPost happened or not.
+ *
+ * It could be that after the deletion of the application an DB error may occur
+ * and applicationCount never gets updated this will lead inconsistent data.
+ */
+export const withDrawApplication = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const { _id: userId } = req.fullUser;
+    const { id: applicationId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(applicationId)) {
+      await session.abortTransaction();
+      session.endSession();
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid application ID." });
+    }
+
+    const delApplication = await Application.findOneAndDelete(
+      { _id: applicationId, userId },
+      { session },
+    );
+
+    if (!delApplication) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(404).json({
+        success: false,
+        message: "Application not found or access denied.",
+      });
+    }
+
+    await JobPost.findByIdAndUpdate(
+      delApplication.jobId,
+      { $inc: { applicationCount: -1 } },
+      { session },
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.status(200).json({
+      success: true,
+      data: delApplication,
+    });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+};

@@ -7,8 +7,6 @@ import authRouter from "./routes/auths.js";
 import applicationsRouter from "./routes/applications.js";
 import messagesRouter from "./routes/messages.js";
 import savedJobsRouter from "./routes/savedJobs.js";
-
-
 import { logError } from "./util/logging.js";
 import feedRouter from "./routes/feed.js";
 

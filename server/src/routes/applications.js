@@ -3,6 +3,8 @@ import {
   createApplication,
   applications,
   getJobApplicants,
+  updateApplicationStatus,
+  withDrawApplication,
 } from "../controllers/applications.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 
@@ -29,4 +31,19 @@ applicationsRouter.get(
   asyncHandler(getJobApplicants),
 );
 
+// DELETE /api/applications/:id -> Withdraw a specific application submitted by seeker
+applicationsRouter.delete(
+  "/:id",
+  authMiddleware,
+  asyncHandler(validateUserType("seeker")),
+  asyncHandler(withDrawApplication),
+);
+
+// PATXH /api/applications/:id/status ->  Updates the status of an application
+applicationsRouter.patch(
+  "/:id/status",
+  authMiddleware,
+  asyncHandler(validateUserType("company")),
+  asyncHandler(updateApplicationStatus),
+);
 export default applicationsRouter;

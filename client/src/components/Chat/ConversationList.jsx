@@ -6,7 +6,6 @@ import Loading from "../templates/Loader";
 
 const ConversationList = ({ onSelect, selectedId }) => {
   const { conversations, unread, conversationsLoading } = useChat();
-  console.log("Rendering ConversationList", unread);
 
   return (
     <aside className={styles.convList}>

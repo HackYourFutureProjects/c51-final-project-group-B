@@ -2,15 +2,31 @@ import PropTypes from "prop-types";
 import styles from "./aplication-card.module.css";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const AplicationCard = ({ applicant }) => {
   const navigate = useNavigate();
 
-  const { firstName, lastName, appliedAt, applicantId, resumeUrl } = applicant;
-  console.log("AplicationCard render, applicant:", applicant);
+  const { firstName, lastName, appliedAt, applicantId, resumeUrl, _id } =
+    applicant;
 
   const handleDetailsClick = () => {
     navigate(`/users/candidate-profile/${applicantId}`);
+  };
+
+  const { performFetch } = useFetch(`/applications/${_id}/status`, (data) => {
+    console.log("Status updated successfully:", data.updatedApplication.status);
+  });
+
+  const handleStatusChange = (status) => {
+    performFetch({
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
   };
 
   return (
@@ -39,8 +55,18 @@ const AplicationCard = ({ applicant }) => {
         )}
       </div>
       <div className={styles.applicationFooter}>
-        <button className={styles.rejectBtn}>reject candidate</button>
-        <button className={styles.acceptBtn}>accept candidate</button>
+        <button
+          className={styles.rejectBtn}
+          onClick={() => handleStatusChange("rejected")}
+        >
+          reject candidate
+        </button>
+        <button
+          className={styles.acceptBtn}
+          onClick={() => handleStatusChange("accepted")}
+        >
+          accept candidate
+        </button>
         <button className="btn btn-primary" onClick={handleDetailsClick}>
           view profile
         </button>
@@ -55,6 +81,7 @@ AplicationCard.propTypes = {
     lastName: PropTypes.string.isRequired,
     appliedAt: PropTypes.string.isRequired,
     applicantId: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     resumeUrl: PropTypes.string,
   }).isRequired,
 };

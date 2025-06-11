@@ -7,7 +7,8 @@
   --primary-color: #6366f1;
   --primary-color-dark: #4f46e5;
   --secondary-color: #22c55e;
-  --accent-color: #f43f5e;
+  --accent-color: #f59e0b;
+  /* --accent-color: #f43f5e; */
   --text-color: #374151;
   --text-secondary-color: #6b7280;
   --heading-color: #111827;
@@ -220,7 +221,7 @@ body {
   padding: 0.25rem 0.5rem;
   border-radius: 9999px;
   background-color: var(--primary-color);
-  color: white;
+  color: red;
   font-size: 0.75rem;
   margin-right: 0.5rem;
 }

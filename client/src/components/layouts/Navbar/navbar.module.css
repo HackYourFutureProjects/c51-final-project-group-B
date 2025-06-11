@@ -152,6 +152,7 @@
   background-color: var(--hover-color);
   transition: translateY(-1px);
 }
+
 .avatar {
   border-radius: 50%;
   width: 40px;

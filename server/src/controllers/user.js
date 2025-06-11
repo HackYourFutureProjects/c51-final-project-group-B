@@ -158,11 +158,19 @@ export async function login(req, res) {
     );
 
     // Set the token as a cookie.
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: false, //  we can change this later for https.
+    //   sameSite: "Strict",
+    //   maxAge: 1 * 24 * 60 * 60 * 1000, // the cookie valid for one day ( we can extend it later).
+    // });
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, //  we can change this later for https.
-      sameSite: "Strict",
-      maxAge: 1 * 24 * 60 * 60 * 1000, // the cookie valid for one day ( we can extend it later).
+      secure: process.env.NODE_ENV === "production", // true in production
+      sameSite: "Lax", // Required for cross-origin WebSocket
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
     });
 
     // Successful login response  with the token.

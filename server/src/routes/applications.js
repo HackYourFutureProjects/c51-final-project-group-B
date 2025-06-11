@@ -30,7 +30,7 @@ applicationsRouter.get(
   asyncHandler(getJobApplicants),
 );
 
-// PATXH /api/applications/:id/status ->  Updates the status of an application
+// PATXH /api/applications/:id/status->  Updates the status of an application
 applicationsRouter.patch(
   "/:id/status",
   authMiddleware,

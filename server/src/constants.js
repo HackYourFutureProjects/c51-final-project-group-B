@@ -22,3 +22,12 @@ export const MAX_NUM_JOBS = 100;
 export const HOUR_MS = 60 * 60 * 1000;
 export const SALT_ROUNDS = 10;
 export const A_DAY_MS = 24 * 60 * 60 * 1000;
+
+export const NOTIFICATION_TYPES = [
+  "application_submitted",
+  "application_status_change",
+  "new_job_match",
+  "new_message",
+  "interview_scheduled",
+  "job_expired",
+];

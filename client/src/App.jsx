@@ -41,6 +41,7 @@ const App = () => {
               </JobSeekerRoute>
             }
           />
+
           <Route path="/profile/*" element={<ProfilePage />} />
 
           <Route

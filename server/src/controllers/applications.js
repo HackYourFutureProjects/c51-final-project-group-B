@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 import Application from "../models/Applications.js";
+import { User } from "../models/User.js";
 import JobPost from "../models/JobPost.js";
 import { logError } from "../util/logging.js";
-
+import { notifyUser } from "../services/notificationServices.js";
+import { getIo } from "../socket.js";
 // Create a new application [only job seekers can apply for jobs]
 export const createApplication = async (req, res) => {
   try {
@@ -168,7 +170,7 @@ export const getJobApplicants = async (req, res) => {
 
 /** Updates the status of an application */
 export const updateApplicationStatus = async (req, res) => {
-  const { _id: applicantId } = req.params;
+  const { id: applicationId } = req.params;
   const { status } = req.body;
 
   const validStatuses = [
@@ -187,17 +189,39 @@ export const updateApplicationStatus = async (req, res) => {
     });
   }
 
-  const application = await Application.findOne({ applicantId });
+  const application = await Application.findById(applicationId);
   if (!application) {
-    return res
-      .status(404)
-      .json({ success: false, message: "No application found." });
+    return res.status(404).json({
+      success: false,
+      message: "No application found.",
+    });
   }
 
   application.status = status;
-  await application.save;
+  await application.save();
 
-  return res
-    .status(200)
-    .json({ success: true, updatedApplication: application });
+  const job = await JobPost.findById(application.jobId).select("title");
+  const company = await User.findById(req.user.id).select("companyProfile");
+
+  const io = getIo();
+
+  await notifyUser(io, application.userId.toString(), {
+    type: "application_status_change",
+    title: "Application Status Updated",
+    message: `Your application has been marked as "${status}".`,
+    data: {
+      applicationId: application._id,
+      jobId: application.jobId,
+      fromUserId: req.user._id,
+      metadata: {
+        jobTitle: job?.title || "Job Title",
+        companyName: company?.companyProfile?.companyName || "Company Name",
+      },
+    },
+  });
+
+  return res.status(200).json({
+    success: true,
+    updatedApplication: application,
+  });
 };

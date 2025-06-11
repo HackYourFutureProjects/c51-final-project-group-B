@@ -1,5 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
+
+import { useNotifications } from "../../../contexts/NotificationContext";
 import { useUser } from "../../../contexts/UserContext";
+
 import {
   MdPerson,
   MdExpandMore,
@@ -7,12 +10,17 @@ import {
   MdLogout,
   MdInbox,
 } from "react-icons/md";
+
 import { toast } from "sonner";
 import ThemeToggle from "../../theme/ThemeToggle";
 import { useEffect, useState, useRef } from "react";
 import styles from "./navbar.module.css";
+import NotificationBell from "../../NotificationBell/NotificationBell";
+import { disconnectSocket } from "../../../socket";
 
 const Navbar = () => {
+  const { notifications, unreadCount, markAsRead } = useNotifications();
+
   const { user, logout } = useUser();
   const navigate = useNavigate();
 
@@ -45,6 +53,7 @@ const Navbar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     await logout();
+    disconnectSocket();
     toast.success("Logout successfully!");
     navigate("/");
   };
@@ -85,6 +94,7 @@ const Navbar = () => {
               Feed
             </NavLink>
           </li>
+
           {user?.userType === "seeker" && (
             <li>
               <NavLink to="/jobs/find" className={navLinkClass}>
@@ -106,60 +116,69 @@ const Navbar = () => {
                 </NavLink>
               </>
             ) : (
-              <div className={styles.profileContainer} ref={dropdownRef}>
-                <button
-                  className={styles.profileButton}
-                  onClick={() => setIsDropDownOpen(!isDropDownOpen)}
-                >
-                  {user.profilePhoto ? (
-                    <img
-                      src={user.profilePhoto}
-                      alt="Profile"
-                      className={styles.avatar}
-                    />
-                  ) : (
-                    <MdPerson size={40} className={styles.defaultIcon} />
-                  )}
-                  <MdExpandMore
-                    className={`${styles.caret} ${
-                      isDropDownOpen ? styles.rotated : ""
-                    }`}
+              <>
+                <div>
+                  <NotificationBell
+                    notifications={notifications}
+                    unreadCount={unreadCount}
+                    markAsRead={markAsRead}
                   />
-                </button>
-                {isDropDownOpen && (
-                  <div className={styles.dropDownMenu}>
-                    <div className={styles.dropDownHeader}>
-                      <span className={styles.userName}>
-                        {user.name || "User"}
-                      </span>
-                      <span className={styles.userEmail}>{user.email}</span>
+                </div>
+                <div className={styles.profileContainer} ref={dropdownRef}>
+                  <button
+                    className={styles.profileButton}
+                    onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+                  >
+                    {user.profilePhoto ? (
+                      <img
+                        src={user.profilePhoto}
+                        alt="Profile"
+                        className={styles.avatar}
+                      />
+                    ) : (
+                      <MdPerson size={40} className={styles.defaultIcon} />
+                    )}
+                    <MdExpandMore
+                      className={`${styles.caret} ${
+                        isDropDownOpen ? styles.rotated : ""
+                      }`}
+                    />
+                  </button>
+                  {isDropDownOpen && (
+                    <div className={styles.dropDownMenu}>
+                      <div className={styles.dropDownHeader}>
+                        <span className={styles.userName}>
+                          {user.name || "User"}
+                        </span>
+                        <span className={styles.userEmail}>{user.email}</span>
+                      </div>
+                      <div className={styles.dropDownItems}>
+                        <NavLink to={profileLink} className={dropDownClass}>
+                          <MdPerson size={18} color="var(--primary-color)" />
+                          <span>Profile</span>
+                        </NavLink>
+                        <NavLink to={messageLink} className={dropDownClass}>
+                          <MdInbox size={18} color="var(--primary-color)" />
+                          <span>Messages</span>
+                        </NavLink>
+                        <NavLink to={settingsLink} className={dropDownClass}>
+                          <MdSettings size={18} color="var(--primary-color)" />
+                          <span>Settings</span>
+                        </NavLink>
+                        <a
+                          href="#logout"
+                          className={styles.dropDownItem}
+                          onClick={handleLogout}
+                          title="Logout"
+                        >
+                          <MdLogout size={18} color="var(--primary-color)" />
+                          <span>Logout</span>
+                        </a>
+                      </div>
                     </div>
-                    <div className={styles.dropDownItems}>
-                      <NavLink to={profileLink} className={dropDownClass}>
-                        <MdPerson size={18} color="var(--primary-color)" />
-                        <span>Profile</span>
-                      </NavLink>
-                      <NavLink to={messageLink} className={dropDownClass}>
-                        <MdInbox size={18} color="var(--primary-color)" />
-                        <span>Messages</span>
-                      </NavLink>
-                      <NavLink to={settingsLink} className={dropDownClass}>
-                        <MdSettings size={18} color="var(--primary-color)" />
-                        <span>Settings</span>
-                      </NavLink>
-                      <a
-                        href="#logout"
-                        className={styles.dropDownItem}
-                        onClick={handleLogout}
-                        title="Logout"
-                      >
-                        <MdLogout size={18} color="var(--primary-color)" />
-                        <span>Logout</span>
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
 

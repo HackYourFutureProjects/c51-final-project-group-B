@@ -31,9 +31,6 @@ ConversationSchema.pre("validate", function (next) {
   next();
 });
 
-// Prevent duplicate conversations between the same two users
-ConversationSchema.index({ participants: 1 }, { unique: true });
-
 const Conversation = model("Conversation", ConversationSchema);
 
 export default Conversation;

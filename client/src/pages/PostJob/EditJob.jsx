@@ -79,7 +79,6 @@ const EditJob = () => {
     <>
       <Toaster position="top-center" />
       <div className={styles.container}>
-        <h1>Edit Vacancy</h1>
         <JobForm
           isEditMode
           isSubmitting={isSubmitting}

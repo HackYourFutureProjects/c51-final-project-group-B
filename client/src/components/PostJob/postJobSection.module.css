@@ -127,6 +127,38 @@ textarea {
 .submitButton:hover {
   box-shadow: var(--box-shadow-md);
 }
+/* New styles for Cancel button */
+.cancelButton {
+  padding: 1rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--btn-text-color);
+  border: none;
+  border-radius: var(--default-lg-border-radius);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  margin-top: 1rem;
+  align-self: flex-end;
+}
+
+.cancelButton:hover {
+  box-shadow: var(--box-shadow-md);
+}
+
+/* Container to hold both buttons on the right */
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end; /* align buttons right */
+  gap: 1rem; /* spacing between buttons */
+  margin-top: 1rem;
+}
+.dateContainer {
+  position: relative;
+  margin-bottom: 20px; /* This creates space for the calendar to drop down */
+}
 
 /* Responsive tweaks for very small screens */
 @media (max-width: 400px) {

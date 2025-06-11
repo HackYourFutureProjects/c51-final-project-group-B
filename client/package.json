@@ -27,6 +27,7 @@
     "moment": "^2.30.1",
     "prop-types": "^15.7.2",
     "react": "^19.0.0",
+    "react-datepicker": "^8.4.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.4",
     "react-hook-form-persist": "^3.0.0",

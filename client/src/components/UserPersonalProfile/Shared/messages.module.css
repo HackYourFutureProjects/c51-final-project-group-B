@@ -1,0 +1,17 @@
+.chatLayout {
+  display: flex;
+  min-height: 400px;
+  height: 80vh;
+  background: #f5f7fa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.chatMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #fff;
+  min-height: 0;
+}

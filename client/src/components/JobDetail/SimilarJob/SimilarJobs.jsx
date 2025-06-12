@@ -32,35 +32,38 @@ const SimilarJobs = ({ jobs, styles }) => {
   return (
     <div className={styles.similarJobsSection}>
       <p className={styles.similarJobsTitle}>Similar Job Posts</p>
-      <div className={styles.similarJobsList}>
-        {jobsToShow.map((job, index) => (
-          <JobCard
-            job={mapJobToCardProps(job)}
-            key={job.id ?? `job-${index}`} // fallback key if id is missing
-            styles={styles}
-          />
-        ))}
+      <div className={styles.similarJobsWrapper}>
+        <div className={styles.similarJobsList}>
+          {jobsToShow.map((job, index) => (
+            <JobCard
+              job={mapJobToCardProps(job)}
+              key={job.id ?? `job-${index}`}
+              styles={styles}
+            />
+          ))}
+        </div>
+
+        <div className={styles.showMoreButtonContainer}>
+          {!showAll && jobs.length > 3 && (
+            <button
+              className={styles.showMoreButton}
+              onClick={() => setShowAll(true)}
+              aria-label="Show more similar jobs"
+            >
+              Show More
+            </button>
+          )}
+          {showAll && (
+            <button
+              className={styles.showMoreButton}
+              onClick={() => setShowAll(false)}
+              aria-label="Show fewer similar jobs"
+            >
+              Show Less
+            </button>
+          )}
+        </div>
       </div>
-
-      {!showAll && jobs.length > 3 && (
-        <button
-          className={styles.showMoreButton}
-          onClick={() => setShowAll(true)}
-          aria-label="Show more similar jobs"
-        >
-          Show More
-        </button>
-      )}
-
-      {showAll && (
-        <button
-          className={styles.showMoreButton}
-          onClick={() => setShowAll(false)}
-          aria-label="Show fewer similar jobs"
-        >
-          Show Less
-        </button>
-      )}
     </div>
   );
 };

@@ -3,10 +3,25 @@ import PropTypes from "prop-types";
 
 import styles from "./header-section.module.css";
 import defaultAvatar from "../../../../assets/woman.png";
-// import { use } from "react";
+import { useNavigate } from "react-router-dom";
+import { useChat } from "../../../../hooks/useChat";
 
 const HeaderSection = ({ user }) => {
   const { userType, email, profilePhoto, location } = user;
+  const navigate = useNavigate();
+  const { startConversation } = useChat();
+  const handleContact = async () => {
+    try {
+      // Use the viewed user's _id as recipientId
+      const conversation = await startConversation(user._id);
+      // Navigate to the messages page with the conversationId
+      navigate(`/profile/messages/${conversation._id}`);
+    } catch (err) {
+      console.error("Error starting conversation:", err);
+      // not going to use the toast here, just a simple alert
+      alert("Could not start conversation.");
+    }
+  };
 
   const isCompany = userType === "company";
 
@@ -77,7 +92,11 @@ const HeaderSection = ({ user }) => {
       </div>
       {/* button to contact the employer */}
       <div className={styles.rightSection}>
-        <button id="contactBtnId" className="btn btn-primary">
+        <button
+          id="contactBtnId"
+          className="btn btn-primary"
+          onClick={handleContact}
+        >
           Contact
         </button>
 
@@ -100,6 +119,7 @@ HeaderSection.propTypes = {
     location: PropTypes.string,
     seekerProfile: PropTypes.object,
     companyProfile: PropTypes.object,
+    _id: PropTypes.string.isRequired,
   }).isRequired,
 };
 

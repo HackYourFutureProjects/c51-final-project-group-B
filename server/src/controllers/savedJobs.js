@@ -27,6 +27,7 @@ export const savedJobs = async (req, res) => {
 
   const savedJobs = await SavedJob.aggregate([
     { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+
     {
       $lookup: {
         from: "jobposts",
@@ -37,6 +38,22 @@ export const savedJobs = async (req, res) => {
     },
     { $unwind: "$savedJob" },
     {
+      $lookup: {
+        from: "users",
+        localField: "savedJob.postedBy",
+        foreignField: "_id",
+        as: "company",
+      },
+    },
+    // I found out some companies who post jobposts
+    // do not exists in the users collection
+    {
+      $unwind: {
+        path: "$company",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
       $project: {
         _id: 0,
         createdAt: 1,
@@ -44,7 +61,16 @@ export const savedJobs = async (req, res) => {
         jobTitle: "$savedJob.title",
         jobDescription: "$savedJob.description",
         jobType: "$savedJob.type",
+        jobLocation: "$savedJob.location",
+        jobExpireOn: "$savedJob.expireOn",
         jobIsActive: "$savedJob.isActive",
+        companyName: {
+          $ifNull: [
+            "$company.companyProfile.companyName",
+            "Company Doesn't exit,",
+          ],
+        },
+        postedByEmail: "$company.email",
       },
     },
   ]);

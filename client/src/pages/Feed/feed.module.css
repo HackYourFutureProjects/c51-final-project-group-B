@@ -1,0 +1,102 @@
+.feedContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 2rem 1rem;
+  min-height: 100vh;
+  background: var(--bg-color, #f3f4f6);
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  overflow-x: auto;
+}
+
+.feedSidebar {
+  width: 320px;
+  min-width: 180px;
+  max-width: 400px;
+
+  overflow-y: auto;
+  height: fit-content;
+  box-sizing: border-box;
+  flex-shrink: 1;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.feedMain {
+  flex: 1 1 0%;
+  background: var(--surface-color, #fff);
+  border-radius: var(--default-xl-border-radius, 12px);
+  border: 1px solid var(--border-color, #e5e7eb);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--default-shadow-color);
+  padding: 1.5rem 2rem;
+}
+
+@media (max-width: 1100px) {
+  .feedContainer {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1rem 0.2rem;
+    align-items: stretch;
+  }
+
+  .feedSidebar {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    border-radius: var(--default-md-border-radius, 7px);
+    padding: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feedMain {
+    width: 100%;
+    padding: 1rem 0.2rem;
+    border-radius: var(--default-md-border-radius, 7px);
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .feedContainer {
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 99%;
+    align-items: stretch;
+  }
+
+  .feedSidebar {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    border-radius: var(--default-md-border-radius, 7px);
+    padding: 0;
+    box-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .feedMain {
+    width: 100%;
+    padding: 0.5rem 0.1rem;
+    border-radius: var(--default-md-border-radius, 7px);
+    margin-top: 0.5rem;
+  }
+
+  .feedError,
+  .feedEmpty {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.5rem;
+    border-radius: var(--default-xs-border-radius, 4px);
+  }
+}

@@ -1,7 +1,7 @@
-import proptypes from "prop-types";
+import PropTypes from "prop-types";
 
 const ApplyButton = ({ styles, onClick }) => (
-  <div>
+  <div className={styles.applyButtonWrapper}>
     <button className={styles.applyButton} onClick={onClick}>
       Apply Now
     </button>
@@ -9,10 +9,8 @@ const ApplyButton = ({ styles, onClick }) => (
 );
 
 ApplyButton.propTypes = {
-  styles: proptypes.object.isRequired,
-  onClick: proptypes.func.isRequired,
+  styles: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ApplyButton;
-// This component renders an "Apply Now" button with styles passed as props.
-// It uses prop-types to enforce that the styles prop is an object.

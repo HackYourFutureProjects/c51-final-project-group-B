@@ -27,3 +27,19 @@ export const endOfToday = () => new Date(new Date().setHours(23, 59, 59, 999));
 export const escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
+/**
+ * Given an array of object like:
+ * array = [{id: "id1", title: "Nurse", location: "Utrecht"},
+ *          {id: "id2", title: "Developer", location: "Amsterdam"},
+ *          {id: "id1", title: "Nurse", location: "Utrecht"}]
+ *
+ * This function removes duplicates.
+ */
+export const getUniqueObjects = (array) => {
+  const map = new Map();
+  for (const obj of array) {
+    map.set(obj._id.toString(), obj);
+  }
+  return Array.from(map.values());
+};

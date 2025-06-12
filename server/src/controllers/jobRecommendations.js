@@ -2,7 +2,7 @@ import {
   profileBasedMatchingCriterion,
   getProfileBasedRecommendations,
 } from "../util/jobMatching/profileBased.js";
-import { MIN_JOBS } from "../constants.js";
+import { MAX_RECOMMENDATION_JOBS } from "../constants.js";
 import { getIndustryMatchedJobs } from "../util/jobMatching/recentViewed.js";
 
 import { getRandomJobs } from "../helpers/jobPostHelper.js";
@@ -45,20 +45,23 @@ export const recommendationsByRecentView = async (req, res) => {
 };
 
 /**
- * Fetches recommended jobs using a tiered matching strategy.
+ * This function recommends jobs to the user (job seeker) based on:
+ * - Their position
+ * - Or both position and location
  *
- * It always starts by looking for jobs that strictly match all the criteria.
- * If no results are found, it gradually relaxes the filters; first trying moderate,
- * then loose criteria.
+ * Each job in the result includes a `matchedBy` field indicating the match type:
+ * - "by-position"
+ * - or "by-position-and-location"
  *
- * If even the loose criteria don’t return any jobs, it falls back to a default query,
- * like fetching the most recent job posts.
+ * If the user has not completed their profile, fallback jobs are shown,
+ * along with the message:
+ * "Complete your profile to get better recommendations."
  *
- * This approach follows a progression from:
- * Strict -> Moderate -> Loose -> Fallback
- *
- * Further we can add match level to the response.
+ * If the profile is complete but no matching jobs are found,
+ * random jobs are returned with the message:
+ * "No matches found. Showing random jobs instead."
  */
+
 export const recommendationsByProfile = async (req, res) => {
   const user = req.fullUser;
   const criteriaList = profileBasedMatchingCriterion(user);
@@ -74,8 +77,10 @@ export const recommendationsByProfile = async (req, res) => {
     });
   }
 
-  const { jobs, matchLevels } =
-    await getProfileBasedRecommendations(criteriaList);
+  const { jobs } = await getProfileBasedRecommendations(
+    criteriaList,
+    MAX_RECOMMENDATION_JOBS,
+  );
 
   if (!jobs.length) {
     const fallback = await getRandomJobs();
@@ -89,8 +94,7 @@ export const recommendationsByProfile = async (req, res) => {
 
   return res.status(200).json({
     success: true,
-    data: jobs.slice(0, MIN_JOBS),
+    data: jobs.slice(0, MAX_RECOMMENDATION_JOBS),
     type: "profile-based",
-    matchLevel: matchLevels.join(", "),
   });
 };

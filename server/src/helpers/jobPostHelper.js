@@ -1,6 +1,7 @@
 import { MAX_RECOMMENDATION_JOBS } from "../constants.js";
 import JobPost from "../models/JobPost.js";
 import { escapeRegex } from "../util/utils.js";
+import mongoose from "mongoose";
 
 /**
  * A generic function that we can use to search job posts based on a given criteria
@@ -57,8 +58,6 @@ export const findJobs = async (
  * 3: Joins with the "users" collection to get details about who posted each job.
  * 4: Unwinds the joined user data to simplify the structure.
  */
-
-import mongoose from "mongoose";
 
 export const getRandomJobs = async (
   excludeId,

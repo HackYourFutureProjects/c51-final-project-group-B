@@ -7,7 +7,7 @@ import styles from "./body.module.css";
 const Steps = () => {
   return (
     <section className={styles.sectionContainer}>
-      <h2 className={styles.sectionHeader}>Be Discovered IN 3 Simple Steps</h2>
+      <h2 className={styles.sectionHeader}>BE DISCOVERED IN 3 SIMPLE STEPS</h2>
       <div className={styles.stepsGrid}>
         <div className={styles.stepsCard}>
           <img src={Register} alt="Register" className={styles.stepsIcon} />

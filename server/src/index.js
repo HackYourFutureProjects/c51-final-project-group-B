@@ -10,6 +10,11 @@ import testRouter from "./testRouter.js";
 
 import { updateIsActiveStatus } from "./scripts/updateIsActive.js";
 
+// socket.io imports
+import { Server } from "socket.io";
+import http from "http";
+import initChatSocket from "./sockets/chat.js";
+
 // The environment should set the port
 const port = process.env.PORT;
 
@@ -22,7 +27,11 @@ const startServer = async () => {
   try {
     await connectDB();
     await updateIsActiveStatus();
-    app.listen(port, () => {
+    // Create HTTP server and attach Socket.IO
+    const server = http.createServer(app);
+    const io = new Server(server, { cors: { origin: "*" } });
+    initChatSocket(io);
+    server.listen(port, () => {
       logInfo(`Server started on port ${port}`);
     });
   } catch (error) {

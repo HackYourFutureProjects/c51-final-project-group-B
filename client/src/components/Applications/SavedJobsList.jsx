@@ -31,7 +31,7 @@ function SavedJobsList() {
   const handleDeleteSavedJob = async (jobId) => {
     try {
       await deleteSavedJob(jobId);
-      setSavedJobs((prevJobs) => prevJobs.filter((job) => job.jobId !== jobId));
+      setSavedJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
       toast.success("Job removed from saved list.");
     } catch (error) {
       console.error("Failed to delete saved job:", error);

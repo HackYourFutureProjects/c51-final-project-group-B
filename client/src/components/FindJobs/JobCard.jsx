@@ -81,7 +81,6 @@ const JobCard = ({ job }) => {
         await removeJob(job._id);
         setFeedback("Job removed from saved!");
       } else {
-        console.log("Saving job with ID:", job._id); // Add this debug line
         await addJob(job); // Pass full job object
         setFeedback("Job saved!");
       }

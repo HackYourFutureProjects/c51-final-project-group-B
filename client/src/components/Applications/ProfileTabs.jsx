@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Tabs, Tab, Box } from "@mui/material";
+import { useState, useRef } from "react";
+import { Tabs, Tab } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ApplicationList from "./ApplicationList";
 import SavedJobsList from "./SavedJobsList";

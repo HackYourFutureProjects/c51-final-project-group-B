@@ -29,6 +29,7 @@
   font-family: var(--text-font-family);
   border-bottom: 1px solid var(--border-color);
   height: var(--navbar-height, 65px);
+  position: relative;
 }
 
 .logo {
@@ -131,27 +132,47 @@
   padding: 4px;
 }
 
-/* Profile section and drop down menu section */
 .profileContainer {
   position: relative;
   background-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
-
 .profileButton {
   display: flex;
   align-items: center;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0;
   border-radius: var(--default-xs-border-radius);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .profileButton:hover {
   background-color: var(--hover-color);
-  transition: translateY(-1px);
 }
+
+.dropdownToggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--default-xs-border-radius);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+  color: var(--text-color);
+}
+
+.dropdownToggle:hover {
+  background-color: var(--hover-color);
+  color: var(--primary-color);
+}
+
 .avatar {
   border-radius: 50%;
   width: 40px;
@@ -161,7 +182,6 @@
 }
 
 .caret {
-  color: var(--text-color);
   font-size: 1.5rem;
   transition: transform 0.3s ease;
 }
@@ -173,7 +193,7 @@
 .dropDownMenu {
   position: absolute;
   top: calc(100% - 5px);
-  right: -3px;
+  right: var(--dropdown-menu-offset, -70px);
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: var(--default-xl-border-radius);
@@ -201,11 +221,6 @@
 
 .dropDownHeader {
   padding: 1.25rem 1rem;
-  background-color: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-color-dark)
-  );
   color: var(--btn-text-color);
   border-bottom: 1px solid var(--border-color);
 }
@@ -250,10 +265,9 @@
 .dropDownItem:hover {
   background-color: var(--hover-color);
   color: var(--primary-color);
-  transition: translateX(4px);
 }
 
-.dropdownItem:hover::before {
+.dropDownItem:hover::before {
   content: "";
   position: absolute;
   left: 0;
@@ -280,17 +294,121 @@
   background: var(--error-color);
 }
 
+.hamburgerButton {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  z-index: 1001;
+  transition: color 0.2s ease;
+}
+
+.hamburgerButton:hover {
+  color: var(--primary-color);
+}
+
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: var(--navbar-height);
+  left: 0;
+  width: 100%;
+  background: var(--bg-color);
+  border-top: 1px solid var(--border-color);
+  box-shadow: var(--box-shadow-md);
+  z-index: 999;
+  padding: 1rem 0;
+  transform-origin: top;
+  animation: slideInFromTop 0.3s ease-out forwards;
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mobileNavLinks li {
+  width: 100%;
+}
+
+.mobileNavLinks .navLink {
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+  display: block;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobileNavLinks .navLink::before,
+.mobileNavLinks .navLink.active::before {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.mobileNavLinks .signupBtn {
+  margin: 0.75rem 1.5rem;
+  text-align: center;
+  display: block;
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 1rem;
+    justify-content: space-between;
   }
 
-  .navLinks {
+  .navLinks,
+  .authActions {
     display: none;
   }
 
-  .btn {
-    display: none;
+  .hamburgerButton {
+    display: block;
+  }
+
+  .profileContainer,
+  .themeToggleContainer {
+    display: flex;
+  }
+
+  .rightSection {
+    gap: 0.5rem;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+
+  .dropDownMenu {
+    right: 0;
+    min-width: 180px;
+    width: auto;
+    box-sizing: border-box;
   }
 }
 
@@ -301,5 +419,9 @@
 
   .logo {
     font-size: 1.25rem;
+  }
+
+  .mobileNavLinks .signupBtn {
+    margin: 0.6rem 1rem;
   }
 }

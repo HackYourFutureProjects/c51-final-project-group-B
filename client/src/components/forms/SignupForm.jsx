@@ -189,6 +189,46 @@ const SignupForm = () => {
             <p className={css.error}>{errors.confirmPassword.message}</p>
           )}
         </div>
+        <div className={css.checkboxContainer}>
+          <div className={css.checkboxRow}>
+            <input
+              type="checkbox"
+              id="agreePrivacy"
+              {...register("agreedToPrivacy", {
+                required: "You must agree to the Privacy Policy",
+              })}
+            />
+            <label htmlFor="agreePrivacy">
+              I have read and agree to the{" "}
+              <Link to="/privacy" target="_blank" rel="noopener noreferrer">
+                Privacy Policy
+              </Link>
+            </label>
+          </div>
+          {errors.agreedToPrivacy && (
+            <p className={css.error}>{errors.agreedToPrivacy.message}</p>
+          )}
+        </div>
+        <div className={css.checkboxContainer}>
+          <div className={css.checkboxRow}>
+            <input
+              type="checkbox"
+              id="agreeTerms"
+              {...register("agreedToTerms", {
+                required: "You must agree to the Terms and Conditions",
+              })}
+            />
+            <label htmlFor="agreeTerms">
+              I agree to the{" "}
+              <Link to="/terms" target="_blank" rel="noopener noreferrer">
+                Terms and Conditions
+              </Link>
+            </label>
+          </div>
+          {errors.agreedToTerms && (
+            <p className={css.error}>{errors.agreedToTerms.message}</p>
+          )}
+        </div>
 
         <button type="submit" className={css.submit} disabled={loading}>
           {loading ? <Loader /> : "Create Account"}

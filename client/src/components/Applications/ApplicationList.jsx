@@ -7,7 +7,7 @@ import { Pagination, Stack } from "@mui/material";
 function ApplicationList() {
   const [applications, setApplications] = useState([]);
   const [page, setPage] = useState(1);
-  const limit = 5; // Items per page
+  const limit = 3;
 
   const {
     isLoading,

@@ -23,7 +23,7 @@ const ApplicationJobCard = ({
   createdAt,
   jobIsActive,
   jobType,
-  onOpenApplyModal, // callback for Apply button click
+  onOpenApplyModal,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
@@ -57,19 +57,21 @@ const ApplicationJobCard = ({
 
   const handleCancel = () => setShowConfirm(false);
 
-  // Determine badge for saved jobs
+  // Determine badge for saved and recommendation jobs
   const savedStatus = jobIsActive ? "Active" : "Closed";
   const savedBadgeClass = styles[`badge${savedStatus}`];
 
   return (
     <div className={styles.jobApplicationContainer1}>
+      {/* Status badge for application mode */}
       {mode === "application" && status && (
         <div className={`${styles.jobApplicationBadge} ${badgeClass}`}>
           Status - <span className={styles.jobApplicationOffer}>{status}</span>
         </div>
       )}
 
-      {mode === "saved" && (
+      {/* Badge for saved and recommendation modes */}
+      {(mode === "saved" || mode === "recommendation") && (
         <div className={`${styles.jobApplicationBadge} ${savedBadgeClass}`}>
           {savedStatus}
         </div>
@@ -81,6 +83,7 @@ const ApplicationJobCard = ({
             <div className={styles.jobApplicationImageMobile}></div>
             <div className={styles.jobApplicationCatalogWithdraw}></div>
 
+            {/* Withdraw button in application mode */}
             {mode === "application" && (
               <div
                 className={`${styles.jobApplicationWithdrawBtn} ${
@@ -97,6 +100,7 @@ const ApplicationJobCard = ({
               </div>
             )}
 
+            {/* Delete button in saved mode */}
             {mode === "saved" && (
               <div
                 className={styles.jobApplicationDeleteBtn}
@@ -122,7 +126,7 @@ const ApplicationJobCard = ({
         <div className={styles.jobApplicationDetails}>
           <div>
             <div className={styles.jobApplicationTitle}>{jobTitle}</div>
-            {/* Job type below title */}
+
             {jobType && <div className={styles.jobType}>{jobType}</div>}
 
             {/* Application Mode: Company & Applied time on separate lines */}
@@ -141,13 +145,14 @@ const ApplicationJobCard = ({
               </>
             )}
 
-            {/* Saved Mode: Company & Posted time on the same line */}
-            {mode === "saved" && companyName && createdAt && (
-              <div className={styles.postedBy}>
-                Posted by <strong>{companyName}</strong> •{" "}
-                {moment(createdAt).fromNow()}
-              </div>
-            )}
+            {/* Saved and Recommendation Mode: Company & Posted time on the same line */}
+            {(mode === "saved" || mode === "recommendation") &&
+              companyName &&
+              createdAt && (
+                <div className={styles.postedBy}>
+                  Posted by <strong>{companyName}</strong>
+                </div>
+              )}
 
             <div className={styles.jobApplicationItems}>
               {jobLocation && (
@@ -177,7 +182,8 @@ const ApplicationJobCard = ({
             See More
           </Link>
 
-          {mode === "saved" && (
+          {/* Apply Now button for saved and recommendation modes */}
+          {(mode === "saved" || mode === "recommendation") && (
             <Link
               to={jobIsActive ? "#" : `/jobs/${jobId}/apply`}
               className={`${styles.applyLink} ${
@@ -219,7 +225,7 @@ ApplicationJobCard.propTypes = {
   jobId: PropTypes.string.isRequired,
   description: PropTypes.string,
   onWithdraw: PropTypes.func,
-  mode: PropTypes.oneOf(["application", "saved"]),
+  mode: PropTypes.oneOf(["application", "saved", "recommendation"]),
   createdAt: PropTypes.string,
   jobIsActive: PropTypes.bool,
   jobType: PropTypes.string,

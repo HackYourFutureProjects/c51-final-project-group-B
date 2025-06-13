@@ -10,6 +10,7 @@ const JobList = ({ onJobClick }) => {
   const [page, setPage] = useState(1);
   const limit = 6;
 
+  console.log(jobs);
   const { performFetch, cancelFetch } = useFetch(
     `/jobs/company/job-lists`,
     (response) => {
@@ -23,6 +24,7 @@ const JobList = ({ onJobClick }) => {
       cancelFetch();
     };
   }, []);
+  console.log(jobs);
 
   const startIndex = (page - 1) * limit;
   const paginatedJobs = jobs.slice(startIndex, startIndex + limit);

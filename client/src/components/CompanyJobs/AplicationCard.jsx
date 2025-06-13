@@ -3,6 +3,8 @@ import styles from "./aplication-card.module.css";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const AplicationCard = ({ applicant }) => {
   const navigate = useNavigate();
@@ -10,12 +12,17 @@ const AplicationCard = ({ applicant }) => {
   const { firstName, lastName, appliedAt, applicantId, resumeUrl, _id } =
     applicant;
 
+  const [jobStatus, setJobStatus] = useState("pending");
+
   const handleDetailsClick = () => {
     navigate(`/users/candidate-profile/${applicantId}`);
   };
 
   const { performFetch } = useFetch(`/applications/${_id}/status`, (data) => {
-    console.log("Status updated successfully:", data.updatedApplication.status);
+    setJobStatus(data.updatedApplication.status);
+    toast.success(
+      `Application status updated to ${data.updatedApplication.status}`,
+    );
   });
 
   const handleStatusChange = (status) => {
@@ -38,6 +45,7 @@ const AplicationCard = ({ applicant }) => {
         Applied at: {new Date(appliedAt).toLocaleDateString()}
       </div>
       <div>
+        <div className={styles.appliedAt}>applicationStatus : {jobStatus}</div>
         {resumeUrl && (
           <div className={styles.resumeLink}>
             <a
@@ -81,6 +89,7 @@ AplicationCard.propTypes = {
     lastName: PropTypes.string.isRequired,
     appliedAt: PropTypes.string.isRequired,
     applicantId: PropTypes.string.isRequired,
+    applicationStatus: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired,
     resumeUrl: PropTypes.string,
   }).isRequired,

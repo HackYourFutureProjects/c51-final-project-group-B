@@ -36,6 +36,6 @@ cron.schedule("0 * * * *", async () => {
 
     await updateIsActiveStatus();
   } catch (error) {
-    logError("[corn] Error in updateIsJobActiveStatus");
+    logError("[corn] Error in updateIsActiveStatus");
   }
 });

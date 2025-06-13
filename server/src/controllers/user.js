@@ -29,6 +29,10 @@ export async function register(req, res) {
       agreedToPrivacy,
     } = req.body;
 
+    const agreedTermsBool = agreedToTerms === true || agreedToTerms === "true";
+    const agreedPrivacyBool =
+      agreedToPrivacy === true || agreedToPrivacy === "true";
+
     //  Check that the userType is either "seeker" or "company".
     if (!["seeker", "company"].includes(userType)) {
       return res.status(400).json({
@@ -36,7 +40,8 @@ export async function register(req, res) {
         msg: "Invalid user type.",
       });
     }
-    if (!agreedToTerms || !agreedToPrivacy) {
+    //  Check that the user has agreed to the terms and privacy policy.
+    if (!agreedPrivacyBool || !agreedTermsBool) {
       return res.status(400).json({
         success: false,
         msg: "You must agree to the Terms and Privacy Policy.",

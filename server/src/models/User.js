@@ -75,19 +75,11 @@ const UserSchema = new Schema(
       type: Boolean,
       required: [true, "You must agree to the Terms and Privacy Policy"],
       default: false,
-      validate: {
-        validator: (v) => v === true,
-        message: "You must explicitly agree to the Terms and Privacy Policy.",
-      },
     },
     agreedToPrivacy: {
       type: Boolean,
       required: [true, "You must agree to the Privacy Policy"],
       default: false,
-      validate: {
-        validator: (v) => v === true,
-        message: "You must explicitly agree to the Privacy Policy.",
-      },
     },
   },
   BaseOptions,

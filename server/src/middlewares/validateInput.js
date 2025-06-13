@@ -43,11 +43,11 @@ export const validateRegistration = [
 
   body("agreedToTerms")
     .custom((val) => val === true || val === "true")
-    .withMessage("You must agree to the Terms and Privacy Policy."),
+    .withMessage("You must agree to the Terms and Conditions."),
 
   body("agreedToPrivacy")
     .custom((val) => val === true || val === "true")
-    .withMessage("You must agree to the Terms and Privacy Policy."),
+    .withMessage("You must agree to the Privacy Policy."),
 
   checkValidation,
 ];

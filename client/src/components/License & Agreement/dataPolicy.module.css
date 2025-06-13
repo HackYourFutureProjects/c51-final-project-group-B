@@ -1,0 +1,156 @@
+/* DataPolicy.module.css */
+
+.dataPolicyContainer {
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: "Outfit";
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--title-color);
+  text-align: center;
+}
+
+.lastUpdated {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+}
+
+.policySection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  color: var(--title-color);
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.3rem;
+}
+
+.subSectionTitle {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-top: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.policyText {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.policyList {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  list-style-type: disc;
+}
+
+.policyList li {
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.contactLink {
+  color: var(--info-color);
+  text-decoration: underline;
+}
+
+.contactLink:hover {
+  color: var(--info-color-hover);
+}
+
+.content {
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--default-shadow-color);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--heading-color);
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--heading-color);
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+}
+
+.contactSection {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-style: normal;
+}
+
+address {
+  font-style: normal;
+  color: var(--text-secondary-color);
+  line-height: 1.4;
+}
+
+address a {
+  color: var(--info-color);
+  text-decoration: none;
+}
+
+address a:hover,
+address a:focus {
+  text-decoration: underline;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-secondary-color);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .content {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+}

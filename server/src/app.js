@@ -5,8 +5,8 @@ import userRouter from "./routes/user.js";
 import jobRouter from "./routes/jobPosts.js";
 import authRouter from "./routes/auths.js";
 import applicationsRouter from "./routes/applications.js";
+import messagesRouter from "./routes/messages.js";
 import savedJobsRouter from "./routes/savedJobs.js";
-
 import { logError } from "./util/logging.js";
 import feedRouter from "./routes/feed.js";
 
@@ -29,6 +29,7 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/jobs", jobRouter);
 app.use("/api/applications", applicationsRouter);
+app.use("/api/messages", messagesRouter);
 
 app.use("/api/feed", feedRouter);
 

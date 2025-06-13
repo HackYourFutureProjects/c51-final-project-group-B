@@ -15,9 +15,11 @@ import CompanySettings from "../../components/UserPersonalProfile/Company/Settin
 //   shared
 import Messages from "../../components/UserPersonalProfile/Shared/Messages";
 
+import Loading from "../../components/templates/Loader";
+
 const ProfilePage = () => {
   const { user, loading } = useUser();
-  if (loading) return <div>Loading...</div>; //  spinner later
+  if (loading) return <Loading />;
   if (!user) return <div>No user found.</div>; //  handle no user case we will add a redirect later
 
   return (
@@ -25,6 +27,7 @@ const ProfilePage = () => {
       <Routes>
         {/*  route for messages */}
         <Route path="messages" element={<Messages />} />
+        <Route path="messages/:conversationId" element={<Messages />} />
         {/*  Conditional routes based on user type */}
         {user.userType === "seeker" ? (
           <>

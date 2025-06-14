@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import ToggleVisibility from "./ToggleVisibility";
 import css from "./form.module.css";
@@ -15,7 +15,6 @@ const SignupForm = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const {
     register,

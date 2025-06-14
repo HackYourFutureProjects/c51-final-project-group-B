@@ -26,7 +26,7 @@ import PostJob from "./pages/PostJob/PostJob";
 import Feed from "./pages/Feed/Feed";
 import DataPolicy from "./components/License & Agreement/DataPolicy";
 import TermsAndCondition from "./components/License & Agreement/TermsAndCondition";
-import DeleteJob from "./pages/PostJob/DeleteJob";
+
 const App = () => {
   return (
     <>
@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/jobs/:id" element={<JobDetail />} />
           <Route path="/post" element={<PostJob />} />
           <Route path="/edit/:id" element={<EditJob />} />
-          <Route path="/delete/:id" element={<DeleteJob />} />
+
           {/* the job seeker route is only accessible if the user is authenticated and has the role of jobseeker */}
           <Route
             path="/jobs/find"

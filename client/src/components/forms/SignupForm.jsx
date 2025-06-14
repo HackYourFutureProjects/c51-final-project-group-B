@@ -16,7 +16,6 @@ const SignupForm = () => {
 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const {
     register,
     reset,
@@ -41,6 +40,7 @@ const SignupForm = () => {
       delete data.companyName;
     }
     const fullData = { ...data, userType };
+    console.log("Submitting form with data:", fullData);
 
     apiRequest({
       url: "/api/users/register",

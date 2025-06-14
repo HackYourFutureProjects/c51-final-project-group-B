@@ -60,7 +60,12 @@ export async function register(req, res) {
     const passwordHash = await bcrypt.hash(password, 10);
 
     //  payload common to all users.
-    let payload = { email, passwordHash };
+    let payload = {
+      email,
+      passwordHash,
+      agreedToTerms: agreedTermsBool,
+      agreedToPrivacy: agreedPrivacyBool,
+    };
 
     //  collecting validation error messages.
     let errors = [];

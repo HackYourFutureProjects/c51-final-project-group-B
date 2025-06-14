@@ -41,6 +41,7 @@ const SignupForm = () => {
       delete data.companyName;
     }
     const fullData = { ...data, userType };
+    console.log("Submitting form with data:", fullData);
 
     apiRequest({
       url: "/api/users/register",
@@ -50,7 +51,6 @@ const SignupForm = () => {
         "Registration successful. Verification email has been sent.",
       onSuccess: () => {
         localStorage.removeItem("signupForm");
-        navigate("/signin");
         reset();
       },
     });

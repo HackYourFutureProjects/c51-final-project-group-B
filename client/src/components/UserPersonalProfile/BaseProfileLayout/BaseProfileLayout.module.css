@@ -16,8 +16,8 @@
   min-width: 0;
   background: var(--bg-color, #f8fafc);
   border-radius: 22px;
-  /* margin: 2.5rem clamp(1.5rem, 6vw, 2rem);
-  padding: 0.5rem clamp(1.5rem, 6vw, 2rem); */
+  margin: 2.5rem clamp(1.5rem, 6vw, 2rem);
+  padding: 0.5rem clamp(1.5rem, 6vw, 2rem);
   min-height: 80vh;
   overflow-x: auto;
   word-break: break-word;
@@ -38,11 +38,11 @@
   .sidebarWrapper {
     margin-right: 0.2rem;
   }
-  /* .contentWrapper {
+  .contentWrapper {
     margin: 1.2rem 0.3rem;
     padding: 1rem 0.3rem;
     border-radius: 12px;
-  } */
+  }
 }
 
 @media (max-width: 700px) {

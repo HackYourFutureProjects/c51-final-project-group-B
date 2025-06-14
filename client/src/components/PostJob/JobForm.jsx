@@ -102,7 +102,7 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
             {...register("title", {
               required: "Required",
               pattern: {
-                value: /^[a-zA-Z\s.,'!&-]+$/,
+                value: /^[a-zA-Z\s.,'!&\-/]+$/,
                 message: "Only letters, spaces, and basic punctuation allowed",
               },
               minLength: { value: 3, message: "Min 3 characters" },
@@ -319,9 +319,28 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
               required: "Required",
               minLength: { value: 20, message: "Min 20 characters" },
               maxLength: { value: 1000, message: "Max 1000 characters" },
-              pattern: {
-                value: /^[a-zA-Z\s.,'!&-]+$/,
-                message: "Only letters, spaces, and basic punctuation allowed",
+              validate: (val) => {
+                if (!val) return "Required";
+
+                // Decode HTML entities
+                const decodeHtmlEntities = (text) => {
+                  const parser = new DOMParser();
+                  return (
+                    parser.parseFromString(text, "text/html").body
+                      .textContent || ""
+                  );
+                };
+
+                const decodedVal = decodeHtmlEntities(val);
+
+                // Regex pattern: letters, numbers, spaces, basic punctuation, slash, newline
+                const pattern = /^[a-zA-Z0-9\s.,'!&\-():;?/\\n]+$/;
+
+                if (!pattern.test(decodedVal)) {
+                  return "Only letters, spaces, and basic punctuation allowed";
+                }
+
+                return true;
               },
             })}
             aria-invalid={errors.description ? "true" : "false"}
@@ -346,13 +365,30 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
               required: "Required",
               validate: (val) => {
                 if (!val) return "2–10 items required";
+
                 const arr = String(val)
-                  .split(",")
+                  .split(/[\n,]+/)
                   .map((s) => s.trim())
-                  .filter(Boolean);
-                return arr.length >= 2 && arr.length <= 10
-                  ? true
-                  : "2–10 items required";
+                  .filter((s) => s.length > 0);
+
+                if (arr.length < 2 || arr.length > 10) {
+                  return "2–10 items required";
+                }
+
+                const isValidCharacters = arr.every((item) =>
+                  /^[\w\s.,'"!&/+\-()[\]:]+$/.test(item),
+                );
+
+                if (!isValidCharacters) {
+                  return "Only letters, numbers, spaces, and basic punctuation allowed.";
+                }
+
+                const isLengthValid = arr.every((item) => item.length <= 200);
+                if (!isLengthValid) {
+                  return "Each item must be 200 characters or fewer.";
+                }
+
+                return true;
               },
             })}
             aria-invalid={errors.requirements ? "true" : "false"}

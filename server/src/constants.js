@@ -12,7 +12,7 @@ export const JOB_TYPES = [
 export const MAX_NR_TAGS = 10;
 export const MIN_NR_REQUIREMENTS = 2;
 export const MAX_NR_REQUIREMENTS = 10;
-export const MAX_POSTS_PER_DAY = 5;
+export const MAX_POSTS_PER_DAY = 10;
 
 // The MIN_JOBS  represents a min number of jobs we want to collect
 export const MIN_JOBS = 4;

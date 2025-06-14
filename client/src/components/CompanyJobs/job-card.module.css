@@ -100,7 +100,22 @@
   max-width: 400px;
   width: 100%;
 }
+.deletebutton {
+  background-color: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--default-sm-border-radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
 
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 @media (max-width: 768px) {
   .jobCard {
     padding: 1rem;

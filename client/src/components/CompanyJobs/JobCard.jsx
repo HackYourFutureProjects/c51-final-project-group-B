@@ -4,9 +4,8 @@ import { GoLocation } from "react-icons/go";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import styles from "./job-card.module.css";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
-// ✅ Modal Component
 const ConfirmDeleteModal = ({
   jobTitle,
   onCancel,
@@ -29,7 +28,7 @@ const ConfirmDeleteModal = ({
         <button
           onClick={onConfirm}
           disabled={isProcessing}
-          className="btn btn-danger"
+          className={styles.deletebutton}
         >
           {isProcessing ? "Deleting..." : "Yes, Delete"}
         </button>
@@ -65,7 +64,7 @@ const JobCard = ({ job, onJobClick, onDelete }) => {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const response = await fetch(`/jobs/${_id}`, {
+      const response = await fetch(`/api/jobs/${_id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +82,8 @@ const JobCard = ({ job, onJobClick, onDelete }) => {
       // Notify parent to remove the job from list
       onDelete?.(_id);
     } catch (err) {
-      toast.error(err.message);
+      console.error("Delete error:", err);
+      toast.error(err.message || "Error deleting job");
     } finally {
       setIsDeleting(false);
     }
@@ -91,6 +91,7 @@ const JobCard = ({ job, onJobClick, onDelete }) => {
 
   return (
     <>
+      <Toaster position="top-center" /> {/* <-- Add this here */}
       <div onClick={() => onJobClick(job)} className={styles.jobCardLink}>
         <div className={styles.jobCard}>
           <div className={styles.jobCardHeader}>
@@ -140,7 +141,7 @@ const JobCard = ({ job, onJobClick, onDelete }) => {
                 Edit
               </button>
               <button
-                className="btn btn-danger"
+                className="btn btn-primary"
                 onClick={(e) => {
                   e.stopPropagation();
                   setShowConfirmDelete(true);
@@ -152,7 +153,6 @@ const JobCard = ({ job, onJobClick, onDelete }) => {
           </div>
         </div>
       </div>
-
       {/* Delete confirmation modal */}
       {showConfirmDelete && (
         <ConfirmDeleteModal

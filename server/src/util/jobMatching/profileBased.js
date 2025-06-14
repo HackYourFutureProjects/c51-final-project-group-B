@@ -1,12 +1,11 @@
 import { escapeRegex } from "../utils.js";
 import { findJobs } from "../../helpers/jobPostHelper.js";
-import { MIN_JOBS } from "../../constants.js";
 
 /**
  * Constructs an array of job matching criteria with strict and
  * moderate levels based on the user's(seeker) profile.
  *
- * The loose is removed because it's adding noise to the results.
+ *
  */
 export const profileBasedMatchingCriterion = (user) => {
   const {
@@ -30,78 +29,50 @@ export const profileBasedMatchingCriterion = (user) => {
     return [];
   }
 
-  // Partial match is supported so title and position do NOT have to be exactly same
-  const titleCondition = { title: new RegExp(escapeRegex(position), "i") };
-  const languageCondition = { languages: { $in: languages } };
-  // Jobs with only isActive = true are included
-  const baseConditions = [{ isActive: true }, languageCondition];
+  const words = position.split(" ").map(escapeRegex);
+  const titleCondition = { title: new RegExp(words.join("|"), "i") };
 
-  const strict = {
-    $and: [
-      ...baseConditions,
-      { location },
-      { tags: { $in: skills } },
-      { type: { $in: preferences } },
-      titleCondition,
-    ],
+  const byPositionAndLocation = {
+    $and: [{ isActive: true }, titleCondition, { location: location }],
   };
 
-  const moderate = {
-    $or: [
-      {
-        $and: [...baseConditions, { location }, { tags: { $in: skills } }],
-      },
-      {
-        $and: [
-          ...baseConditions,
-          { type: { $in: preferences } },
-          { tags: { $in: skills } },
-        ],
-      },
-      {
-        $and: [...baseConditions, { location }, titleCondition],
-      },
-    ],
+  const byPosition = {
+    $and: [{ isActive: true }, titleCondition],
   };
 
   return [
-    { type: "strict", value: strict },
-    { type: "moderate", value: moderate },
+    {
+      type: "by-position-and-location",
+      value: byPositionAndLocation,
+    },
+    { type: "by-position", value: byPosition },
   ];
 };
 
-export const getUniqueJobs = (jobs) => {
-  const map = new Map();
-  for (const job of jobs) {
-    map.set(job._id.toString(), job);
-  }
-  return Array.from(map.values());
-};
+export const getProfileBasedRecommendations = async (criteria, maxNumber) => {
+  const [byPositionAndLocation, byPosition] = criteria;
 
-export const getProfileBasedRecommendations = async (criteriaList) => {
-  let recommendedJobs = [];
-  let matchLevelsUsed = new Set();
+  const jobsByPosition = await findJobs(
+    byPosition.value,
+    "title tags type location description isActive createdAt",
+    "postedBy",
+    false,
+    { createdAt: -1 },
+    0,
+    maxNumber,
+  );
 
-  for (const criteria of criteriaList) {
-    const jobs = await findJobs(
-      criteria.value,
-      "title tags type location description isActive createdAt",
-      "postedBy",
-      false,
-      { createdAt: -1 },
-      0,
-      10,
-    );
+  const locationValue = byPositionAndLocation.value.$and.find(
+    (c) => c.location,
+  )?.location;
 
-    if (jobs.length) {
-      recommendedJobs.push(...jobs);
-      matchLevelsUsed.add(criteria.type);
-      if (recommendedJobs.length >= MIN_JOBS) break;
-    }
-  }
+  const jobs = jobsByPosition.map((job) => {
+    const matchedBy =
+      job.location === locationValue
+        ? "by-position-and-location"
+        : "by-position";
+    return { ...job, matchedBy };
+  });
 
-  return {
-    jobs: getUniqueJobs(recommendedJobs),
-    matchLevels: Array.from(matchLevelsUsed),
-  };
+  return { jobs };
 };

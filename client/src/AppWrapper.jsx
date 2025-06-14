@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
+import { ChatProvider } from "./contexts/ChatContext";
 
 /**
  * This component wraps our App with the providers we do not want to have in our tests
@@ -8,7 +9,9 @@ import { UserProvider } from "./contexts/UserContext";
 const AppWrapper = ({ children }) => {
   return (
     <Router>
-      <UserProvider>{children}</UserProvider>
+      <UserProvider>
+        <ChatProvider>{children}</ChatProvider>
+      </UserProvider>
     </Router>
   );
 };

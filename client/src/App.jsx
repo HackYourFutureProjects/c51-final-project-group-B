@@ -24,7 +24,8 @@ import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
 
 import PostJob from "./pages/PostJob/PostJob";
 import Feed from "./pages/Feed/Feed";
-
+import DataPolicy from "./components/License & Agreement/DataPolicy";
+import TermsAndCondition from "./components/License & Agreement/TermsAndCondition";
 const App = () => {
   return (
     <>
@@ -75,6 +76,23 @@ const App = () => {
             element={
               <PublicRoute>
                 <SignupForm />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/terms"
+            element={
+              <PublicRoute>
+                <TermsAndCondition />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/privacy"
+            element={
+              <PublicRoute>
+                <DataPolicy />
               </PublicRoute>
             }
           />

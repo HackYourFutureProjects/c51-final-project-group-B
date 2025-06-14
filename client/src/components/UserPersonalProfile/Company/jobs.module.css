@@ -1,0 +1,28 @@
+.btnContainerRight {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0;
+}
+
+.btn {
+  background-color: var(--primary-color);
+
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  font-family: var(--btn-font-family);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--default-sm-border-radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: var(--btn-text-color);
+}
+
+.btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+}

@@ -39,6 +39,10 @@ export const validateRegistration = [
     .if(body("userType").equals("company"))
     .notEmpty()
     .withMessage("Company name required."),
+  // **Add this to require agreement checkbox**
+  body("agreedToTerms")
+    .equals("true") // because checkbox usually sends string "true"
+    .withMessage("You must agree to the Terms and Privacy Policy."),
 
   checkValidation,
 ];

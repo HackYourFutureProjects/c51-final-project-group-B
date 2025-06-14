@@ -1,0 +1,99 @@
+.aplicationCard {
+  border: 1px solid var(--border-color);
+  border-radius: var(--default-md-border-radius);
+  padding: 1.5rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.aplicationCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.applicantName {
+  font-family: var(--heading-font-family);
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--heading-color);
+}
+
+.appliedAt {
+  font-size: 0.9rem;
+  color: var(--text-secondary-color);
+  font-style: italic;
+}
+
+.applicationFooter {
+  display: flex;
+  justify-content: end;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary-color);
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  font-family: var(--btn-font-family);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--default-sm-border-radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: var(--btn-text-color);
+}
+
+.rejectBtn {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  font-family: var(--btn-font-family);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--default-sm-border-radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background-color: var(--primary-color);
+  color: var(--btn-text-color);
+}
+
+.rejectBtn:hover {
+  background-color: var(--error-color);
+  color: var(--btn-text-color);
+}
+
+.acceptBtn {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  font-family: var(--btn-font-family);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--default-sm-border-radius);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background-color: var(--primary-color);
+  color: var(--btn-text-color);
+}
+
+.acceptBtn:hover {
+  background-color: var(--secondary-color);
+  color: var(--btn-text-color);
+}
+
+.resumeLink {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  justify-content: end;
+}

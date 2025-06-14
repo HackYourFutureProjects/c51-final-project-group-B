@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
 import { GoLocation } from "react-icons/go";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import styles from "./job-card.module.css";
 
 const JobCard = ({ job, onJobClick }) => {
+  const navigate = useNavigate();
+
   const {
+    _id,
     title,
     location,
     type,
@@ -17,6 +21,7 @@ const JobCard = ({ job, onJobClick }) => {
 
   const companyLogo = profilePhoto || "";
   const companyName = companyProfile || "";
+
   return (
     <div onClick={() => onJobClick(job)} className={styles.jobCardLink}>
       <div className={styles.jobCard}>
@@ -56,14 +61,26 @@ const JobCard = ({ job, onJobClick }) => {
 
         <div className={styles.jobFooter}>
           <span className={styles.jobType}>{type}</span>
-          <button
-            className="btn btn-primary"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            Edit
-          </button>
+          <div className={styles.buttonGroup}>
+            <button
+              className="btn btn-primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/edit/${_id}`);
+              }}
+            >
+              Edit
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/delete/${_id}`);
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>

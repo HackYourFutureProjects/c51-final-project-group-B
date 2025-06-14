@@ -62,7 +62,12 @@ const EditJob = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!response.ok) throw new Error("Failed to update job");
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        const errorMessage = result.msg || "Failed to update job";
+        throw new Error(errorMessage);
+      }
       toast.success("Job updated successfully");
     } catch (error) {
       toast.error(error.message);

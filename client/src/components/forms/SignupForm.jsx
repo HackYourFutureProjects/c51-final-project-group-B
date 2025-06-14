@@ -15,7 +15,7 @@ const SignupForm = () => {
   });
 
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const {
     register,
     reset,
@@ -50,6 +50,7 @@ const SignupForm = () => {
         "Registration successful. Verification email has been sent.",
       onSuccess: () => {
         localStorage.removeItem("signupForm");
+        navigate("/signin");
         reset();
       },
     });

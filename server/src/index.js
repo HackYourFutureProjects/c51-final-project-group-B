@@ -8,7 +8,7 @@ import { logInfo, logError } from "./util/logging.js";
 import connectDB from "./db/connectDB.js";
 import testRouter from "./testRouter.js";
 
-import { updateIsActiveStatus } from "./scripts/updateIsActive.js";
+import "./scripts/jobPostExpiration.js"; // starts the cron scheduler because the code runs as soon as the file is loaded.
 
 // socket.io imports
 import { Server } from "socket.io";
@@ -26,7 +26,6 @@ if (port == null) {
 const startServer = async () => {
   try {
     await connectDB();
-    await updateIsActiveStatus();
     // Create HTTP server and attach Socket.IO
     const server = http.createServer(app);
     const io = new Server(server, { cors: { origin: "*" } });

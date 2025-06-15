@@ -18,7 +18,9 @@ const PostJob = () => {
   const onSubmit = async (data) => {
     // Enforce daily post limit
     if (postsToday >= DAILY_POST_LIMIT) {
-      toast.error("You have reached the limit of 5 job posts today.");
+      toast.error(
+        `You have reached the limit of ${DAILY_POST_LIMIT} job posts today.`,
+      );
       return;
     }
 

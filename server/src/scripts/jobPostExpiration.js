@@ -31,11 +31,11 @@ export const updateIsActiveStatus = async () => {
 cron.schedule("0 * * * *", async () => {
   try {
     logInfo(
-      `[corn] Running updateIsActiveStatus at ${new Date().toISOString()} `,
+      `[cron] Running updateIsActiveStatus at ${new Date().toISOString()} `,
     );
 
     await updateIsActiveStatus();
   } catch (error) {
-    logError("[corn] Error in updateIsActiveStatus");
+    logError("[cron] Error in updateIsActiveStatus");
   }
 });

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
+import { SavedJobsProvider } from "./contexts/SavedJobsContext";
 import { ChatProvider } from "./contexts/ChatContext";
 
 /**
@@ -10,7 +11,9 @@ const AppWrapper = ({ children }) => {
   return (
     <Router>
       <UserProvider>
-        <ChatProvider>{children}</ChatProvider>
+        <SavedJobsProvider>
+          <ChatProvider>{children}</ChatProvider>
+        </SavedJobsProvider>
       </UserProvider>
     </Router>
   );

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import styles from "./postJobSection.module.css";
 import { JOB_TYPES } from "../../constants.js";
+import usePersistedForm from "../../hooks/usePersistedForm.jsx";
 
 const getTodayDateFormatted = () => {
   const today = new Date();
@@ -26,6 +27,10 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
       deadline: defaultValues?.deadline || getTodayDateFormatted(),
     },
   });
+
+  // Use the custom hook to persist form data under 'jobFormData' key,
+  // excluding salaryMin and salaryMax from being saved for privacy
+  usePersistedForm(watch, reset, "jobFormData", ["salaryMin", "salaryMax"]);
 
   const descriptionValue = watch("description", "");
   const requirementsValue = watch("requirements", "");
@@ -77,6 +82,11 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
       }
     }
     onSubmit(data);
+
+    // Clear persisted data after successful submit
+    localStorage.removeItem("jobFormData");
+
+    reset(defaultValues);
   };
 
   return (
@@ -306,7 +316,6 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
             )}
           </div>
         </div>
-
         {/* Description textarea */}
         <div className={styles.formField}>
           <label htmlFor="description">Description *</label>
@@ -319,29 +328,6 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
               required: "Required",
               minLength: { value: 20, message: "Min 20 characters" },
               maxLength: { value: 1000, message: "Max 1000 characters" },
-              validate: (val) => {
-                if (!val) return "Required";
-
-                // Decode HTML entities
-                const decodeHtmlEntities = (text) => {
-                  const parser = new DOMParser();
-                  return (
-                    parser.parseFromString(text, "text/html").body
-                      .textContent || ""
-                  );
-                };
-
-                const decodedVal = decodeHtmlEntities(val);
-
-                // Regex pattern: letters, numbers, spaces, basic punctuation, slash, newline
-                const pattern = /^[a-zA-Z0-9\s.,'!&\-():;?/\\n]+$/;
-
-                if (!pattern.test(decodedVal)) {
-                  return "Only letters, spaces, and basic punctuation allowed";
-                }
-
-                return true;
-              },
             })}
             aria-invalid={errors.description ? "true" : "false"}
           />
@@ -373,14 +359,6 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
 
                 if (arr.length < 2 || arr.length > 10) {
                   return "2–10 items required";
-                }
-
-                const isValidCharacters = arr.every((item) =>
-                  /^[\w\s.,'"!&/+\-()[\]:]+$/.test(item),
-                );
-
-                if (!isValidCharacters) {
-                  return "Only letters, numbers, spaces, and basic punctuation allowed.";
                 }
 
                 const isLengthValid = arr.every((item) => item.length <= 200);
@@ -434,7 +412,10 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
           <button
             type="button"
             className={styles.cancelButton}
-            onClick={() => window.history.back()}
+            onClick={() => {
+              localStorage.removeItem("jobFormData");
+              window.history.back();
+            }}
             disabled={isSubmitting}
           >
             Cancel

@@ -139,6 +139,13 @@ const Navbar = () => {
               </NavLink>
             </li>
           )}
+          {user?.userType === "company" && (
+            <li>
+              <NavLink to="/post" className={navLinkClass}>
+                Add Jobs
+              </NavLink>
+            </li>
+          )}
         </ul>
 
         <div className={styles.rightSection}>

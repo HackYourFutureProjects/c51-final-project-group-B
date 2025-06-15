@@ -4,12 +4,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  /* padding: 2rem; */
+  padding: 2rem;
   border-radius: var(--default-xl-border-radius);
-  /* background-color: var(--surface-color); */
-  /* box-shadow: var(--box-shadow-md); */
-  /* max-width: 900px; */
-  /* margin: 2rem auto; */
+  background-color: var(--surface-color);
+  box-shadow: var(--box-shadow-md);
+  max-width: 900px;
+  margin: 2rem auto;
 }
 
 h1 {
@@ -45,6 +45,7 @@ h1 {
   transition: all 0.3s ease;
   background-color: var(--surface-color);
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .formField input[type="text"]:focus,
@@ -71,6 +72,11 @@ h1 {
   color: var(--disabled-text-color);
   cursor: not-allowed;
 }
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
 
 .errorText {
   color: var(--error-color);
@@ -89,9 +95,7 @@ h1 {
   grid-template-columns: 1fr;
   gap: 1.5rem;
 }
-label {
-  margin-top: 1rem;
-}
+
 @media (min-width: 768px) {
   .twoColumn {
     grid-template-columns: 1fr 1fr;
@@ -110,26 +114,7 @@ textarea {
   margin-top: 0.25rem;
 }
 
-.submitButton {
-  padding: 1rem 1.5rem;
-  background-color: var(--primary-color);
-  color: var(--btn-text-color);
-  border: none;
-  border-radius: var(--default-lg-border-radius);
-  font-size: 1.1rem;
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    box-shadow 0.3s ease;
-  margin-top: 1rem;
-  align-self: flex-end;
-}
-
-.submitButton:hover {
-  box-shadow: var(--box-shadow-md);
-}
-/* New styles for Cancel button */
+.submitButton,
 .cancelButton {
   padding: 1rem 1.5rem;
   background-color: var(--primary-color);
@@ -146,20 +131,10 @@ textarea {
   align-self: flex-end;
 }
 
+.submitButton:hover,
 .cancelButton:hover {
   box-shadow: var(--box-shadow-md);
-}
-
-/* Container to hold both buttons on the right */
-.buttonGroup {
-  display: flex;
-  justify-content: flex-end; /* align buttons right */
-  gap: 1rem; /* spacing between buttons */
-  margin-top: 1rem;
-}
-.dateContainer {
-  position: relative;
-  margin-bottom: 20px; /* This creates space for the calendar to drop down */
+  background-color: var(--primary-color-dark);
 }
 
 /* Responsive tweaks for very small screens */
@@ -171,36 +146,9 @@ textarea {
     font-size: 1.4rem;
     margin-top: 1rem;
   }
-  .submitButton {
+  .submitButton,
+  .cancelButton {
     padding: 0.75rem 1rem;
     font-size: 1rem;
   }
-}
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.modalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
 }

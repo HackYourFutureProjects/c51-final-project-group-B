@@ -38,14 +38,16 @@ const AplicationCard = ({ applicant }) => {
 
   return (
     <div className={styles.aplicationCard}>
-      <div className={styles.applicantName}>First name: {firstName}</div>
-      <div className={styles.applicantName}>Last name: {lastName} </div>
+      <div className={styles.applicantName}>
+        {" "}
+        Name: {firstName} {lastName}
+      </div>
 
       <div className={styles.appliedAt}>
         Applied at: {new Date(appliedAt).toLocaleDateString()}
       </div>
       <div>
-        <div className={styles.appliedAt}>applicationStatus : {jobStatus}</div>
+        <div className={styles.appliedAt}>Application Status : {jobStatus}</div>
         {resumeUrl && (
           <div className={styles.resumeLink}>
             <a
@@ -67,16 +69,16 @@ const AplicationCard = ({ applicant }) => {
           className={styles.rejectBtn}
           onClick={() => handleStatusChange("rejected")}
         >
-          reject candidate
+          Reject candidate
         </button>
         <button
           className={styles.acceptBtn}
           onClick={() => handleStatusChange("accepted")}
         >
-          accept candidate
+          Accept candidate
         </button>
         <button className="btn btn-primary" onClick={handleDetailsClick}>
-          view profile
+          View profile
         </button>
       </div>
     </div>

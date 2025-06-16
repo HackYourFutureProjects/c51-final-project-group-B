@@ -12,6 +12,8 @@
   flex-direction: column;
   gap: 1rem;
   transition: box-shadow 0.2s ease-in-out;
+  color: var(--heading-color);
+  background-color: var(--surface-color);
 }
 
 .jobCard:hover {

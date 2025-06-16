@@ -35,6 +35,7 @@ const startServer = async () => {
   try {
     await connectDB();
 
+    // Create HTTP server and attach Socket.IO
     const server = http.createServer(app);
 
     initSocket(server);

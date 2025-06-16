@@ -1,12 +1,5 @@
 .sidebarContainer {
-  background: linear-gradient(
-    135deg,
-    #f9fafb 0%,
-    #e0e7ef 40%,
-    #d1d5db 70%,
-    #bfc6e0 85%,
-    #6366f1 100%
-  );
+  background: var(--sidebar-gradient);
   width: 80px;
   min-width: 80px;
   height: 100vh;

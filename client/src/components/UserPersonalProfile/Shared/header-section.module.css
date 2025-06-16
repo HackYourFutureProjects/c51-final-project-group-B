@@ -4,14 +4,7 @@
   align-items: flex-start;
   gap: 2.5rem;
   padding: 2.5rem 3rem 2.5rem 3rem;
-  background: linear-gradient(
-    45deg,
-    #f9fafb 0%,
-    #e0e7ef 40%,
-    #d1d5db 70%,
-    #bfc6e0 85%,
-    #6366f1 110%
-  );
+  background: var(--section-grad);
   border-radius: 20px;
   box-shadow: 0 2px 18px 0 rgba(60, 72, 88, 0.08);
   margin-top: 2rem;

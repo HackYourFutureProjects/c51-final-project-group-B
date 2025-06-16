@@ -27,7 +27,7 @@ const SocketManager = ({ children }) => {
       }
       return;
     }
-
+    console.log("Connecting", `${SERVER_URL}/notifications`);
     const nsSocket = io(`${SERVER_URL}/notifications`, {
       withCredentials: true,
       transports: ["websocket"],

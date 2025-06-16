@@ -1,16 +1,16 @@
-import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
 import styles from "./postJobSection.module.css";
-import { JOB_TYPES } from "../../constants.js";
 
-const getTodayDateFormatted = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+import InputField from "./InputField";
+import TextareaField from "./TextareaField";
+import JobTypeSelect from "./JobTypeSelect";
+import SalaryFields from "./SalaryField";
+import DeadlineField from "./DeadlineField";
+import FormButtons from "./FormButtons";
+
+const getTodayDateFormatted = () => new Date().toISOString().split("T")[0];
 
 const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
   const {
@@ -27,29 +27,35 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
     },
   });
 
-  // Reset form when defaultValues change
+  const descriptionValue = watch("description", "");
+  const requirementsValue = watch("requirements", "");
+
   useEffect(() => {
     if (defaultValues && Object.keys(defaultValues).length) {
       reset(defaultValues);
     }
   }, [defaultValues, reset]);
 
-  // Validate salary min/max relationship before submission
+  useEffect(() => {
+    ["description", "requirements"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.height = "auto";
+        el.style.height = el.scrollHeight + "px";
+      }
+    });
+  }, [descriptionValue, requirementsValue]);
+
+  const normalizeValue = (val) =>
+    String(val ?? "")
+      .trim()
+      .toUpperCase();
+
   const handleValidatedSubmit = (data) => {
-    const normalize = (val) =>
-      typeof val === "string"
-        ? val.trim().toUpperCase()
-        : String(val ?? "")
-            .trim()
-            .toUpperCase();
+    const minRaw = normalizeValue(data.salaryMin);
+    const maxRaw = normalizeValue(data.salaryMax);
 
-    const minRaw = normalize(data.salaryMin);
-    const maxRaw = normalize(data.salaryMax);
-
-    const isMinNA = !minRaw || minRaw === "NA";
-    const isMaxNA = !maxRaw || maxRaw === "NA";
-
-    if (!isMinNA && !isMaxNA) {
+    if (minRaw !== "NA" && maxRaw !== "NA" && minRaw && maxRaw) {
       const min = Number(minRaw);
       const max = Number(maxRaw);
       if (!isNaN(min) && !isNaN(max) && min > max) {
@@ -64,345 +70,221 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
         return;
       }
     }
+
     onSubmit(data);
+    localStorage.removeItem("jobFormData");
+    reset(defaultValues);
   };
 
-  // Watch description and requirements for char count display
-  const descriptionValue = watch("description", "");
-  const requirementsValue = watch("requirements", "");
+  const handleCancel = () => {
+    localStorage.removeItem("jobFormData");
+    window.history.back();
+  };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleValidatedSubmit)}
-      className={styles.settingsForm}
-    >
-      {/* Title */}
-      <FormField label="Title:" htmlFor="title" error={errors.title}>
-        <input
+    <section className={styles.settingsForm}>
+      <h1>{isEditMode ? "Edit Job Posting" : "Create Job Posting"}</h1>
+
+      {isSubmitting && (
+        <div className={styles.overlay}>
+          <div className={styles.spinner} />
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit(handleValidatedSubmit)} noValidate>
+        <InputField
           id="title"
-          type="text"
-          disabled={isSubmitting}
-          maxLength={100}
+          label="Title *"
           placeholder="Software Engineer"
-          {...register("title", {
+          register={register}
+          rules={{
             required: "Required",
             pattern: {
-              value: /^[a-zA-Z\s.,'!&-]+$/,
+              value: /^[a-zA-Z\s.,'!&\-/]+$/,
               message: "Only letters, spaces, and basic punctuation allowed",
             },
             minLength: { value: 3, message: "Min 3 characters" },
             maxLength: { value: 100, message: "Max 100 characters" },
-          })}
+          }}
+          error={errors.title}
+          disabled={isSubmitting}
+          maxLength={100}
         />
-      </FormField>
 
-      <div className={styles.twoColumn}>
-        {/* Location */}
-        <FormField label="Location:" htmlFor="location" error={errors.location}>
-          <input
+        <div className={styles.twoColumn}>
+          <InputField
             id="location"
-            type="text"
-            disabled={isSubmitting}
-            maxLength={100}
+            label="Location *"
             placeholder="Amsterdam, Netherlands"
-            {...register("location", {
+            register={register}
+            rules={{
               required: "Required",
               minLength: { value: 3, message: "Min 3 characters" },
               maxLength: { value: 100, message: "Max 100 characters" },
               pattern: {
                 value: /^[a-zA-Z0-9\s.,'-]+$/,
-                message:
-                  "Only letters, numbers, spaces, and basic punctuation allowed",
+                message: "Only letters, numbers, and punctuation allowed",
               },
-            })}
-          />
-        </FormField>
-
-        {/* Number of Openings */}
-        <FormField
-          label="Number of Openings:"
-          htmlFor="numberOfOpenings"
-          error={errors.numberOfOpenings}
-        >
-          <input
-            id="numberOfOpenings"
-            type="number"
-            min="1"
+            }}
+            error={errors.location}
             disabled={isSubmitting}
+            maxLength={100}
+          />
+
+          <InputField
+            id="numberOfOpenings"
+            label="Number of Openings *"
+            type="number"
             placeholder="1"
-            {...register("numberOfOpenings", {
+            register={register}
+            rules={{
               required: "Required",
               valueAsNumber: true,
               min: { value: 1, message: "At least 1 opening required" },
-              pattern: {
-                value: /^[1-9]\d*$/,
-                message: "Must be a positive integer",
-              },
-            })}
+            }}
+            error={errors.numberOfOpenings}
+            disabled={isSubmitting}
+            min={1}
           />
-        </FormField>
-      </div>
+        </div>
 
-      <div className={styles.twoColumn}>
-        {/* Job Type */}
-        <FormField label="Job Type:" htmlFor="type" error={errors.type}>
-          <select
-            id="type"
+        <div className={styles.twoColumn}>
+          <JobTypeSelect
+            register={register}
+            error={errors.type}
             disabled={isSubmitting}
-            {...register("type", { required: "Required" })}
-          >
-            <option value="">Select type</option>
-            {JOB_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </FormField>
+          />
 
-        {/* Languages */}
-        <FormField
-          label="Languages (comma-separated):"
-          htmlFor="languages"
-          error={errors.languages}
-        >
-          <input
+          <InputField
             id="languages"
-            type="text"
-            disabled={isSubmitting}
-            maxLength={100}
+            label="Languages (comma-separated)"
             placeholder="English"
-            {...register("languages", {
+            register={register}
+            rules={{
               pattern: {
                 value: /^[a-zA-Z, ]*$/,
                 message: "Only letters, commas, and spaces allowed",
               },
-            })}
-          />
-        </FormField>
-      </div>
-
-      <div className={styles.twoColumn}>
-        {/* Salary Min */}
-        <FormField
-          label="Salary Min:"
-          htmlFor="salaryMin"
-          error={errors.salaryMin}
-        >
-          <input
-            id="salaryMin"
-            type="text"
-            disabled={isSubmitting}
-            placeholder="30000"
-            {...register("salaryMin", {
-              validate: (val) => {
-                if (!val) return true;
-                if (String(val).trim().toUpperCase() === "NA") return true;
-                const num = Number(val);
-                return !isNaN(num) && num > 0
-                  ? true
-                  : "Must be a positive number or 'NA'";
-              },
-            })}
-          />
-        </FormField>
-
-        {/* Salary Max */}
-        <FormField
-          label="Salary Max:"
-          htmlFor="salaryMax"
-          error={errors.salaryMax}
-        >
-          <input
-            id="salaryMax"
-            type="text"
-            disabled={isSubmitting}
-            placeholder="60000"
-            {...register("salaryMax", {
-              validate: (val) => {
-                if (!val) return true;
-                if (String(val).trim().toUpperCase() === "NA") return true;
-                const num = Number(val);
-                return !isNaN(num) && num > 0
-                  ? true
-                  : "Must be a positive number or 'NA'";
-              },
-            })}
-          />
-        </FormField>
-      </div>
-
-      <div className={styles.twoColumn}>
-        {/* Tags */}
-        <FormField
-          label="Tags (comma-separated):"
-          htmlFor="tags"
-          error={errors.tags}
-        >
-          <input
-            id="tags"
-            type="text"
+            }}
+            error={errors.languages}
             disabled={isSubmitting}
             maxLength={100}
+          />
+        </div>
+
+        <SalaryFields
+          register={register}
+          errors={errors}
+          isSubmitting={isSubmitting}
+        />
+
+        <div className={styles.twoColumn}>
+          <InputField
+            id="tags"
+            label="Tags (comma-separated)"
             placeholder="backend, frontend, fullstack"
-            {...register("tags", {
+            register={register}
+            rules={{
               pattern: {
                 value: /^[a-zA-Z0-9, ]*$/,
                 message: "Only letters, numbers, spaces, commas allowed",
               },
-            })}
-          />
-        </FormField>
-
-        {/* Limit */}
-        <FormField label="Limit:" htmlFor="limit" error={errors.limit}>
-          <input
-            id="limit"
-            type="number"
-            min="1"
+            }}
+            error={errors.tags}
             disabled={isSubmitting}
+            maxLength={100}
+          />
+
+          <InputField
+            id="limit"
+            label="Limit *"
+            type="number"
             placeholder="1"
-            {...register("limit", {
+            register={register}
+            rules={{
               required: "Required",
               min: { value: 1, message: "Must be at least 1" },
-            })}
+            }}
+            error={errors.limit}
+            disabled={isSubmitting}
+            min={1}
           />
-        </FormField>
-      </div>
+        </div>
 
-      {/* Description */}
-      <FormField
-        label="Description:"
-        htmlFor="description"
-        error={errors.description}
-      >
-        <textarea
+        <TextareaField
           id="description"
-          disabled={isSubmitting}
-          maxLength={1000}
+          label="Description *"
           placeholder="Describe the job responsibilities, etc."
-          {...register("description", {
+          register={register}
+          rules={{
             required: "Required",
             minLength: { value: 20, message: "Min 20 characters" },
             maxLength: { value: 1000, message: "Max 1000 characters" },
-            pattern: {
-              value: /^[a-zA-Z\s.,'!&-]+$/,
-              message: "Only letters, spaces, and basic punctuation allowed",
-            },
-          })}
-        />
-        <div className={styles.charCount}>
-          {descriptionValue.length} / 1000 characters
-        </div>
-      </FormField>
-
-      {/* Requirements */}
-      <FormField
-        label="Requirements (comma-separated):"
-        htmlFor="requirements"
-        error={errors.requirements}
-      >
-        <textarea
-          id="requirements"
+          }}
+          error={errors.description}
           disabled={isSubmitting}
+          value={descriptionValue}
           maxLength={1000}
+        />
+
+        <TextareaField
+          id="requirements"
+          label="Requirements (comma-separated) *"
           placeholder="e.g. 2+ years experience, Strong communication skills"
-          {...register("requirements", {
+          register={register}
+          rules={{
             required: "Required",
             validate: (val) => {
-              if (!val) return "2–10 items required";
-              const arr = String(val)
-                .split(",")
-                .map((s) => s.trim())
+              if (!val) return "Required";
+
+              const items = val
+                .split(/\.\s*[\n]?/)
+                .map((item) => item.trim())
                 .filter(Boolean);
-              return arr.length >= 2 && arr.length <= 10
-                ? true
-                : "2–10 items required";
-            },
-          })}
-        />
-        <div className={styles.charCount}>
-          {" "}
-          {requirementsValue.length} / 1000 characters
-        </div>
-      </FormField>
 
-      {/* Deadline */}
-      <FormField
-        label="Application Deadline:"
-        htmlFor="deadline"
-        error={errors.deadline}
-      >
-        <input
-          id="deadline"
-          type="date"
+              if (items.length < 2 || items.length > 10) {
+                return "2–10 items required";
+              }
+
+              if (items.some((item) => item.length > 200)) {
+                return "Each item must be 200 characters or fewer.";
+              }
+
+              return true;
+            },
+          }}
+          error={errors.requirements}
           disabled={isSubmitting}
-          {...register("deadline", {
-            required: "Required",
-            validate: (value) => {
-              const today = new Date().setHours(0, 0, 0, 0);
-              const selected = new Date(value).setHours(0, 0, 0, 0);
-              return selected >= today || "Deadline cannot be in the past";
-            },
-          })}
+          value={requirementsValue}
+          maxLength={1000}
         />
-      </FormField>
 
-      {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className={styles.submitButton}
-      >
-        {isSubmitting
-          ? isEditMode
-            ? "Updating..."
-            : "Submitting..."
-          : isEditMode
-            ? "Edit Job"
-            : "Post Job"}
-      </button>
-    </form>
+        <DeadlineField
+          register={register}
+          error={errors.deadline}
+          isSubmitting={isSubmitting}
+        />
+
+        <FormButtons
+          isSubmitting={isSubmitting}
+          isEditMode={isEditMode}
+          resetForm={handleCancel}
+        />
+      </form>
+    </section>
   );
-};
-
-const FormField = ({ label, htmlFor, children, error }) => (
-  <div className={styles.formField}>
-    <label htmlFor={htmlFor}>{label}</label>
-    {children}
-    {error && <p className={styles.errorText}>{error.message}</p>}
-  </div>
-);
-
-FormField.propTypes = {
-  label: PropTypes.string.isRequired,
-  htmlFor: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  error: PropTypes.object,
 };
 
 JobForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  isSubmitting: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool,
   defaultValues: PropTypes.object,
   isEditMode: PropTypes.bool,
 };
 
 JobForm.defaultProps = {
-  defaultValues: {
-    title: "",
-    location: "",
-    numberOfOpenings: 1,
-    type: "",
-    languages: "",
-    salaryMin: "",
-    salaryMax: "",
-    tags: "",
-    limit: 1,
-    description: "",
-    requirements: "",
-    deadline: "",
-  },
+  isSubmitting: false,
+  defaultValues: {},
   isEditMode: false,
 };
 

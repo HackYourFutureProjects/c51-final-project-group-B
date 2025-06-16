@@ -1,10 +1,8 @@
-import ProfileTabs from "../../Applications/ProfileTabs";
-
 const Jobs = () => {
   return (
-    <div>
-      <ProfileTabs />
-    </div>
+    <>
+      <h1>Seeker Jobs</h1>
+    </>
   );
 };
 

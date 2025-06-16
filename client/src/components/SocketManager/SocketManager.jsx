@@ -30,7 +30,7 @@ const SocketManager = ({ children }) => {
 
     const nsSocket = io(`${SERVER_URL}/notifications`, {
       withCredentials: true,
-      transports: ["websocket", "polling"],
+      transports: ["websocket"],
     });
 
     nsSocket.on("connect", () => {

@@ -100,7 +100,7 @@
   max-width: 400px;
   width: 100%;
 }
-.deletebutton {
+.deleteButton {
   background-color: var(--accent-color);
   color: #fff;
   border: none;

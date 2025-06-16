@@ -3,24 +3,27 @@ import styles from "./postJobSection.module.css";
 
 const getTodayDateFormatted = () => new Date().toISOString().split("T")[0];
 
-const DeadlineField = ({ register, error, isSubmitting }) => (
-  <div className={`${styles.formField} ${styles.dateContainer}`}>
-    <label htmlFor="deadline">Application Deadline *</label>
-    <input
-      id="deadline"
-      type="date"
-      min={getTodayDateFormatted()}
-      disabled={isSubmitting}
-      {...register("deadline", {
-        required: "Required",
-        validate: (val) =>
-          val >= getTodayDateFormatted() || "Deadline cannot be in the past",
-      })}
-      aria-invalid={error ? "true" : "false"}
-    />
-    {error && <p className={styles.errorText}>{error.message}</p>}
-  </div>
-);
+const DeadlineField = ({ register, error, isSubmitting }) => {
+  const todayDate = getTodayDateFormatted();
+  return (
+    <div className={`${styles.formField} ${styles.dateContainer}`}>
+      <label htmlFor="deadline">Application Deadline *</label>
+      <input
+        id="deadline"
+        type="date"
+        min={todayDate}
+        disabled={isSubmitting}
+        {...register("deadline", {
+          required: "Required",
+          validate: (val) =>
+            val >= todayDate || "Deadline cannot be in the past",
+        })}
+        aria-invalid={error ? "true" : "false"}
+      />
+      {error && <p className={styles.errorText}>{error.message}</p>}
+    </div>
+  );
+};
 
 DeadlineField.propTypes = {
   register: PropTypes.func.isRequired,

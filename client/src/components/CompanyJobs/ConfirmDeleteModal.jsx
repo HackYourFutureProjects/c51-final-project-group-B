@@ -7,8 +7,8 @@ const ConfirmDeleteModal = ({
   onConfirm,
   isProcessing,
 }) => (
-  <div className={styles.modalBackdrop}>
-    <div className={styles.modalContent}>
+  <div className={styles.modalContent}>
+    <div className={styles.modalContent} role="dialog" aria-modal="true">
       <h3>Delete Job</h3>
       <p>Are you sure you want to delete the job &quot;{jobTitle}&quot;?</p>
       <div>
@@ -23,7 +23,7 @@ const ConfirmDeleteModal = ({
         <button
           onClick={onConfirm}
           disabled={isProcessing}
-          className={styles.deletebutton}
+          className={styles.deleteButton}
         >
           {isProcessing ? "Deleting..." : "Yes, Delete"}
         </button>

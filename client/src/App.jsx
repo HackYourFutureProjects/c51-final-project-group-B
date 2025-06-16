@@ -3,7 +3,6 @@ import { Toaster } from "sonner";
 import Body from "./components/Body/Body";
 import CreateUser from "./pages/User/CreateUser";
 import UserList from "./pages/User/UserList";
-import EditJob from "./pages/PostJob/EditJob";
 import CandidateProfile from "./pages/Profile/Candidate/CandidateProfile";
 import Navbar from "./components/layouts/Navbar/Navbar";
 import Footer from "./components/layouts/Footer/Footer";
@@ -36,8 +35,6 @@ const App = () => {
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
-          {/* <Route path="/post" element={<PostJob />} /> */}
-          <Route path="/edit/:id" element={<EditJob />} />
           {/* the job seeker route is only accessible if the user is authenticated and has the role of jobseeker */}
           <Route
             path="/jobs/find"

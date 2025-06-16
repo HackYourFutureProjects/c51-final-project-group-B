@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./jobList.module.css";
 import useFetch from "../../hooks/useFetch";
+
 import JobCard from "./JobCard";
 import PropTypes from "prop-types";
 import Pagination from "../../components/FindJobs/Pagination";

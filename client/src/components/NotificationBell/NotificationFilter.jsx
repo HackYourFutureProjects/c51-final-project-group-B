@@ -1,19 +1,16 @@
 import styles from "./notification-bell.module.css";
 import PropTypes from "prop-types";
+import { useNotifications } from "../../contexts/NotificationContext";
 
-const NotificationFilter = ({
-  showUnreadOnly,
-  setShowUnreadOnly,
-  totalCount,
-  unreadCount,
-}) => {
+const NotificationFilter = ({ showUnreadOnly, setShowUnreadOnly }) => {
+  const { notifications, unreadCount } = useNotifications();
   return (
     <div className={styles.filterToggle}>
       <button
         className={`${styles.filterBtn} ${!showUnreadOnly ? styles.active : ""}`}
         onClick={() => setShowUnreadOnly(false)}
       >
-        All ({totalCount})
+        All ({notifications.length})
       </button>
       <button
         className={`${styles.filterBtn} ${showUnreadOnly ? styles.active : ""}`}

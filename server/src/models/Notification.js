@@ -29,14 +29,6 @@ const notificationSchema = new Schema(
     },
 
     data: {
-      jobId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "JobPost",
-      },
-      applicationId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Application",
-      },
       fromUserId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

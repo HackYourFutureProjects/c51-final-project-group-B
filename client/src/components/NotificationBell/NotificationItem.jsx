@@ -2,10 +2,12 @@ import { Link } from "react-router-dom";
 import styles from "./notification-bell.module.css";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
+import { useNotifications } from "../../contexts/NotificationContext";
 
-const NotificationItem = ({ notification, markAsRead }) => {
+const NotificationItem = ({ notification }) => {
   const { type, title, message, data, isRead } = notification;
   const { metadata = {} } = data || {};
+  const { markAsRead } = useNotifications();
   const timeAgo = notification.createdAt
     ? formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })
     : null;
@@ -28,6 +30,8 @@ const NotificationItem = ({ notification, markAsRead }) => {
             {metadata.companyName && <p>By: {metadata.companyName}</p>}
           </>
         );
+      case "new_feed":
+        return <>{metadata.feedSummary && <p>{metadata.feedSummary}</p>}</>;
 
       default:
         return null;

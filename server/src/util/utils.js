@@ -1,8 +1,3 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
-import { logInfo } from "./logging.js";
-
 export const removeDuplicates = (doc, fields) => {
   fields.forEach((field) => {
     if (Array.isArray(doc[field])) {
@@ -33,33 +28,18 @@ export const escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-/** We need this function because the token string returned from
- * socket.handshake.headers.cookie in the setupSocket has a format
- * token=the-token-string and we only need the-token-string
- */
-export const parseCookies = (cookieString = "") => {
-  const cookies = {};
-  cookieString.split(";").forEach((cookie) => {
-    const [name, ...rest] = cookie.trim().split("=");
-    if (name && rest.length) {
-      cookies[name] = rest.join("=");
-    }
-  });
-  return cookies;
-};
-
 /**
- * Takes a JWT token string. Verifies it using your secret.
- * Resolves with the userId if valid, or null if invalid
- * or missing.
+ * Given an array of object like:
+ * array = [{id: "id1", title: "Nurse", location: "Utrecht"},
+ *          {id: "id2", title: "Developer", location: "Amsterdam"},
+ *          {id: "id1", title: "Nurse", location: "Utrecht"}]
+ *
+ * This function removes duplicates.
  */
-
-export const verifyToken = (token) => {
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return decoded.id;
-  } catch (err) {
-    logInfo("JWT verification failed:", err.message);
-    return null;
+export const getUniqueObjects = (array) => {
+  const map = new Map();
+  for (const obj of array) {
+    map.set(obj._id.toString(), obj);
   }
+  return Array.from(map.values());
 };

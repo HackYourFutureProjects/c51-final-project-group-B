@@ -6,6 +6,7 @@ import FileOpenIcon from "@mui/icons-material/FileOpen";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
 import ConfirmDialog from "./ConfirmDialog";
+import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import styles from "./ApplicationJobCard.module.css";
 import { useState } from "react";
 
@@ -24,6 +25,9 @@ const ApplicationJobCard = ({
   jobIsActive,
   jobType,
   onOpenApplyModal,
+  showApplyModal = false, // new
+  onCloseApplyModal, // new
+  onApply, // new
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
@@ -62,11 +66,14 @@ const ApplicationJobCard = ({
   const savedBadgeClass = styles[`badge${savedStatus}`];
 
   return (
-    <div className={styles.jobApplicationContainer1}>
+    <div
+      className={styles.jobApplicationContainer1}
+      style={{ position: "relative" }}
+    >
       {/* Status badge for application mode */}
       {mode === "application" && status && (
         <div className={`${styles.jobApplicationBadge} ${badgeClass}`}>
-          Status - <span className={styles.jobApplicationOffer}>{status}</span>
+          <span className={styles.jobApplicationOffer}>{status}</span>
         </div>
       )}
 
@@ -205,6 +212,15 @@ const ApplicationJobCard = ({
           )}
         </div>
       </div>
+
+      {/* Apply modal rendered inside card */}
+      {showApplyModal && (
+        <ApplyModalForm
+          jobId={jobId}
+          onClose={onCloseApplyModal}
+          onApply={onApply}
+        />
+      )}
     </div>
   );
 };
@@ -221,6 +237,8 @@ ApplicationJobCard.propTypes = {
     "rejected",
     "Active",
     "closed",
+    "longlisted",
+    "shortlisted",
   ]),
   jobId: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -230,6 +248,9 @@ ApplicationJobCard.propTypes = {
   jobIsActive: PropTypes.bool,
   jobType: PropTypes.string,
   onOpenApplyModal: PropTypes.func,
+  showApplyModal: PropTypes.bool,
+  onCloseApplyModal: PropTypes.func,
+  onApply: PropTypes.func,
 };
 
 export default ApplicationJobCard;

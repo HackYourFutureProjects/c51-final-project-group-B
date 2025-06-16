@@ -1,23 +1,35 @@
-import PropTypes from "prop-types";
-import { BrowserRouter as Router } from "react-router-dom";
-import { UserProvider } from "./contexts/UserContext";
-import { ChatProvider } from "./contexts/ChatContext";
-
 /**
  * This component wraps our App with the providers we do not want to have in our tests
  */
+
+/**
+ * NOTE: I removed UserProvider from this component because it caused conflicts.
+ * I already included it at the root level in main.jsx.
+ *
+ */
+
+import { BrowserRouter as Router } from "react-router-dom";
+import { ChatProvider } from "./contexts/ChatContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
+import { useSocket } from "./contexts/SocketContext";
+import { useUser } from "./contexts/UserContext";
+import PropTypes from "prop-types";
+
 const AppWrapper = ({ children }) => {
+  const { notificationSocket } = useSocket();
+  const { user } = useUser();
+
   return (
     <Router>
-      <UserProvider>
-        <ChatProvider>{children}</ChatProvider>
-      </UserProvider>
+      <ChatProvider>
+        <NotificationProvider socket={notificationSocket} user={user}>
+          {children}
+        </NotificationProvider>
+      </ChatProvider>
     </Router>
   );
 };
-
 AppWrapper.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };
-
 export default AppWrapper;

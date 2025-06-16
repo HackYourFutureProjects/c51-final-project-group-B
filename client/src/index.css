@@ -14,6 +14,22 @@
   --heading-color: #111827;
   --hover-color: #d6dfff;
   --border-color: #e5e7eb;
+  --sidebar-gradient: linear-gradient(
+    135deg,
+    #f9fafb 0%,
+    #e0e7ef 40%,
+    #d1d5db 70%,
+    #bfc6e0 85%,
+    #6366f1 100%
+  );
+  --section-grad: linear-gradient(
+    45deg,
+    #f9fafb 0%,
+    #e0e7ef 40%,
+    #d1d5db 70%,
+    #bfc6e0 85%,
+    #6366f1 110%
+  );
 
   /* Feedback Colors */
   --success-color: rgba(56, 161, 105, 0.6); /* #38a169 */
@@ -79,6 +95,15 @@
   --disabled-bg: #4b5563;
   --disabled-text: #9ca3af;
   --default-shadow-color: rgba(255, 255, 255, 0.05);
+  --sidebar-gradient: linear-gradient(135deg, #23243a 60%, #7e9cf7 100%);
+  --section-grad: linear-gradient(
+    45deg,
+    #23243a 0%,
+    #23263a 40%,
+    #2d314d 70%,
+    #3a4069 85%,
+    #4b6bcb 120%
+  );
 }
 
 /* Applies universal reset  */

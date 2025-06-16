@@ -116,6 +116,19 @@
   gap: 1rem;
   margin-top: 1rem;
 }
+.cancelButton {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--default-sm-border-radius);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: var(--success-color);
+}
 @media (max-width: 768px) {
   .jobCard {
     padding: 1rem;

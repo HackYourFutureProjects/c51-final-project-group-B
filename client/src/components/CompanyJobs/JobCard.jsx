@@ -105,6 +105,7 @@ const JobCard = ({ job, onJobClick, onDelete }) => {
               </button>
               <button
                 className="btn btn-primary"
+                style={{ backgroundColor: "var(--accent-color)" }}
                 disabled={job.applicationCount > 0}
                 onClick={(e) => {
                   e.stopPropagation();

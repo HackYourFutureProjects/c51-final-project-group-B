@@ -5,7 +5,7 @@ import JobCard from "./JobCard";
 import PropTypes from "prop-types";
 import Pagination from "../../components/FindJobs/Pagination";
 
-const JobList = ({ onJobClick }) => {
+const JobList = ({ onJobClick, handleDelete }) => {
   const [jobs, setJobs] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 6;
@@ -33,7 +33,12 @@ const JobList = ({ onJobClick }) => {
     <div className={styles.jobList}>
       {paginatedJobs.length > 0 ? (
         paginatedJobs.map((job) => (
-          <JobCard key={job._id} job={job} onJobClick={onJobClick} />
+          <JobCard
+            key={job._id}
+            job={job}
+            onJobClick={onJobClick}
+            onDelete={handleDelete}
+          />
         ))
       ) : (
         <p>No available jobs</p>
@@ -50,6 +55,7 @@ const JobList = ({ onJobClick }) => {
 
 JobList.propTypes = {
   onJobClick: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default JobList;

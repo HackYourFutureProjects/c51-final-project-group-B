@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styles from "./postJobSection.module.css";
 
 import InputField from "./InputField";
@@ -13,6 +14,7 @@ import FormButtons from "./FormButtons";
 const getTodayDateFormatted = () => new Date().toISOString().split("T")[0];
 
 const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -74,6 +76,7 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
     onSubmit(data);
     localStorage.removeItem("jobFormData");
     reset(defaultValues);
+    navigate("/profile/company-jobs");
   };
 
   const handleCancel = () => {
@@ -229,8 +232,8 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
 
         <TextareaField
           id="requirements"
-          label="Requirements (comma-separated) *"
-          placeholder="e.g. 2+ years experience, Strong communication skills"
+          label="Requirements (one per line) *"
+          placeholder="e.g.\nBachelor's degree in Electrical Engineering\n2+ years experience"
           register={register}
           rules={{
             required: "Required",
@@ -238,12 +241,12 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
               if (!val) return "Required";
 
               const items = val
-                .split(/\.\s*[\n]?/)
+                .split(/\n+/)
                 .map((item) => item.trim())
                 .filter(Boolean);
 
-              if (items.length < 2 || items.length > 10) {
-                return "2–10 items required";
+              if (items.length < 2) {
+                return "2 items required";
               }
 
               if (items.some((item) => item.length > 200)) {

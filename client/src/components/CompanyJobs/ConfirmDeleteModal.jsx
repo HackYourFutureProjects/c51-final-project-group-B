@@ -14,8 +14,8 @@ const ConfirmDeleteModal = ({
       <div>
         <button
           onClick={onCancel}
+          className={styles.cancelButton}
           disabled={isProcessing}
-          className="btn btn-secondary"
           style={{ marginRight: "1rem" }}
         >
           Cancel

@@ -25,6 +25,9 @@ const PostJob = () => {
 
     const formatted = {
       ...data,
+      expireOn: new Date(`${data.deadline}T00:00:00Z`)
+        .toISOString()
+        .replace("Z", "+00:00"),
       numberOfOpenings: Number(data.numberOfOpenings || 1),
       requirements: (data.requirements || "")
         .split(/[\n.]+/)
@@ -49,7 +52,7 @@ const PostJob = () => {
           ? "NA"
           : Number(data.salaryMax || 0),
     };
-
+    console.log(postsToday);
     console.log("Submitted job data:", formatted);
 
     try {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "sonner";
 import JobForm from "../../components/PostJob/JobForm";
 import styles from "../../components/PostJob/postJobSection.module.css";
 import useFetch from "../../hooks/useFetch";
@@ -81,7 +81,6 @@ const EditJob = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
       <div className={styles.container}>
         <JobForm
           isEditMode

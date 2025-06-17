@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "sonner";
 import JobForm from "../../../components/PostJob/JobForm";
 import styles from "../../../components/PostJob/postJobSection.module.css";
 import { DAILY_POST_LIMIT } from "../../../constants";
@@ -103,7 +103,6 @@ const PostJob = () => {
   return (
     <>
       <div className={styles.noContentWrapperStyles}>
-        <Toaster position="top-center" />
         <div className={styles.settingsWrapper}>
           <JobForm
             onSubmit={onSubmit}

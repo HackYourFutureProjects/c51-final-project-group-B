@@ -2,7 +2,7 @@ import { MdEmail, MdLocationOn, MdPublic } from "react-icons/md";
 import { useUser } from "../../../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import styles from "./header-section.module.css";
-import Avatar from "../../../../src/assets/woman.png";
+import { MdPerson } from "react-icons/md";
 
 const OverviewHeader = () => {
   const { user } = useUser();
@@ -49,11 +49,22 @@ const OverviewHeader = () => {
     <div className={styles.headerWrapper}>
       <div className={styles.leftSection}>
         <div className={styles.profileImageWrapper}>
-          <img
-            className={styles.profileImage}
-            src={profilePhoto || Avatar}
-            alt={`${displayName}`}
-          />
+          {profilePhoto ? (
+            <img
+              className={styles.profileImage}
+              src={profilePhoto}
+              alt={displayName}
+            />
+          ) : (
+            <MdPerson
+              className={styles.profileImage}
+              style={{
+                width: "100%",
+                height: "100%",
+                color: "var(--primary-color, #6366f1)",
+              }}
+            />
+          )}
         </div>
         <div className={styles.profileDetails}>
           <div className={styles.nameRoleWrapper}>

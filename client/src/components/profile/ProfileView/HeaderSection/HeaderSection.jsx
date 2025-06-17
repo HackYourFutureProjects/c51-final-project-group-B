@@ -2,7 +2,7 @@ import { MdEmail, MdLocationOn, MdLanguage } from "react-icons/md";
 import PropTypes from "prop-types";
 
 import styles from "./header-section.module.css";
-import defaultAvatar from "../../../../assets/woman.png";
+import { MdPerson } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useChat } from "../../../../hooks/useChat";
 
@@ -51,11 +51,23 @@ const HeaderSection = ({ user }) => {
     <div className={styles.headerWrapper}>
       <div className={styles.leftSection}>
         <div className={styles.profileImageWrapper}>
-          <img
-            className={styles.profileImage}
-            src={profilePhoto || defaultAvatar}
-            alt={`${name}'s profile`}
-          />
+          {profilePhoto ? (
+            <img
+              className={styles.profileImage}
+              src={profilePhoto}
+              alt={`${name}'s profile`}
+            />
+          ) : (
+            <MdPerson
+              className={styles.profileImage}
+              style={{
+                width: "100%",
+                height: "100%",
+                color: "var(--primary-color, #6366f1)",
+              }}
+              aria-label="Default profile"
+            />
+          )}
         </div>
 
         <div className={styles.profileDetails}>

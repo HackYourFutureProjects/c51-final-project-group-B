@@ -1,6 +1,4 @@
 import { NavLink, useNavigate } from "react-router-dom";
-
-import { useNotifications } from "../../../contexts/NotificationContext";
 import { useUser } from "../../../contexts/UserContext";
 
 import {
@@ -21,7 +19,6 @@ import styles from "./navbar.module.css";
 import NotificationBell from "../../NotificationBell/NotificationBell";
 
 const Navbar = () => {
-  const { notifications, unreadCount, markAsRead } = useNotifications();
   const { user, logout } = useUser();
   const navigate = useNavigate();
 
@@ -153,11 +150,7 @@ const Navbar = () => {
           <div className={styles.authActions}>
             {user && (
               <div>
-                <NotificationBell
-                  notifications={notifications}
-                  unreadCount={unreadCount}
-                  markAsRead={markAsRead}
-                />
+                <NotificationBell />
               </div>
             )}
           </div>

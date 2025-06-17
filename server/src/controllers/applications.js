@@ -74,14 +74,12 @@ export const createApplication = async (req, res) => {
 
     const { seekerProfile } = appliedBy || {};
     const { firstName, lastName } = seekerProfile || {};
-    console.log(firstName, lastName);
+
     await notifyUser(io, job.postedBy.toString(), {
       type: "application_submitted",
       title: "Application is Submitted",
       message: `${firstName} ${lastName} applied to ${job?.title}`, // fixed string template
       data: {
-        applicationId: application._id,
-        jobId: application.jobId,
         fromUserId: req.user.id,
         toUserId: job.postedBy,
         metadata: {
@@ -238,8 +236,6 @@ export const updateApplicationStatus = async (req, res) => {
     title: "Application Status Updated",
     message: `Your application has been marked as "${status}".`,
     data: {
-      applicationId: application._id,
-      jobId: application.jobId,
       fromUserId: req.user._id,
       toUserId: company.id,
       metadata: {

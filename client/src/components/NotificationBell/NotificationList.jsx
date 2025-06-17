@@ -1,15 +1,13 @@
+import { useNotifications } from "../../contexts/NotificationContext";
 import NotificationItem from "./NotificationItem";
 import PropTypes from "prop-types";
 
-const NotificationList = ({ notifications, markAsRead }) => {
+const NotificationList = () => {
+  const { notifications } = useNotifications();
   return (
     <>
       {notifications.map((notification) => (
-        <NotificationItem
-          key={notification._id}
-          notification={notification}
-          markAsRead={markAsRead}
-        />
+        <NotificationItem key={notification._id} notification={notification} />
       ))}
     </>
   );

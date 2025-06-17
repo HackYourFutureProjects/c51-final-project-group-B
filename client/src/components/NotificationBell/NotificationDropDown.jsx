@@ -4,9 +4,11 @@ import NotificationFilter from "./NotificationFilter";
 import NotificationList from "./NotificationList";
 import EmptyState from "./EmptyState";
 import styles from "./notification-bell.module.css";
+import { useNotifications } from "../../contexts/NotificationContext";
 
-const NotificationDropDown = ({ notifications, markAsRead, unreadCount }) => {
+const NotificationDropDown = () => {
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);
+  const { notifications, markAsRead } = useNotifications();
 
   const filteredNotifications = showUnreadOnly
     ? notifications.filter((notification) => !notification.isRead)
@@ -17,8 +19,6 @@ const NotificationDropDown = ({ notifications, markAsRead, unreadCount }) => {
       <NotificationFilter
         showUnreadOnly={showUnreadOnly}
         setShowUnreadOnly={setShowUnreadOnly}
-        totalCount={notifications.length}
-        unreadCount={unreadCount}
       />
 
       {!filteredNotifications.length ? (

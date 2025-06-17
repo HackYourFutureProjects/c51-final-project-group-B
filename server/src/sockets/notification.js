@@ -1,4 +1,5 @@
 import Notification from "../models/Notification.js";
+import { User } from "../models/User.js";
 import { logError } from "../util/logging.js";
 import { parseCookies, verifyToken } from "../util/utils.js";
 
@@ -25,11 +26,15 @@ export const notificationSocketSpace = (io) => {
 
       socket.join(userId);
 
+      const audiences = await getUserType(userId);
+      socket.join(audiences);
+
       await sendUnreadNotifications(socket, userId);
       handleNotificationRead(socket, userId);
 
       socket.on("disconnect", () => {
         socket.leave(userId);
+        socket.leave(audiences);
       });
     } catch (error) {
       logError("Setting up notification namespace failed.");
@@ -84,8 +89,13 @@ export const handleNotificationRead = (socket, userId) => {
  * Sends a real time notification to a specific user if he/she
  * has an active socket connection.
  */
-export const sendNotification = (io, userId, notification) => {
-  io.of("/notifications").to(userId).emit("notification", notification);
+
+export const sendNotification = (io, audience, notification) => {
+  if (audience === "all") {
+    io.of("/notifications").emit("notification", notification);
+  } else {
+    io.of("/notifications").to(audience).emit("notification", notification);
+  }
 };
 
 /**
@@ -99,4 +109,10 @@ const verifyClient = (socket) => {
   const userId = verifyToken(token);
   if (!userId) throw new Error("Invalid token.");
   return userId;
+};
+
+const getUserType = async (userId) => {
+  const user = await User.findById(userId).select("userType");
+
+  return user?.userType || "all";
 };

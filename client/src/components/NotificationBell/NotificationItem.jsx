@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./notification-bell.module.css";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
@@ -11,6 +11,15 @@ const NotificationItem = ({ notification }) => {
   const timeAgo = notification.createdAt
     ? formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })
     : null;
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigation = () => {
+    if (location.pathname !== "/feed") {
+      navigate("/feed");
+    }
+  };
 
   const renderDetails = () => {
     switch (type) {
@@ -31,7 +40,14 @@ const NotificationItem = ({ notification }) => {
           </>
         );
       case "new_feed":
-        return <>{metadata.feedSummary && <p>{metadata.feedSummary}</p>}</>;
+        return (
+          <>
+            <div onClick={handleNavigation}>
+              {" "}
+              {metadata.feedSummary && <p>{metadata.feedSummary}</p>}{" "}
+            </div>
+          </>
+        );
 
       default:
         return null;

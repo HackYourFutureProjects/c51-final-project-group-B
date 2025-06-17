@@ -26,7 +26,7 @@ export const notificationSocketSpace = (io) => {
 
       socket.join(userId);
 
-      const audiences = getUserType(userId);
+      const audiences = await getUserType(userId);
       socket.join(audiences);
 
       await sendUnreadNotifications(socket, userId);

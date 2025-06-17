@@ -6,12 +6,12 @@ import { notifyUser } from "../services/notifications.js";
 
 export const createFeed = async (req, res) => {
   try {
-    const allowedIds = process.env.ADMIN_IDS
-      ? process.env.ADMIN_IDS.split(",")
-      : [];
-    if (!allowedIds.includes(req.user.id)) {
-      return res.status(403).json({ success: false, msg: "Forbidden" });
-    }
+    // const allowedIds = process.env.ADMIN_IDS
+    //   ? process.env.ADMIN_IDS.split(",")
+    //   : [];
+    // if (!allowedIds.includes(req.user.id)) {
+    //   return res.status(403).json({ success: false, msg: "Forbidden" });
+    // }
 
     const { title, tags, content, sources, media, audience } = req.body;
 
@@ -51,9 +51,11 @@ export const createFeed = async (req, res) => {
       usersToNotify = await User.find({ userType: audience }).lean();
     }
 
-    for (const user of usersToNotify) {
-      await notifyUser(io, user._id.toString(), notificationData);
-    }
+    await Promise.all(
+      usersToNotify.map((user) =>
+        notifyUser(io, user._id.toString(), notificationData),
+      ),
+    );
     // Notification part ends here
 
     res.status(201).json({ success: true, data: feed });

@@ -33,6 +33,7 @@
   transition: background 0.2s;
   background: transparent;
   font-family: var(--text-font-family, "Outfit");
+  min-width: 0;
 }
 
 .convListItemActive {
@@ -50,19 +51,35 @@
 }
 
 .convListInfo {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .convListName {
   font-weight: var(--font-weight-semibold, 500);
   color: var(--text-color, #374151);
   font-family: var(--text-font-family, "Outfit");
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 100%;
+  display: block;
 }
 
 .convListLast {
   font-size: 0.95em;
   color: var(--text-secondary-color, #888);
   font-family: var(--text-font-family, "Outfit");
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  max-width: 100%;
+  display: block;
 }
 
 .convListUnread {
@@ -72,6 +89,14 @@
   padding: 2px 8px;
   font-size: 0.85em;
   font-family: var(--text-font-family, "Outfit");
+  flex-shrink: 0;
+  max-width: 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 6px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* ChatWindow  */
@@ -170,11 +195,17 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  flex-wrap: wrap;
+  max-width: 70%;
   box-sizing: border-box;
 }
 .chatWindowMsgText {
   font-size: 1em;
   font-family: var(--text-font-family, "Outfit");
+  min-width: 0;
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .chatWindowMsgMeta {
@@ -186,6 +217,8 @@
   word-break: break-word;
   overflow-wrap: anywhere;
   align-self: flex-end;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .chatWindowEmpty,
@@ -378,6 +411,7 @@
 @media (max-width: 600px) {
   .convListName {
     font-size: 0.95em;
+    max-width: 95%;
   }
 }
 
@@ -413,8 +447,8 @@
   }
   .chatWindowMsgSelf,
   .chatWindowMsgOther {
-    padding: 4px 7px;
-    margin-bottom: 4px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
     font-size: 0.93em;
     min-height: 28px;
   }
@@ -456,12 +490,26 @@
   }
   .chatWindowMsgSelf,
   .chatWindowMsgOther {
-    font-size: 0.95em;
-    padding: 5px 7px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 0 0 auto;
+    display: inline-block;
+    width: auto;
+    max-width: 80%;
+    padding: 5px 8px;
+    margin: 4px 0;
+    font-size: 0.93em;
+  }
+  .chatWindowMsgText {
+    min-width: 0;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    box-sizing: border-box;
+  }
+  .chatWindowMsgMeta {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: right;
   }
   .attachmentImage {
     max-width: 50px;
@@ -470,6 +518,10 @@
   .pdfAttachment {
     padding: 4px 6px;
     font-size: 0.9em;
+  }
+  .convListName {
+    font-size: 0.75em;
+    max-width: 95%;
   }
 }
 
@@ -498,6 +550,14 @@
     font-size: 0.97em;
     padding: 6px 8px;
   }
+  .convListLast {
+    font-size: 0.85em;
+    max-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
 }
 
 @media (max-width: 480px) {
@@ -511,5 +571,9 @@
   .messageSendBtn {
     font-size: 0.95em;
     padding: 5px 6px;
+  }
+  .convListLast {
+    font-size: 0.8em;
+    max-width: 60px;
   }
 }

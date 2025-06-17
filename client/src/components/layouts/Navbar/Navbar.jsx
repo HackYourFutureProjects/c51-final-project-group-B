@@ -19,11 +19,18 @@ import ThemeToggle from "../../theme/ThemeToggle";
 import { useEffect, useState, useRef } from "react";
 import styles from "./navbar.module.css";
 import NotificationBell from "../../NotificationBell/NotificationBell";
-
+import { useChat } from "../../../hooks/useChat";
+import { FaEnvelope } from "react-icons/fa";
 const Navbar = () => {
   const { notifications, unreadCount, markAsRead } = useNotifications();
   const { user, logout } = useUser();
   const navigate = useNavigate();
+
+  // count total unread messages from chat context
+  const { unread } = useChat() || {};
+  const totalUnread = unread
+    ? Object.values(unread).reduce((sum, count) => sum + count, 0)
+    : 0;
 
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const dropdownRef = useRef(null); // Ref for the profile dropdown container
@@ -152,13 +159,27 @@ const Navbar = () => {
         <div className={styles.rightSection}>
           <div className={styles.authActions}>
             {user && (
-              <div>
+              <>
+                <NavLink
+                  to="/profile/messages"
+                  className={styles.navbarMsgLink}
+                  title="Messages"
+                >
+                  <span className={styles.navbarMsgIcon}>
+                    <FaEnvelope size={24} />
+                    {totalUnread > 0 && (
+                      <span className={styles.navbarUnreadBadge}>
+                        {totalUnread}
+                      </span>
+                    )}
+                  </span>
+                </NavLink>
                 <NotificationBell
                   notifications={notifications}
                   unreadCount={unreadCount}
                   markAsRead={markAsRead}
                 />
-              </div>
+              </>
             )}
           </div>
           {!user ? (

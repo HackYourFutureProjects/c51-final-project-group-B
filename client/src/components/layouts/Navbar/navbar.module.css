@@ -102,6 +102,7 @@
 .authActions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
 }
 
@@ -375,7 +376,55 @@
   font-size: 0.9rem;
   padding: 0.6rem 1rem;
 }
+.navbarMsgLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-color, #6366f1);
+  margin-right: 1rem;
+  text-decoration: none;
+  transition:
+    color 0.18s,
+    background 0.18s;
+  border-radius: var(--default-lg-border-radius, 8px);
+  padding: 0.5rem;
+  background: transparent;
+}
 
+.navbarMsgLink:hover,
+.navbarMsgLink:focus {
+  color: var(--primary-color-dark, #4f46e5);
+  background: var(--hover-color, #eef2ff);
+}
+
+.navbarMsgIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: var(--primary-color, #6366f1);
+}
+
+.navbarUnreadBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--secondary-accent-color, var(--primary-color, #6366f1));
+  color: #fff;
+  font-size: 0.75em;
+  font-weight: var(--font-weight-semibold, 600);
+  min-width: 18px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 9px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  pointer-events: none;
+}
 @media (max-width: 768px) {
   .navbar {
     padding: 1rem;

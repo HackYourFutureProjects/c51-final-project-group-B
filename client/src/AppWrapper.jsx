@@ -1,4 +1,3 @@
-
 /**
  * This component wraps our App with the providers we do not want to have in our tests
  */
@@ -25,9 +24,7 @@ const AppWrapper = ({ children }) => {
     <Router>
       <ChatProvider>
         <NotificationProvider socket={notificationSocket} user={user}>
-           <SavedJobsProvider>
-        {children}
-        </SavedJobsProvider>
+          <SavedJobsProvider>{children}</SavedJobsProvider>
         </NotificationProvider>
       </ChatProvider>
     </Router>

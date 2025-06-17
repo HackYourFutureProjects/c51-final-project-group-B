@@ -73,7 +73,7 @@
   position: absolute;
   top: -6px;
   right: -6px;
-  background: var(--secondary-accent-color, --accent-color);
+  background: var(--secondary-accent-color, var(--accent-color));
   color: #fff;
   font-size: 0.75em;
   font-weight: 600;

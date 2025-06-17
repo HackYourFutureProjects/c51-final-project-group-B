@@ -13,7 +13,7 @@ const Jobs = () => {
           <AplicationList id={selectedJob._id} />
           <div className={styles.btnContainerRight}>
             <button className={styles.btn} onClick={() => setSelectedJob(null)}>
-              ← back to Jobs
+              Back to Jobs
             </button>
           </div>
         </>

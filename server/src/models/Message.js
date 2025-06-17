@@ -24,7 +24,7 @@ const MessageSchema = new Schema(
       type: String,
       trim: true,
       maxlength: 2000,
-      required: true,
+      default: "",
     },
     // for attachments in the future
     attachment: {

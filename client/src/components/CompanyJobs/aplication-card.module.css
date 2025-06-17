@@ -2,11 +2,16 @@
   border: 1px solid var(--border-color);
   border-radius: var(--default-md-border-radius);
   padding: 1.5rem;
-  background-color: #fff;
+  background-color: var(--surface-color);
+  color: var(--heading-color);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   transition: box-shadow 0.2s ease-in-out;
+  -webkit-transition: box-shadow 0.2s ease-in-out;
+  -moz-transition: box-shadow 0.2s ease-in-out;
+  -ms-transition: box-shadow 0.2s ease-in-out;
+  -o-transition: box-shadow 0.2s ease-in-out;
 }
 
 .aplicationCard:hover {
@@ -17,13 +22,12 @@
   font-family: var(--heading-font-family);
   font-size: 1.1rem;
   font-weight: var(--font-weight-semibold);
-  color: var(--heading-color);
 }
 
 .appliedAt {
   font-size: 0.9rem;
   color: var(--text-secondary-color);
-  font-style: italic;
+  font-size: 0.95rem;
 }
 
 .applicationFooter {

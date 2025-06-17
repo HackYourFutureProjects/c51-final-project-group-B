@@ -5,6 +5,7 @@ import JobFilters from "../../components/FindJobs/JobFilters";
 import JobList from "../../components/FindJobs/JobList";
 import Pagination from "../../components/FindJobs/Pagination";
 import styles from "./findjobs-page.module.css";
+import Loading from "../../components/templates/Loader";
 
 function FindJobsPage() {
   const [searchQuery, setSearchQuery] = useState({ title: "" });
@@ -48,7 +49,7 @@ function FindJobsPage() {
         />
         <div className={styles.findJobsListSection}>
           {isLoading ? (
-            <p className={styles.findJobsLoading}>Loading jobs...</p>
+            <Loading />
           ) : error ? (
             <p className={styles.findJobsError}>{error}</p>
           ) : (

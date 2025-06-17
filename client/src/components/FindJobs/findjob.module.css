@@ -68,7 +68,7 @@
 }
 
 .jobSearchInput::placeholder {
-  color: #b0b3c6;
+  color: var(--text-secondary-color, #6b7280);
   opacity: 1;
   font-weight: var(--font-weight-medium, 500);
 }
@@ -151,7 +151,7 @@
 
 .filterInput:focus {
   border: 1.5px solid var(--primary-color, #6366f1);
-  background: #fff;
+  background: var(--surface-color);
 }
 
 .filterResetBtn {
@@ -251,7 +251,7 @@
 }
 
 .saveIconBtn {
-  background: #fff;
+  background: var(--surface-color, #fff);
   border: 1.5px solid var(--primary-color, #6366f1);
   border-radius: 50%;
   padding: 0.35rem 0.45rem;
@@ -280,7 +280,7 @@
   font-size: 1.15rem;
 }
 .shareIconBtn {
-  background: #fff;
+  background: var(--surface-color, #fff);
   border: 1.5px solid var(--primary-color, #6366f1);
   border-radius: 50%;
   padding: 0.35rem 0.45rem;
@@ -409,6 +409,14 @@
 .jobCardBtnPrimary:focus {
   background: var(--primary-color, #6366f1);
   color: #fff;
+}
+.jobCardBtnPrimary:disabled {
+  background: var(--border-color, #e5e7eb);
+  color: var(--text-secondary-color, #bdbdbd);
+  border-color: var(--border-color, #e5e7eb);
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
 }
 
 .jobCardBtn {

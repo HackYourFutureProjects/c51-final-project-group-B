@@ -38,7 +38,7 @@ const HeaderSection = ({ user }) => {
     ? companyName || "Company Name Not Provided"
     : `${firstName || "Name Not Provided"} ${lastName || ""}`.trim();
   const roleOrIndustry = isCompany
-    ? industry || "IIndustry not specified"
+    ? industry || "Industry not specified"
     : position || "Position not specified";
 
   const locationOrHQ = isCompany

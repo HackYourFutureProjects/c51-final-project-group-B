@@ -11,9 +11,9 @@ const AppWrapper = ({ children }) => {
   return (
     <Router>
       <UserProvider>
-        <SavedJobsProvider>
-          <ChatProvider>{children}</ChatProvider>
-        </SavedJobsProvider>
+        <ChatProvider>
+          <SavedJobsProvider>{children}</SavedJobsProvider>
+        </ChatProvider>
       </UserProvider>
     </Router>
   );

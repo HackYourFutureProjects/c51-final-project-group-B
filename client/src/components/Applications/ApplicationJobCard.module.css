@@ -6,15 +6,6 @@
   width: 100%;
   padding: 1rem;
 }
-/* 
-.tabs {
-  background: #ddf3ed;
-  border-radius: var(--default-xl-border-radius);
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 
 .tab {
   margin: 0 16px;

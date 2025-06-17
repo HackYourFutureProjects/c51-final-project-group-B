@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import ApplicationJobCard from "./ApplicationJobCard";
 import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import useFetch from "../../hooks/useFetch";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "sonner";
 import Loading from "../templates/Loader";
-import ErrorArea from "../../pages/Error/ErrorArea";
 import Pagination from "../../components/FindJobs/Pagination";
 import styles from "./ApplicationJobCard.module.css";
 function RecommendedJobsList() {
@@ -16,7 +15,7 @@ function RecommendedJobsList() {
 
   const {
     isLoading,
-    error,
+
     performFetch: fetchRecommendedJobs,
     cancelFetch: cancelRecommendedJobsFetch,
   } = useFetch("/jobs/recommendations", (response) => {
@@ -53,11 +52,9 @@ function RecommendedJobsList() {
   const totalPages = Math.ceil(recommendedJobs.length / limit);
 
   if (isLoading) return <Loading />;
-  if (error) return <ErrorArea />;
 
   return (
     <>
-      <Toaster position="top-center" />
       <div className={styles.notFound}>
         {recommendedJobs.length === 0 && <p>No recommended jobs found.</p>}
 

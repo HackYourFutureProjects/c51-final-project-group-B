@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import ApplicationJobCard from "./ApplicationJobCard";
 import useFetch from "../../hooks/useFetch";
-import toast, { Toaster } from "react-hot-toast";
-import Pagination from "../../components/FindJobs/Pagination";
+import { toast } from "sonner";
 import Loading from "../templates/Loader";
-import ErrorArea from "../../pages/Error/ErrorArea";
+
+import Pagination from "../../components/FindJobs/Pagination";
 import styles from "./ApplicationJobCard.module.css";
 function ApplicationList() {
   const [applications, setApplications] = useState([]);
@@ -13,7 +13,7 @@ function ApplicationList() {
 
   const {
     isLoading,
-    error,
+
     performFetch: fetchApplications,
     cancelFetch: cancelApplicationsFetch,
   } = useFetch("/applications", (response) => {
@@ -54,37 +54,28 @@ function ApplicationList() {
           (app) => app._id !== applicationId,
         );
         setApplications(filtered);
-
-        const totalPages = Math.ceil(filtered.length / limit);
-        if (page > totalPages) setPage(totalPages > 0 ? totalPages : 1);
-
         toast.success("Application withdrawn successfully!");
       } else {
         toast.error("Failed to withdraw application.");
       }
     } catch (error) {
-      toast.error(error.message || "Failed to withdraw application.");
+      toast.error("Error withdrawing application.");
+      console.error(error);
     }
   };
 
   const startIndex = (page - 1) * limit;
-  const paginatedApplications = applications.slice(
-    startIndex,
-    startIndex + limit,
-  );
+  const paginatedJobs = applications.slice(startIndex, startIndex + limit);
+  const totalPages = Math.ceil(applications.length / limit);
 
   if (isLoading) return <Loading />;
-  if (error) return <ErrorArea />;
-
-  const totalPages = Math.ceil(applications.length / limit);
 
   return (
     <>
-      <Toaster position="top-center" />
       <div className={styles.notFound}>
         {applications.length === 0 && <p>No job applications found.</p>}
 
-        {paginatedApplications.map((app) => (
+        {paginatedJobs.map((app) => (
           <ApplicationJobCard
             key={app._id}
             applicationId={app._id}
@@ -104,7 +95,7 @@ function ApplicationList() {
         {totalPages > 1 && (
           <Pagination
             page={page}
-            jobs={paginatedApplications}
+            jobs={paginatedJobs}
             limit={limit}
             onPageChange={setPage}
           />

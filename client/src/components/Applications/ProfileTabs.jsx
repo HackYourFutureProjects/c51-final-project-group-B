@@ -1,16 +1,16 @@
 import { useState, useRef } from "react";
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ApplicationList from "./ApplicationList";
 import SavedJobsList from "./SavedJobsList";
 import RecommendedJobsList from "./RecommendedJobsList";
 import "swiper/css";
-import styles from "./ApplicationJobCard.module.css";
 
 export default function ProfileTabs() {
   const [tabIndex, setTabIndex] = useState(0);
   const swiperRef = useRef(null);
 
+  // When tab clicked, update swiper
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
     if (swiperRef.current) {
@@ -18,47 +18,43 @@ export default function ProfileTabs() {
     }
   };
 
+  // When swiper slide changes, update tab
   const handleSwiperSlideChange = (swiper) => {
     setTabIndex(swiper.activeIndex);
   };
 
   return (
-    <Box className={styles.wrapper}>
+    <>
       <Tabs
         value={tabIndex}
         onChange={handleTabChange}
-        className={styles.tabs}
-        centered
+        variant="fullWidth"
+        indicatorColor="primary"
+        textColor="primary"
       >
-        <Tab
-          label="My Applications"
-          className={`${styles.tab} ${tabIndex === 0 ? styles.active : ""}`}
-        />
-        <Tab
-          label="Saved Jobs"
-          className={`${styles.tab} ${tabIndex === 1 ? styles.active : ""}`}
-        />
-        <Tab
-          label="Recommended Jobs"
-          className={`${styles.tab} ${tabIndex === 2 ? styles.active : ""}`}
-        />
+        <Tab label="My Applications" />
+        <Tab label="Saved Jobs" />
+        <Tab label="Recommended Jobs" />
       </Tabs>
 
       <Swiper
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onSlideChange={handleSwiperSlideChange}
-        className={styles.swiper}
+        spaceBetween={30}
+        style={{ height: "100%", minHeight: 400 }}
       >
-        <SwiperSlide className={styles.swiperSlide}>
+        <SwiperSlide style={{ height: "100%", minHeight: 400 }}>
           <ApplicationList />
         </SwiperSlide>
-        <SwiperSlide className={styles.swiperSlide}>
+
+        <SwiperSlide style={{ height: "100%", minHeight: 400 }}>
           <SavedJobsList />
         </SwiperSlide>
-        <SwiperSlide className={styles.swiperSlide}>
+
+        <SwiperSlide style={{ height: "100%", minHeight: 400 }}>
           <RecommendedJobsList />
         </SwiperSlide>
       </Swiper>
-    </Box>
+    </>
   );
 }

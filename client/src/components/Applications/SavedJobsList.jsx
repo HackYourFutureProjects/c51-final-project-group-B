@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import ApplicationJobCard from "./ApplicationJobCard";
 import useFetch from "../../hooks/useFetch";
-import { Toaster, toast } from "react-hot-toast";
+import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
+import { toast } from "sonner";
 import { deleteSavedJob } from "../../api/saveJobs";
 import Loading from "../templates/Loader";
-import ErrorArea from "../../pages/Error/ErrorArea";
 import Pagination from "../../components/FindJobs/Pagination";
 import styles from "./ApplicationJobCard.module.css";
 
@@ -17,7 +17,7 @@ function SavedJobsList() {
 
   const {
     isLoading,
-    error,
+
     performFetch: fetchSavedJobs,
     cancelFetch: cancelSavedJobsFetch,
   } = useFetch("/saved-jobs", (response) => {
@@ -73,7 +73,6 @@ function SavedJobsList() {
   };
 
   if (isLoading) return <Loading />;
-  if (error) return <ErrorArea />;
 
   const startIndex = (page - 1) * limit;
   const paginatedJobs = savedJobs.slice(startIndex, startIndex + limit);
@@ -81,7 +80,6 @@ function SavedJobsList() {
 
   return (
     <>
-      <Toaster position="top-center" />
       <div className={styles.notFound}>
         {savedJobs.length === 0 && <p>No saved jobs found.</p>}
 
@@ -113,6 +111,13 @@ function SavedJobsList() {
             jobs={paginatedJobs}
             limit={limit}
             onPageChange={setPage}
+          />
+        )}
+        {showApplyModal && (
+          <ApplyModalForm
+            jobId={selectedJobId}
+            onClose={handleCloseApplyModal}
+            onApply={handleApply}
           />
         )}
       </div>

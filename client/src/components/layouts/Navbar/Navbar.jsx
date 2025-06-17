@@ -119,7 +119,7 @@ const Navbar = () => {
           onClick={() => handleNavLinkClick(true)}
         >
           <img
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Talent Nest Logo"
             className={styles.logoImage}
           />

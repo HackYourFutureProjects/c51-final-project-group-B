@@ -1,8 +1,5 @@
-.aplicationList {
+.btnContainerRight {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  box-sizing: border-box;
+  justify-content: flex-end;
+  margin: 1rem 0;
 }

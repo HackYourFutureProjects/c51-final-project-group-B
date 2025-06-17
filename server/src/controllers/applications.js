@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 import Application from "../models/Applications.js";
+import { User } from "../models/User.js";
 import JobPost from "../models/JobPost.js";
 import { logError } from "../util/logging.js";
-
+import { notifyUser } from "../services/notifications.js";
+import { getIo } from "../socket.js";
 // Create a new application [only job seekers can apply for jobs]
 export const createApplication = async (req, res) => {
   try {
@@ -66,6 +68,25 @@ export const createApplication = async (req, res) => {
         msg: "Failed to add this application to the job. Please try again.",
       });
     }
+
+    const io = getIo();
+    const appliedBy = await User.findById(req.user.id).lean();
+
+    const { seekerProfile } = appliedBy || {};
+    const { firstName, lastName } = seekerProfile || {};
+
+    await notifyUser(io, job.postedBy.toString(), {
+      type: "application_submitted",
+      title: "Application is Submitted",
+      message: `${firstName} ${lastName} applied to ${job?.title}`, // fixed string template
+      data: {
+        fromUserId: req.user.id,
+        toUserId: job.postedBy,
+        metadata: {
+          profileUrl: `users/candidate-profile/${req.user.id}`,
+        },
+      },
+    });
 
     return res.status(201).json({ success: true, data: application });
   } catch (err) {
@@ -204,6 +225,26 @@ export const updateApplicationStatus = async (req, res) => {
 
   application.status = status;
   await application.save();
+
+  const job = await JobPost.findById(application.jobId).select("title");
+  const company = await User.findById(req.user.id).select("companyProfile");
+
+  const io = getIo();
+
+  await notifyUser(io, application.userId.toString(), {
+    type: "application_status_change",
+    title: "Application Status Updated",
+    message: `Your application has been marked as "${status}".`,
+    data: {
+      fromUserId: req.user._id,
+      toUserId: company.id,
+      metadata: {
+        jobTitle: job?.title || "Job Title",
+        jobUrl: `jobs/${job.id}`,
+        companyName: company?.companyProfile?.companyName || "Company Name",
+      },
+    },
+  });
 
   return res.status(200).json({
     success: true,

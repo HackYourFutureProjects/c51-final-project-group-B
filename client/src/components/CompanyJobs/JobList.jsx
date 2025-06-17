@@ -44,12 +44,14 @@ const JobList = ({ onJobClick, handleDelete }) => {
       ) : (
         <p>No available jobs</p>
       )}
-      <Pagination
-        page={page}
-        jobs={paginatedJobs}
-        limit={limit}
-        onPageChange={setPage}
-      />
+      {jobs.length > limit && (
+        <Pagination
+          page={page}
+          jobs={paginatedJobs}
+          limit={limit}
+          onPageChange={setPage}
+        />
+      )}
     </div>
   );
 };

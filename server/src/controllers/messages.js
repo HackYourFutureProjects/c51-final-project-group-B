@@ -76,6 +76,7 @@ export const startConversation = async (req, res) => {
         _id: otherUser._id,
         name: displayName,
         profilePhoto: otherUser.profilePhoto,
+        userType: otherUser.userType,
       },
     };
 
@@ -117,6 +118,10 @@ export const getUserConversations = async (req, res) => {
         const otherUser = await User.findById(otherUserId).select(
           "_id userType seekerProfile.firstName seekerProfile.lastName companyProfile.companyName profilePhoto",
         );
+        // If the other user is not found, skip this conversation(when the user was deleted)
+        if (!otherUser) {
+          return null;
+        }
 
         let displayName = "";
         if (otherUser.userType === "seeker") {
@@ -140,14 +145,17 @@ export const getUserConversations = async (req, res) => {
                 _id: otherUser._id,
                 name: displayName,
                 profilePhoto: otherUser.profilePhoto,
+                userType: otherUser.userType,
               }
             : null,
           unreadCount,
         };
       }),
     );
+    // Filter out nulls( delted users or conversations with no other participant )
+    const filteredResult = result.filter(Boolean);
 
-    return res.status(200).json({ success: true, data: result });
+    return res.status(200).json({ success: true, data: filteredResult });
   } catch (err) {
     logError(err);
     return res.status(500).json({ success: false, msg: "Server error." });
@@ -241,11 +249,12 @@ export const sendMessage = async (req, res) => {
     const { id } = req.params;
     const { text, attachment } = req.body;
 
-    // Validate message text
-    if (!text || typeof text !== "string" || !text.trim()) {
-      return res
-        .status(400)
-        .json({ success: false, msg: "Message text is required." });
+    // Allow either text or attachment
+    if ((!text || !text.trim()) && !attachment) {
+      return res.status(400).json({
+        success: false,
+        msg: "Message text or attachment is required.",
+      });
     }
 
     // Find the conversation and check participation

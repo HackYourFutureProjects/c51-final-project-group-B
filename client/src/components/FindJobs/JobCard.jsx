@@ -164,7 +164,11 @@ const JobCard = ({ job }) => {
         </div>
       </div>
       <div className={styles.jobCardFooter}>
-        <button className={styles.jobCardBtnPrimary} onClick={handleApply}>
+        <button
+          className={styles.jobCardBtnPrimary}
+          onClick={handleApply}
+          disabled={!isActive}
+        >
           Apply
         </button>
         <button className={styles.jobCardBtn} onClick={handleView}>

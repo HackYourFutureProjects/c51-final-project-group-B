@@ -1,0 +1,86 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
+/**
+ * NotificationProvider sets up a React context for managing
+ * real time notifications via Socket.IO.
+ *
+ * It listens for incoming notification events from the server,
+ *  stores them in local state, and emit notification:read to server
+ *
+ * When the user or socket changes, it resets or reinitializes the
+ * state.
+ *
+ * The provider provides:
+ * 1: notifications -> an array of notification fetched from the db
+ * 2: markAsRead -> a function to mark a specific notification
+ * 3: unreadCount -> the number of unread notifications
+ */
+
+const NotificationContext = createContext(null);
+
+export const NotificationProvider = ({ children, socket, user }) => {
+  const [notifications, setNotification] = useState([]);
+
+  useEffect(() => {
+    setNotification([]);
+  }, [user]);
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
+    const onNotification = (notification) => {
+      setNotification((prev) => {
+        if (prev.some((n) => n._id === notification._id)) return prev;
+        return [notification, ...prev];
+      });
+    };
+
+    socket.on("notification", onNotification);
+
+    return () => {
+      socket.off("notification", onNotification);
+    };
+  }, [socket, user]);
+
+  const markAsRead = (notificationId) => {
+    if (!socket) return;
+
+    socket.emit("notification:read", { notificationId });
+    // this is for instant feedback so the user does not wait
+    // for event from the server.
+    setNotification((prev) => {
+      return prev.map((notification) =>
+        notification._id === notificationId
+          ? { ...notification, isRead: true, readAt: new Date() }
+          : notification,
+      );
+    });
+  };
+
+  const unreadCount = notifications.filter(
+    (notification) => !notification.isRead,
+  ).length;
+
+  return (
+    <NotificationContext.Provider
+      value={{ notifications, markAsRead, unreadCount }}
+    >
+      {children}
+    </NotificationContext.Provider>
+  );
+};
+
+NotificationProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+  socket: PropTypes.shape({
+    on: PropTypes.func.isRequired,
+    emit: PropTypes.func.isRequired,
+    off: PropTypes.func.isRequired,
+  }).isRequired,
+  user: PropTypes.object,
+};
+
+export const useNotifications = () => useContext(NotificationContext);

@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
+
 import {
   MdPerson,
   MdExpandMore,
@@ -10,10 +11,12 @@ import {
   MdMenu,
   MdClose,
 } from "react-icons/md";
+
 import { toast } from "sonner";
 import ThemeToggle from "../../theme/ThemeToggle";
 import { useEffect, useState, useRef } from "react";
 import styles from "./navbar.module.css";
+import NotificationBell from "../../NotificationBell/NotificationBell";
 
 const Navbar = () => {
   const { user, logout } = useUser();
@@ -64,6 +67,7 @@ const Navbar = () => {
   const handleLogout = async (e) => {
     e.preventDefault();
     await logout();
+
     toast.success("Logout successfully!");
     navigate("/");
     setIsDropDownOpen(false);
@@ -122,6 +126,7 @@ const Navbar = () => {
               Feed
             </NavLink>
           </li>
+
           {user?.userType === "seeker" && (
             <li>
               <NavLink to="/jobs/find" className={navLinkClass}>
@@ -139,6 +144,13 @@ const Navbar = () => {
         </ul>
 
         <div className={styles.rightSection}>
+          <div className={styles.authActions}>
+            {user && (
+              <div>
+                <NotificationBell />
+              </div>
+            )}
+          </div>
           {!user ? (
             <div className={styles.authActions}>
               <NavLink to="/signin" className={navLinkClass}>

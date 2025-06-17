@@ -10,6 +10,22 @@ const ConversationPreview = ({
 }) => {
   const user = conversation.user || {};
 
+  // preview text for the last message in the conversation
+  function getPreviewText(lastMessage) {
+    if (!lastMessage) return "No messages yet";
+    if (lastMessage.text && lastMessage.text.trim()) return lastMessage.text;
+    if (lastMessage.attachment) {
+      if (lastMessage.attachment.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+        return "Image attachment";
+      }
+      if (lastMessage.attachment.match(/\.pdf$/i)) {
+        return "PDF attachment";
+      }
+      return "Attachment";
+    }
+    return "";
+  }
+
   return (
     <div
       className={
@@ -31,7 +47,7 @@ const ConversationPreview = ({
       <div className={styles.convListInfo}>
         <div className={styles.convListName}>{user.name || "Unknown"}</div>
         <div className={styles.convListLast}>
-          {conversation.lastMessage?.text || "No messages yet"}
+          {getPreviewText(conversation.lastMessage)}
         </div>
       </div>
       {unreadCount > 0 && (

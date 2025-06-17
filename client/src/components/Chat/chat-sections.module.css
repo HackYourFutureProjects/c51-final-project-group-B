@@ -222,6 +222,7 @@
   background: var(--surface-color, #fff);
   transition: border 0.2s;
   font-family: var(--text-font-family, "Outfit");
+  color: var(--text-color, #222);
 }
 
 .messageInput:focus {

@@ -42,6 +42,13 @@ export default function initChatSocket(io) {
     socket.on("send_message", async (data) => {
       try {
         const { conversationId, text, attachment = "" } = data;
+        // Allow either text or attachment
+        if ((!text || !text.trim()) && !attachment) {
+          return socket.emit(
+            "error",
+            "Message text or attachment is required.",
+          );
+        }
         // Find conversation and recipient
         const conversation = await Conversation.findById(conversationId);
         if (

@@ -140,6 +140,16 @@ export function ChatProvider({ children }) {
     const isRecipient = msg.sender?._id !== user?._id;
     const isActive = activeConversationIdRef.current === convId;
 
+    // if the conversation is not in state(new), fetch conversations
+    setConversations((prev) => {
+      const exists = prev.some((c) => c._id === convId);
+      if (!exists) {
+        //  Fetch  conversations
+        fetchConversations();
+      }
+      return prev;
+    });
+
     // If this is a message sent, and the conversation is pending read, mark as read
     if (
       msg.sender?._id === user?._id &&
@@ -191,11 +201,18 @@ export function ChatProvider({ children }) {
     });
 
     // Update lastMessage in conversations
-    setConversations((prev) =>
-      prev.map((conv) =>
+    setConversations((prev) => {
+      // Update the lastMessage for the relevant conversation
+      const updated = prev.map((conv) =>
         conv._id === msg.conversationId ? { ...conv, lastMessage: msg } : conv,
-      ),
-    );
+      );
+      // Sort by lastMessage.createdAt (or updatedAt as fallback)- to show most recent first
+      return updated.sort((a, b) => {
+        const aTime = a.lastMessage?.createdAt || a.updatedAt || 0;
+        const bTime = b.lastMessage?.createdAt || b.updatedAt || 0;
+        return new Date(bTime) - new Date(aTime);
+      });
+    });
   }
 
   //  Delete a conversation

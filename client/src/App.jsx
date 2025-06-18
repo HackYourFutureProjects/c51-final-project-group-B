@@ -36,6 +36,7 @@ const App = () => {
           <Route path="/user" element={<UserList />} />
           <Route path="/user/create" element={<CreateUser />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
+            <Route path="/edit/:id" element={<EditJob />} />
           {/* the job seeker route is only accessible if the user is authenticated and has the role of jobseeker */}
           <Route
             path="/jobs/find"

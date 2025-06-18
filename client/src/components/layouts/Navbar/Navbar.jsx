@@ -168,7 +168,7 @@ const Navbar = () => {
                     )}
                   </span>
                 </NavLink>
-               <NotificationBell />
+                <NotificationBell />
               </>
             )}
           </div>

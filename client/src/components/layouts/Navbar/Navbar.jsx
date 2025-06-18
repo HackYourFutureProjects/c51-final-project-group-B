@@ -1,6 +1,4 @@
 import { NavLink, useNavigate } from "react-router-dom";
-
-import { useNotifications } from "../../../contexts/NotificationContext";
 import { useUser } from "../../../contexts/UserContext";
 
 import {
@@ -22,7 +20,6 @@ import NotificationBell from "../../NotificationBell/NotificationBell";
 import { useChat } from "../../../hooks/useChat";
 import { FaEnvelope } from "react-icons/fa";
 const Navbar = () => {
-  const { notifications, unreadCount, markAsRead } = useNotifications();
   const { user, logout } = useUser();
   const navigate = useNavigate();
 
@@ -159,6 +156,7 @@ const Navbar = () => {
         <div className={styles.rightSection}>
           <div className={styles.authActions}>
             {user && (
+<<<<<<< fixes/css
               <>
                 <NavLink
                   to="/profile/messages"
@@ -180,6 +178,11 @@ const Navbar = () => {
                   markAsRead={markAsRead}
                 />
               </>
+=======
+              <div>
+                <NotificationBell />
+              </div>
+>>>>>>> develop
             )}
           </div>
           {!user ? (

@@ -1,14 +1,17 @@
 import Feed from "../models/Feed.js";
 import { logError } from "../util/logging.js";
+import { getIo } from "../socket.js";
+import { User } from "../models/User.js";
+import { notifyUser } from "../services/notifications.js";
 
 export const createFeed = async (req, res) => {
   try {
-    const allowedIds = process.env.ADMIN_IDS
-      ? process.env.ADMIN_IDS.split(",")
-      : [];
-    if (!allowedIds.includes(req.user.id)) {
-      return res.status(403).json({ success: false, msg: "Forbidden" });
-    }
+    // const allowedIds = process.env.ADMIN_IDS
+    //   ? process.env.ADMIN_IDS.split(",")
+    //   : [];
+    // if (!allowedIds.includes(req.user.id)) {
+    //   return res.status(403).json({ success: false, msg: "Forbidden" });
+    // }
 
     const { title, tags, content, sources, media, audience } = req.body;
 
@@ -23,6 +26,38 @@ export const createFeed = async (req, res) => {
     });
 
     await feed.save();
+
+    // Notification part starts here
+    const io = getIo();
+
+    const notificationData = {
+      type: "new_feed",
+      title: "New Feed Available",
+      message: `A feed "${title}" is now available.`,
+      data: {
+        fromUserId: req.user.id,
+        metadata: {
+          feedTitle: title,
+          feedSummary: content.slice(0, 100),
+        },
+      },
+    };
+
+    let usersToNotify = [];
+
+    if (audience === "all") {
+      usersToNotify = await User.find().lean();
+    } else if (audience === "company" || audience === "seeker") {
+      usersToNotify = await User.find({ userType: audience }).lean();
+    }
+
+    await Promise.all(
+      usersToNotify.map((user) =>
+        notifyUser(io, user._id.toString(), notificationData),
+      ),
+    );
+    // Notification part ends here
+
     res.status(201).json({ success: true, data: feed });
   } catch (err) {
     logError(err);

@@ -31,4 +31,5 @@ export const NOTIFICATION_TYPES = [
   "new_message",
   "interview_scheduled",
   "job_expired",
+  "new_feed",
 ];

@@ -1,14 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./notification-bell.module.css";
 import PropTypes from "prop-types";
 import { formatDistanceToNow } from "date-fns";
+import { useNotifications } from "../../contexts/NotificationContext";
 
-const NotificationItem = ({ notification, markAsRead }) => {
+const NotificationItem = ({ notification }) => {
   const { type, title, message, data, isRead } = notification;
   const { metadata = {} } = data || {};
+  const { markAsRead } = useNotifications();
   const timeAgo = notification.createdAt
     ? formatDistanceToNow(new Date(notification.createdAt), { addSuffix: true })
     : null;
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigation = () => {
+    if (location.pathname !== "/feed") {
+      navigate("/feed");
+    }
+  };
 
   const renderDetails = () => {
     switch (type) {
@@ -26,6 +37,15 @@ const NotificationItem = ({ notification, markAsRead }) => {
               {metadata.jobTitle && <p>{metadata.jobTitle}</p>}
             </Link>
             {metadata.companyName && <p>By: {metadata.companyName}</p>}
+          </>
+        );
+      case "new_feed":
+        return (
+          <>
+            <div onClick={handleNavigation}>
+              {" "}
+              {metadata.feedSummary && <p>{metadata.feedSummary}</p>}{" "}
+            </div>
           </>
         );
 

@@ -1,6 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUser } from "../../../contexts/UserContext";
-
 import {
   MdPerson,
   MdExpandMore,
@@ -11,7 +10,6 @@ import {
   MdMenu, // Import for hamburger icon
   MdClose, // Import for close icon
 } from "react-icons/md";
-
 import { toast } from "sonner";
 import ThemeToggle from "../../theme/ThemeToggle";
 import { useEffect, useState, useRef } from "react";
@@ -152,7 +150,6 @@ const Navbar = () => {
             </li>
           )}
         </ul>
-
         <div className={styles.rightSection}>
           <div className={styles.authActions}>
             {user && (

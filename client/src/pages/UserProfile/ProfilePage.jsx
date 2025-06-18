@@ -11,6 +11,7 @@ import SeekerSettings from "../../components/UserPersonalProfile/Seeker/Settings
 import CompanyOverview from "../../components/UserPersonalProfile/Company/Overview";
 import CompanyJobs from "../../components/UserPersonalProfile/Company/Jobs";
 import CompanySettings from "../../components/UserPersonalProfile/Company/Settings";
+import CompanyPost from "../../components/UserPersonalProfile/Company/PostJob";
 
 //   shared
 import Messages from "../../components/UserPersonalProfile/Shared/Messages";
@@ -41,6 +42,7 @@ const ProfilePage = () => {
           <>
             <Route path="company-overview" element={<CompanyOverview />} />
             <Route path="company-jobs" element={<CompanyJobs />} />
+            <Route path="company-post" element={<CompanyPost />} />
             <Route path="company-settings" element={<CompanySettings />} />
             {/* Default  */}
             <Route index element={<CompanyOverview />} />

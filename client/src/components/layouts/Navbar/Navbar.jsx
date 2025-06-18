@@ -7,8 +7,8 @@ import {
   MdLogout,
   MdInbox,
   MdWork,
-  MdMenu, // Import for hamburger icon
-  MdClose, // Import for close icon
+  MdMenu,
+  MdClose,
 } from "react-icons/md";
 import { toast } from "sonner";
 import ThemeToggle from "../../theme/ThemeToggle";
@@ -28,19 +28,17 @@ const Navbar = () => {
     : 0;
 
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const dropdownRef = useRef(null); // Ref for the profile dropdown container
+  const dropdownRef = useRef(null);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const mobileMenuRef = useRef(null); // Ref for the mobile menu content
+  const mobileMenuRef = useRef(null);
 
   const [isDarkTheme, setIsDarkTheme] = useState(
     () => localStorage.getItem("theme") === "dark-theme",
   );
 
-  // Effect to handle clicks outside of dropdown and mobile menu
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close profile dropdown if click is outside its container
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropDownOpen(false);
       }
@@ -48,7 +46,7 @@ const Navbar = () => {
       // Close mobile menu if click is outside its container AND not on the hamburger button
       // This also ensures clicking the profile section (which is visible on mobile) doesn't close the hamburger
       if (
-        isMobileMenuOpen && // Only check if mobile menu is currently open
+        isMobileMenuOpen &&
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
         !event.target.closest(`.${styles.hamburgerButton}`)
@@ -57,16 +55,14 @@ const Navbar = () => {
       }
     };
 
-    // Add event listener only when either menu is open to optimize performance
     if (isDropDownOpen || isMobileMenuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isDropDownOpen, isMobileMenuOpen]); // Re-run effect if menu states change
+  }, [isDropDownOpen, isMobileMenuOpen]);
 
-  // Effect to apply/remove dark theme class to document element
   useEffect(() => {
     document.documentElement.classList.toggle("dark-theme", isDarkTheme);
     localStorage.setItem("theme", isDarkTheme ? "dark-theme" : "light-theme");
@@ -79,29 +75,23 @@ const Navbar = () => {
 
     toast.success("Logout successfully!");
     navigate("/");
-    setIsDropDownOpen(false); // Ensure dropdown is closed on logout
-    setIsMobileMenuOpen(false); // Ensure mobile menu is closed on logout
+    setIsDropDownOpen(false);
+    setIsMobileMenuOpen(false);
   };
 
-  // Helper function for NavLink class names (active state styling)
   const navLinkClass = ({ isActive }) =>
     isActive ? `${styles.navLink} ${styles.active}` : styles.navLink;
 
-  // Helper function for dropdown item class names (active state styling)
   const dropDownClass = ({ isActive }) =>
     isActive ? `${styles.dropDownItem} ${styles.active}` : styles.dropDownItem;
 
-  // Global navigation click handler:
-  // - Always closes the mobile menu.
-  // - Closes the profile dropdown only if 'closeDropdown' is true (default behavior for non-dropdown links).
   const handleNavLinkClick = (closeDropdown = true) => {
-    setIsMobileMenuOpen(false); // Always close mobile menu on any navigation
+    setIsMobileMenuOpen(false);
     if (closeDropdown) {
-      setIsDropDownOpen(false); // Close profile dropdown for non-dropdown links
+      setIsDropDownOpen(false);
     }
   };
 
-  // Dynamic profile, settings, and jobs links based on user type
   const profileLink =
     user?.userType === "company"
       ? "/profile/company-overview"
@@ -127,7 +117,11 @@ const Navbar = () => {
           className={styles.logo}
           onClick={() => handleNavLinkClick(true)}
         >
-          Talent Nest
+          <img
+            src="/logo.png"
+            alt="Talent Nest Logo"
+            className={styles.logoImage}
+          />
         </NavLink>
 
         <ul className={styles.navLinks}>
@@ -146,6 +140,13 @@ const Navbar = () => {
             <li>
               <NavLink to="/jobs/find" className={navLinkClass}>
                 Find Jobs
+              </NavLink>
+            </li>
+          )}
+          {user?.userType === "company" && (
+            <li>
+              <NavLink to="/profile/company-post" className={navLinkClass}>
+                Post Job
               </NavLink>
             </li>
           )}
@@ -343,7 +344,6 @@ const Navbar = () => {
                 </>
               )}
             </ul>
-            {/* No need to duplicate profile-related links or theme toggle here, as they are in the main bar */}
           </div>
         )}
       </nav>

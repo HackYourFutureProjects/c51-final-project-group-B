@@ -1,22 +1,26 @@
 import styles from "./findjob.module.css";
-import { MdSend, MdBookmarkBorder } from "react-icons/md";
+import { MdSend, MdBookmarkBorder, MdBookmark } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import FeedbackMessage from "../UserPersonalProfile/Shared/SettingsSections/FeedbackMessage";
 import PropTypes from "prop-types";
+import { useSavedJobs } from "../../contexts/SavedJobsContext";
 
 const JobCard = ({ job }) => {
   const navigate = useNavigate();
   const [showApplyModal, setShowApplyModal] = useState(false);
-
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [saveLoading, setSaveLoading] = useState(false);
   const shareBtnRef = useRef(null);
+
+  const { isSaved, addJob, removeJob } = useSavedJobs();
+  const saved = isSaved(job._id);
 
   if (!job) return null;
 
-  // checks
+  // Fallback / computed values
   const title = job.title || "Untitled";
   const companyName =
     job.postedBy?.companyProfile?.companyName || "Unknown Company";
@@ -69,6 +73,26 @@ const JobCard = ({ job }) => {
     );
     setShowShareMenu(false);
   };
+
+  const handleSaveToggle = async () => {
+    setSaveLoading(true);
+    try {
+      if (saved) {
+        await removeJob(job._id);
+        setFeedback("Job removed from saved!");
+      } else {
+        await addJob(job);
+        setFeedback("Job saved!");
+      }
+      setTimeout(() => setFeedback(null), 2000);
+    } catch (err) {
+      console.error("Error toggling save job", err);
+      setFeedback(err.message || "Error saving job.");
+      setTimeout(() => setFeedback(null), 2000);
+    } finally {
+      setSaveLoading(false);
+    }
+  };
   return (
     <div className={styles.jobCard}>
       {feedback && <FeedbackMessage feedback={feedback} />}
@@ -88,10 +112,19 @@ const JobCard = ({ job }) => {
         <div className={styles.jobCardHeaderIcons}>
           <button
             className={styles.saveIconBtn}
-            aria-label="Save job"
+            aria-label={saved ? "Unsave job" : "Save job"}
+            onClick={handleSaveToggle}
+            disabled={saveLoading}
             type="button"
           >
-            <MdBookmarkBorder className={styles.saveIcon} />
+            {saved ? (
+              <MdBookmark
+                className={styles.saveIcon}
+                style={{ color: "#0070f3" }}
+              />
+            ) : (
+              <MdBookmarkBorder className={styles.saveIcon} />
+            )}
           </button>
           <div style={{ position: "relative", display: "inline-block" }}>
             <button
@@ -149,8 +182,6 @@ const JobCard = ({ job }) => {
   );
 };
 
-export default JobCard;
-
 JobCard.propTypes = {
   job: PropTypes.shape({
     _id: PropTypes.string,
@@ -167,3 +198,5 @@ JobCard.propTypes = {
     isActive: PropTypes.bool,
   }).isRequired,
 };
+
+export default JobCard;

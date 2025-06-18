@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "sonner";
 import JobForm from "../../components/PostJob/JobForm";
 import styles from "../../components/PostJob/postJobSection.module.css";
 import useFetch from "../../hooks/useFetch";
@@ -29,8 +29,9 @@ const EditJob = () => {
         limit: data.data.limit || 1,
         description: data.data.description || "",
         requirements: Array.isArray(data.data.requirements)
-          ? data.data.requirements.join(", ")
+          ? data.data.requirements.join("\n")
           : "",
+
         deadline: data.data.expireOn?.slice(0, 10) || "",
       });
     },
@@ -46,7 +47,10 @@ const EditJob = () => {
     const payload = {
       ...formData,
       tags: formData.tags.split(",").map((tag) => tag.trim()),
-      requirements: formData.requirements.split(",").map((req) => req.trim()),
+      requirements: formData.requirements
+        .split("\n")
+        .map((req) => req.trim())
+        .filter((req) => req.length > 0),
       languages: formData.languages.split(",").map((lang) => lang.trim()),
       salaryMin: Number(formData.salaryMin),
       salaryMax: Number(formData.salaryMax),
@@ -77,9 +81,7 @@ const EditJob = () => {
 
   return (
     <>
-      <Toaster position="top-center" />
       <div className={styles.container}>
-        <h1>Edit Vacancy</h1>
         <JobForm
           isEditMode
           isSubmitting={isSubmitting}

@@ -41,6 +41,11 @@
   transition: color 0.2s ease;
 }
 
+.logoImage {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
 .logo:hover {
   color: var(--primary-color-dark);
 }

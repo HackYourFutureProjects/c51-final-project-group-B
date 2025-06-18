@@ -45,6 +45,7 @@ h1 {
   transition: all 0.3s ease;
   background-color: var(--surface-color);
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .formField input[type="text"]:focus,
@@ -70,6 +71,11 @@ h1 {
   background-color: var(--disabled-bg);
   color: var(--disabled-text-color);
   cursor: not-allowed;
+}
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 .errorText {
@@ -108,7 +114,8 @@ textarea {
   margin-top: 0.25rem;
 }
 
-.submitButton {
+.submitButton,
+.cancelButton {
   padding: 1rem 1.5rem;
   background-color: var(--primary-color);
   color: var(--btn-text-color);
@@ -124,8 +131,10 @@ textarea {
   align-self: flex-end;
 }
 
-.submitButton:hover {
+.submitButton:hover,
+.cancelButton:hover {
   box-shadow: var(--box-shadow-md);
+  background-color: var(--primary-color-dark);
 }
 
 /* Responsive tweaks for very small screens */
@@ -137,7 +146,8 @@ textarea {
     font-size: 1.4rem;
     margin-top: 1rem;
   }
-  .submitButton {
+  .submitButton,
+  .cancelButton {
     padding: 0.75rem 1rem;
     font-size: 1rem;
   }

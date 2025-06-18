@@ -7,6 +7,7 @@ import {
   FaEnvelope,
   FaCog,
   FaSignOutAlt,
+  FaPlus,
 } from "react-icons/fa";
 import { toast } from "sonner";
 import { useChat } from "../../../hooks/useChat";
@@ -87,7 +88,23 @@ const Sidebar = () => {
             </span>
             <span className={styles.label}></span>
           </NavLink>
+          {}
         </li>
+        {user.userType === "company" && (
+          <li className={styles.navItem}>
+            <NavLink
+              to="/profile/company-post"
+              className={({ isActive }) =>
+                isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
+              }
+            >
+              <span className={styles.icon}>
+                <FaPlus />
+              </span>
+              <span className={styles.label}></span>
+            </NavLink>
+          </li>
+        )}
         <li className={styles.navItem}>
           <NavLink
             to={

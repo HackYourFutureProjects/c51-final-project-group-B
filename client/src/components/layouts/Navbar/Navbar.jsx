@@ -156,7 +156,6 @@ const Navbar = () => {
         <div className={styles.rightSection}>
           <div className={styles.authActions}>
             {user && (
-<<<<<<< fixes/css
               <>
                 <NavLink
                   to="/profile/messages"
@@ -172,17 +171,8 @@ const Navbar = () => {
                     )}
                   </span>
                 </NavLink>
-                <NotificationBell
-                  notifications={notifications}
-                  unreadCount={unreadCount}
-                  markAsRead={markAsRead}
-                />
+               <NotificationBell />
               </>
-=======
-              <div>
-                <NotificationBell />
-              </div>
->>>>>>> develop
             )}
           </div>
           {!user ? (

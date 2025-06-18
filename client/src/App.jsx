@@ -25,6 +25,7 @@ import FindJobsPage from "./pages/FindJobsPage/FindJobsPage";
 import Feed from "./pages/Feed/Feed";
 import DataPolicy from "./components/License & Agreement/DataPolicy";
 import TermsAndCondition from "./components/License & Agreement/TermsAndCondition";
+import EditJob from "./pages/PostJob/EditJob";
 
 const App = () => {
   return (

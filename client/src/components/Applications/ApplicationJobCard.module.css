@@ -1,0 +1,282 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem;
+}
+
+.tab {
+  margin: 0 16px;
+}
+.tabs :global(.MuiTabs-scroller) {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.tabs :global(.MuiTabs-scroller::-webkit-scrollbar-thumb) {
+  background-color: var(--surface-color);
+  border-radius: 4px;
+}
+
+.active {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.swiper {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.swiperSlide {
+  display: flex;
+  justify-content: center;
+}
+
+.jobApplicationContainer,
+.jobApplicationContainer1 {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-color);
+  border-radius: var(--default-xxl-border-radius);
+}
+.jobApplicationContainer1 {
+  position: relative;
+  margin: 20px;
+  box-shadow: 0 2px 17px 1px var(--default-shadow-color);
+}
+/* Status badge */
+.jobApplicationBadge {
+  margin-bottom: 10px;
+  background-color: var(--success-color, #00796b);
+  width: fit-content;
+  padding: 5px 10px;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  border-top-left-radius: var(--default-xl-border-radius);
+  border-bottom-right-radius: var(--default-xl-border-radius);
+}
+
+.jobApplicationOffer {
+  margin-left: 8px;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
+  text-transform: capitalize;
+}
+
+/* Status variants */
+.badgeAccepted,
+.badgeActive {
+  background-color: var(--success-color, #00796b);
+  color: var(--text-color);
+}
+
+.badgePending,
+.badgeClosed {
+  background-color: var(--warning-color);
+  color: var(--text-color);
+}
+
+.badgeRejected {
+  background-color: var(--surface-color);
+  color: var(--error-color, #c62828);
+}
+
+/* Inner container */
+.jobApplicationContainer {
+  padding: 10px 40px 40px;
+}
+
+.jobApplicationContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.jobApplicationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.jobApplicationWithdrawBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #888;
+  cursor: not-allowed;
+  pointer-events: none;
+  font-size: 13px;
+  padding: 6px 8px;
+}
+
+.jobApplicationWithdrawBtnActive {
+  color: var(--error-color, #c62828);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  pointer-events: auto;
+  font-size: 13px;
+  padding: 6px 8px;
+  transition: color 0.2s ease;
+}
+
+.jobApplicationWithdrawBtnActive:hover {
+  color: var(--error-color, #b71c1c);
+}
+
+.jobApplicationDeleteBtn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: var(--error-color, #b71c1c);
+  margin-left: auto;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+  font-size: 13px;
+}
+
+.jobApplicationDeleteBtn:hover {
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+.jobApplicationDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.jobApplicationTitle {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+}
+
+.jobApplicationDate {
+  font-size: 12px;
+  color: var(--text-color);
+}
+
+.jobApplicationTime {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin-top: 4px;
+}
+
+.jobApplicationItems {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.jobApplicationItem {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+.jobApplicationImage {
+  width: 100px;
+}
+
+.jobApplicationDescription {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-color);
+}
+
+.showMoreLess {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.seeMoreLink,
+.applyLink {
+  text-decoration: none;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+.seeMoreLink:hover {
+  text-decoration: underline;
+}
+
+.applyLinkInactive {
+  background-color: var(--disabled-bg, #ccc);
+  color: var(--disabled-text, #666);
+  cursor: not-allowed;
+}
+
+.postedBy {
+  font-size: 13px;
+  color: var(--text-color);
+  margin-top: 6px;
+}
+
+.jobType {
+  font-size: 12px;
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
+  margin-top: 4px;
+}
+
+.withdrawConfirmCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--surface-color);
+  border: 1px solid var(--warning-color, #ffcc80);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-size: 14px;
+  color: var(--text-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 280px;
+  z-index: 1001;
+}
+
+.dialogOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.withdrawButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.cancelButton,
+.confirmButton {
+  padding: 6px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: var(--default-sm-border-radius);
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: var(--error-color, #d32f2f);
+  color: var(--btn-text-color);
+}
+
+.confirmButton {
+  background-color: var(--error-color, #d32f2f);
+  color: var(--btn-text-color);
+}

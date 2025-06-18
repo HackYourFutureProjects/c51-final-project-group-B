@@ -82,6 +82,13 @@ export function ChatProvider({ children }) {
     }
   }, []);
 
+  // Fetch conversations on mount or when user changes this we used in messages page, but here to get badge for the unread count on first mount.
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      fetchConversations();
+    }
+  }, [isAuthenticated, user, fetchConversations]);
+
   //  Fetch messages for a conversation
   const fetchMessages = useCallback(async (conversationId) => {
     setMessagesLoading(true);

@@ -10,10 +10,17 @@ import {
   FaPlus,
 } from "react-icons/fa";
 import { toast } from "sonner";
+import { useChat } from "../../../hooks/useChat";
 
 const Sidebar = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
+  //  unread messages count
+  const { unread } = useChat() || {};
+  const totalUnread = unread
+    ? Object.values(unread).reduce((sum, count) => sum + count, 0)
+    : 0;
+
   if (!user) return null;
 
   const handleLogout = async (e) => {
@@ -73,11 +80,13 @@ const Sidebar = () => {
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
           >
-            <span className={styles.icon}>
+            <span className={styles.icon} style={{ position: "relative" }}>
               <FaEnvelope />
+              {totalUnread > 0 && (
+                <span className={styles.unreadBadge}>{totalUnread}</span>
+              )}
             </span>
-            <span className={styles.label}></span>{" "}
-            {/* we can add texts with icons too */}
+            <span className={styles.label}></span>
           </NavLink>
           {}
         </li>

@@ -1,43 +1,44 @@
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import JobForm from "../../components/PostJob/JobForm";
-import styles from "../../components/PostJob/postJobSection.module.css";
-import { DAILY_POST_LIMIT } from "../../constants";
+import { toast } from "sonner";
+import JobForm from "../../../components/PostJob/JobForm";
+import styles from "../../../components/PostJob/postJobSection.module.css";
+import { DAILY_POST_LIMIT } from "../../../constants";
 
 const PostJob = () => {
-  // Track how many jobs the user has posted today
   const [postsToday, setPostsToday] = useState(() => {
     const storedPostsToday = localStorage.getItem("postsToday");
     return storedPostsToday ? parseInt(storedPostsToday, 10) : 0;
   });
-
+  console.log("Posts today:", postsToday);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formReset, setFormReset] = useState(null);
 
-  // Handles the form submission logic
   const onSubmit = async (data) => {
-    // Enforce daily post limit
     if (postsToday >= DAILY_POST_LIMIT) {
-      toast.error("You have reached the limit of 5 job posts today.");
+      toast.error(
+        `You have reached the limit of ${DAILY_POST_LIMIT} job posts today.`,
+      );
       return;
     }
 
     setIsSubmitting(true);
 
-    // Format form fields before sending
     const formatted = {
       ...data,
+      expireOn: new Date(`${data.deadline}T00:00:00Z`)
+        .toISOString()
+        .replace("Z", "+00:00"),
       numberOfOpenings: Number(data.numberOfOpenings || 1),
       requirements: (data.requirements || "")
-        .split(",")
+        .split(/[\n.]+/)
         .map((s) => s.trim())
         .filter(Boolean),
       tags: (data.tags || "")
-        .split(",")
+        .split(/[\n,]+/)
         .map((s) => s.trim())
         .filter(Boolean),
       languages: (data.languages || "")
-        .split(",")
+        .split(/[\n,]+/)
         .map((s) => s.trim())
         .filter(Boolean),
       salaryMin:
@@ -51,9 +52,10 @@ const PostJob = () => {
           ? "NA"
           : Number(data.salaryMax || 0),
     };
+    console.log(postsToday);
+    console.log("Submitted job data:", formatted);
 
     try {
-      // Submit job post to API
       const response = await fetch("/api/jobs/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -74,7 +76,7 @@ const PostJob = () => {
       toast.success("Job posted successfully");
       incrementPostsCount();
 
-      if (formReset) formReset(); // Reset form fields after successful submission
+      if (formReset) formReset();
     } catch (error) {
       toast.error(error.message || "Submission failed. Please try again.");
     } finally {
@@ -82,7 +84,6 @@ const PostJob = () => {
     }
   };
 
-  // Increments the local job post count and stores it in localStorage
   const incrementPostsCount = () => {
     setPostsToday((prev) => {
       const updatedPostsToday = prev + 1;
@@ -91,16 +92,25 @@ const PostJob = () => {
     });
   };
 
+  const decrementPostsCount = () => {
+    setPostsToday((prev) => {
+      const updatedPostsToday = Math.max(prev - 1, 0);
+      localStorage.setItem("postsToday", updatedPostsToday);
+      return updatedPostsToday;
+    });
+  };
+
   return (
     <>
-      <Toaster position="top-center" />
-      <div className={styles.settingsWrapper}>
-        <h1 className={styles.settingsTitle}>Add a Vacancy</h1>
-        <JobForm
-          onSubmit={onSubmit}
-          isSubmitting={isSubmitting}
-          setFormReset={setFormReset}
-        />
+      <div className={styles.noContentWrapperStyles}>
+        <div className={styles.settingsWrapper}>
+          <JobForm
+            onSubmit={onSubmit}
+            isSubmitting={isSubmitting}
+            setFormReset={setFormReset}
+            onDeleteSuccess={decrementPostsCount}
+          />
+        </div>
       </div>
     </>
   );

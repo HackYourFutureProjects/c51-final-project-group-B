@@ -11,6 +11,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { ChatProvider } from "./contexts/ChatContext";
 import { NotificationProvider } from "./contexts/NotificationContext";
+import { SavedJobsProvider } from "./contexts/SavedJobsContext";
 import { useSocket } from "./contexts/SocketContext";
 import { useUser } from "./contexts/UserContext";
 import { SavedJobsProvider } from "./contexts/SavedJobsContext";

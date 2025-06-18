@@ -10,6 +10,7 @@ import styles from "./ApplicationJobCard.module.css";
 import { useState } from "react";
 
 const ApplicationJobCard = ({
+  applicationId,
   jobTitle,
   jobLocation,
   appliedAt,
@@ -50,7 +51,11 @@ const ApplicationJobCard = ({
 
   const handleConfirm = () => {
     if (typeof onWithdraw === "function" && confirmAction) {
-      onWithdraw(jobId, confirmAction);
+      if (mode === "application") {
+        onWithdraw(applicationId, confirmAction);
+      } else if (mode === "saved") {
+        onWithdraw(jobId);
+      }
     }
     setShowConfirm(false);
   };
@@ -210,6 +215,8 @@ const ApplicationJobCard = ({
 };
 
 ApplicationJobCard.propTypes = {
+  applicationId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   jobTitle: PropTypes.string.isRequired,
   jobLocation: PropTypes.string,
   appliedAt: PropTypes.string,

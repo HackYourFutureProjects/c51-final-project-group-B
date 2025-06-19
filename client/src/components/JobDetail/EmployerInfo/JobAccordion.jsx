@@ -16,8 +16,6 @@ const JobAccordion = ({ job, styles }) => {
     expireOn,
   } = job;
 
-  console.log("JobAccordion job:", job);
-
   return (
     <div className={styles.accordionSection}>
       <DeadlineSection expireOn={expireOn} styles={styles} />

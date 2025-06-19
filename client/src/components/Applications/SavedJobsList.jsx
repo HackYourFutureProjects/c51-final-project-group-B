@@ -11,8 +11,6 @@ function SavedJobsList() {
   const [savedJobs, setSavedJobs] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 3;
-  const [showApplyModal, setShowApplyModal] = useState(false);
-  const [selectedJobId, setSelectedJobId] = useState(null);
 
   const {
     isLoading,
@@ -42,22 +40,6 @@ function SavedJobsList() {
     } catch (error) {
       toast.error(error.message || "Failed to remove job from saved list.");
     }
-  };
-
-  const handleOpenApplyModal = (jobId) => {
-    setSelectedJobId(jobId);
-    setShowApplyModal(true);
-  };
-
-  const handleCloseApplyModal = () => {
-    setShowApplyModal(false);
-    setSelectedJobId(null);
-  };
-
-  const handleApply = (jobId, formData) => {
-    console.log("Applying for job:", jobId, formData);
-    toast.success("Application submitted!");
-    handleCloseApplyModal();
   };
 
   const formatDate = (dateString) => {
@@ -97,10 +79,6 @@ function SavedJobsList() {
             createdAt={job.createdAt}
             jobIsActive={job.jobIsActive}
             jobType={job.jobType}
-            onOpenApplyModal={() => handleOpenApplyModal(job.jobId)}
-            showApplyModal={showApplyModal && selectedJobId === job.jobId}
-            onCloseApplyModal={handleCloseApplyModal}
-            onApply={handleApply}
           />
         ))}
 

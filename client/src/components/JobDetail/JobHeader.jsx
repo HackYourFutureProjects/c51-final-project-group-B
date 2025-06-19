@@ -13,7 +13,7 @@ const JobHeader = ({ job, styles }) => {
   const location = job.location || "Unknown Location";
   const profilePhoto = job.postedBy?.profilePhoto;
   const companyId = job.postedBy?._id;
-  console.log("Company ID:", companyId);
+
   const goToCompanyProfile = () => {
     if (companyId) {
       navigate(`/users/company-profile/${companyId}`);

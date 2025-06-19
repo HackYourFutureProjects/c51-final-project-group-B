@@ -10,11 +10,11 @@ const JobCard = ({ job, styles }) => {
     location,
     type,
     createdAt,
-    companyProfile, // company name string
+    companyProfile,
     description,
     profilePhoto,
   } = job;
-  console.log("JobCard job:", profilePhoto);
+
   return (
     <Link to={`/jobs/${id}`} className={styles.jobCardLink}>
       <div className={styles.jobCard}>

@@ -32,7 +32,7 @@ const HeaderSection = ({ user }) => {
 
   // Seeker
   const { seekerProfile = {} } = !isCompany ? user : {};
-  const { firstName, lastName, position } = seekerProfile;
+  const { firstName, lastName, position, resumeUrl } = seekerProfile;
 
   const name = isCompany
     ? companyName || "Company Name Not Provided"
@@ -47,6 +47,7 @@ const HeaderSection = ({ user }) => {
 
   const userEmail = email || "Email not provided";
   const userWebsite = website || "Website not provided";
+
   return (
     <div className={styles.headerWrapper}>
       <div className={styles.leftSection}>
@@ -100,10 +101,16 @@ const HeaderSection = ({ user }) => {
           Contact
         </button>
 
-        {/* button to upload resume */}
+        {/* button to view resume */}
         {!isCompany && (
-          <button id="downloadBtnId" className="btn btn-outline">
-            Download CV
+          <button
+            id="downloadBtnId"
+            className="btn btn-outline"
+            onClick={() => {
+              window.open(resumeUrl, "_blank", "noopener,noreferrer");
+            }}
+          >
+            View CV
           </button>
         )}
       </div>

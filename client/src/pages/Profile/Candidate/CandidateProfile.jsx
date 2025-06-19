@@ -7,7 +7,6 @@ import HeaderSection from "../../../components/profile/ProfileView/HeaderSection
 import HistorySection from "../../../components/profile/ProfileView/HistorySection/HistorySection";
 import TagSection from "../../../components/profile/ProfileView/TagSection/TagSection";
 import Loader from "../../../components/templates/Loader";
-// use this ids for testing 6830bc7faab575b0d0699f51
 
 const CandidateProfile = () => {
   const [user, setUser] = useState({});
@@ -63,6 +62,7 @@ const CandidateProfile = () => {
               user?.seekerProfile?.education?.map((edu) => ({
                 title: edu.degree,
                 organization: edu.school,
+                program: edu.fieldOfStudy,
                 startDate: edu.startDate,
                 endDate: edu.endDate,
                 location: edu.location,

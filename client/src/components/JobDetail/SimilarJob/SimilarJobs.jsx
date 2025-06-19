@@ -22,10 +22,9 @@ const SimilarJobs = ({ jobs, styles }) => {
   const [showAll, setShowAll] = useState(false);
   const jobsToShow = showAll ? jobs : jobs.slice(0, 3);
 
-  // Debug: log any jobs missing an id
   jobsToShow.forEach((job, index) => {
-    if (!job.id) {
-      console.warn(`Job at index ${index} is missing an id!`, job);
+    if (!job._id) {
+      console.warn(`Job at index ${index} is missing an _id!`, job);
     }
   });
 
@@ -37,7 +36,7 @@ const SimilarJobs = ({ jobs, styles }) => {
           {jobsToShow.map((job, index) => (
             <JobCard
               job={mapJobToCardProps(job)}
-              key={job.id ?? `job-${index}`}
+              key={job._id ?? `job-${index}`}
               styles={styles}
             />
           ))}
@@ -71,20 +70,18 @@ const SimilarJobs = ({ jobs, styles }) => {
 SimilarJobs.propTypes = {
   jobs: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      jobTitle: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,
-      jobType: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
-      company: PropTypes.shape({
-        profileUrl: PropTypes.string,
-        name: PropTypes.string,
-      }),
-      detail: PropTypes.arrayOf(
-        PropTypes.shape({
-          desc: PropTypes.string,
+      postedBy: PropTypes.shape({
+        companyProfile: PropTypes.shape({
+          companyName: PropTypes.string,
         }),
-      ),
+        profilePhoto: PropTypes.string,
+      }),
+      description: PropTypes.string,
     }),
   ).isRequired,
   styles: PropTypes.object.isRequired,

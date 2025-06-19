@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import ApplicationJobCard from "./ApplicationJobCard";
 import useFetch from "../../hooks/useFetch";
-import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
 import { toast } from "sonner";
 import { deleteSavedJob } from "../../api/saveJobs";
 import Loading from "../templates/Loader";
@@ -111,13 +110,6 @@ function SavedJobsList() {
             jobs={paginatedJobs}
             limit={limit}
             onPageChange={setPage}
-          />
-        )}
-        {showApplyModal && (
-          <ApplyModalForm
-            jobId={selectedJobId}
-            onClose={handleCloseApplyModal}
-            onApply={handleApply}
           />
         )}
       </div>

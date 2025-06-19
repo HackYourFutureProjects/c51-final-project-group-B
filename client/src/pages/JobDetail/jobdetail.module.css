@@ -1,10 +1,12 @@
 /* Container */
 .container {
-  min-height: 80vh;
-  padding: 2rem 1rem;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem 1rem;
   display: flex;
-  justify-content: center; /* Center content horizontally */
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .mainContent {
@@ -15,7 +17,9 @@
   font-weight: var(--font-weight-normal);
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .accordionSection {
@@ -179,13 +183,11 @@ p {
   gap: 0.75rem;
   align-items: center;
 }
-
 .companyLogo {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--default-xl-border-radius);
-  object-fit: cover;
-  border: 1px solid var(--border-color);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: contain;
 }
 
 .jobInfo {
@@ -281,15 +283,15 @@ p {
 
 .stats {
   display: flex;
-  flex-wrap: nowrap; /* Prevent wrapping to next row */
+  flex-wrap: nowrap;
   gap: 1rem;
-  overflow-x: auto; /* Enables horizontal scrolling on smaller screens */
+  overflow-x: auto;
   margin: 1rem 0rem;
-  padding-bottom: 0.5rem; /* Optional: visual spacing */
+  padding-bottom: 0.5rem;
 }
 
 .statBox {
-  flex: 0 0 160px; /* Ensures each box stays at least 160px wide */
+  flex: 0 0 160px;
   display: flex;
   flex-direction: column;
   align-items: center;

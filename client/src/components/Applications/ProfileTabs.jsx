@@ -5,12 +5,12 @@ import ApplicationList from "./ApplicationList";
 import SavedJobsList from "./SavedJobsList";
 import RecommendedJobsList from "./RecommendedJobsList";
 import "swiper/css";
+import styles from "./ApplicationJobCard.module.css";
 
 export default function ProfileTabs() {
   const [tabIndex, setTabIndex] = useState(0);
   const swiperRef = useRef(null);
 
-  // When tab clicked, update swiper
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
     if (swiperRef.current) {
@@ -18,7 +18,6 @@ export default function ProfileTabs() {
     }
   };
 
-  // When swiper slide changes, update tab
   const handleSwiperSlideChange = (swiper) => {
     setTabIndex(swiper.activeIndex);
   };
@@ -29,12 +28,20 @@ export default function ProfileTabs() {
         value={tabIndex}
         onChange={handleTabChange}
         variant="fullWidth"
-        indicatorColor="primary"
-        textColor="primary"
+        textColor="inherit"
       >
-        <Tab label="My Applications" />
-        <Tab label="Saved Jobs" />
-        <Tab label="Recommended Jobs" />
+        <Tab
+          label="My Applications"
+          className={tabIndex === 0 ? styles.tabLabelSelected : styles.tabLabel}
+        />
+        <Tab
+          label="Saved Jobs"
+          className={tabIndex === 1 ? styles.tabLabelSelected : styles.tabLabel}
+        />
+        <Tab
+          label="Recommended Jobs"
+          className={tabIndex === 2 ? styles.tabLabelSelected : styles.tabLabel}
+        />
       </Tabs>
 
       <Swiper

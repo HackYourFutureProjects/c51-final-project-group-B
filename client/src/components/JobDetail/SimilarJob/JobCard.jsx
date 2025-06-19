@@ -10,27 +10,27 @@ const JobCard = ({ job, styles }) => {
     location,
     type,
     createdAt,
-    companyProfile,
+    companyProfile, // company name string
     description,
     profilePhoto,
   } = job;
-
-  const companyLogo = profilePhoto || "";
-  const companyName = companyProfile || "";
-
+  console.log("JobCard job:", profilePhoto);
   return (
     <Link to={`/jobs/${id}`} className={styles.jobCardLink}>
       <div className={styles.jobCard}>
         <div className={styles.jobCardHeader}>
-          {companyLogo && (
+          {profilePhoto && (
             <img
-              src={companyLogo}
-              alt={companyName}
+              src={profilePhoto}
+              alt={companyProfile}
               className={styles.companyLogo}
             />
           )}
+
           <div className={styles.jobInfo}>
             <p className={styles.jobTitle}>{title}</p>
+            <p className={styles.companyName}>{companyProfile}</p>{" "}
+            {/* Add this */}
             <span className={styles.location}>
               <GoLocation className={styles.locationIcon} />
               {location}
@@ -62,9 +62,9 @@ JobCard.propTypes = {
     location: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    companyProfile: PropTypes.string,
+    companyProfile: PropTypes.string, // company name
     description: PropTypes.string.isRequired,
-    profilePhoto: PropTypes.string,
+    profilePhoto: PropTypes.string, // company logo url
   }).isRequired,
   styles: PropTypes.object.isRequired,
 };

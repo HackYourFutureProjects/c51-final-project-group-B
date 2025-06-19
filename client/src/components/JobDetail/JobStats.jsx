@@ -18,7 +18,6 @@ import { MdAttachMoney, MdLocationOn, MdWork, MdPeople } from "react-icons/md";
  * Uses Material Design icons from 'react-icons/md' to visually represent each stat.
  */
 const JobStats = ({ job, styles }) => {
-  // Format salary range if both min and max exist
   const salaryDisplay =
     job.salaryMin && job.salaryMax
       ? `€${job.salaryMin} - €${job.salaryMax}`

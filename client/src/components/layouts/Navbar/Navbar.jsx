@@ -19,6 +19,13 @@ import { useChat } from "../../../hooks/useChat";
 import { FaEnvelope } from "react-icons/fa";
 const Navbar = () => {
   const { user, logout } = useUser();
+
+  const name = !user
+    ? "User"
+    : user.userType === "company"
+      ? (user.companyProfile?.companyName ?? "")
+      : (user.seekerProfile?.firstName ?? "");
+
   const navigate = useNavigate();
 
   // count total unread messages from chat context
@@ -225,9 +232,7 @@ const Navbar = () => {
               {isDropDownOpen && (
                 <div className={styles.dropDownMenu}>
                   <div className={styles.dropDownHeader}>
-                    <span className={styles.userName}>
-                      {user.name || "User"}
-                    </span>
+                    <span className={styles.userName}>{name || "User"}</span>
                     <span className={styles.userEmail}>{user.email}</span>
                   </div>
                   <div className={styles.dropDownItems}>

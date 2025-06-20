@@ -65,6 +65,7 @@
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
 }
 
 .contactDetails {
@@ -94,6 +95,11 @@
   position: absolute;
   bottom: 0;
   right: 0;
+}
+
+#contactBtnId,
+#downloadBtnId {
+  font-size: 1rem;
 }
 
 @media (max-width: 768px) {

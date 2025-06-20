@@ -30,9 +30,7 @@ const HistorySection = ({ type, title, icon, items }) => {
               </span>
             </div>
 
-            {item.subtitle && (
-              <p className={styles.itemSubtitle}>{item.subtitle}</p>
-            )}
+            {item.program && <p className={styles.program}>{item.program}</p>}
 
             <p className={styles.itemOrganization}>
               {item.organization}

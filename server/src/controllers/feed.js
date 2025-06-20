@@ -6,12 +6,12 @@ import { notifyUser } from "../services/notifications.js";
 
 export const createFeed = async (req, res) => {
   try {
-    // const allowedIds = process.env.ADMIN_IDS
-    //   ? process.env.ADMIN_IDS.split(",")
-    //   : [];
-    // if (!allowedIds.includes(req.user.id)) {
-    //   return res.status(403).json({ success: false, msg: "Forbidden" });
-    // }
+    const allowedIds = process.env.ADMIN_IDS
+      ? process.env.ADMIN_IDS.split(",")
+      : [];
+    if (!allowedIds.includes(req.user.id)) {
+      return res.status(403).json({ success: false, msg: "Forbidden" });
+    }
 
     const { title, tags, content, sources, media, audience } = req.body;
 

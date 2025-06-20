@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ApplicationJobCard from "./ApplicationJobCard";
-import ApplyModalForm from "../ApplyToJobs/ApplyModalForm";
+
 import useFetch from "../../hooks/useFetch";
 import { toast } from "sonner";
 import Loading from "../templates/Loader";
@@ -10,8 +10,6 @@ function RecommendedJobsList() {
   const [recommendedJobs, setRecommendedJobs] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 3;
-  const [showApplyModal, setShowApplyModal] = useState(false);
-  const [selectedJobId, setSelectedJobId] = useState(null);
 
   const {
     isLoading,
@@ -30,22 +28,6 @@ function RecommendedJobsList() {
     fetchRecommendedJobs();
     return () => cancelRecommendedJobsFetch();
   }, []);
-
-  const handleOpenApplyModal = (jobId) => {
-    setSelectedJobId(jobId);
-    setShowApplyModal(true);
-  };
-
-  const handleCloseApplyModal = () => {
-    setShowApplyModal(false);
-    setSelectedJobId(null);
-  };
-
-  const handleApply = (jobId, formData) => {
-    console.log("Applying for job:", jobId, formData);
-    toast.success("Application submitted!");
-    handleCloseApplyModal();
-  };
 
   const startIndex = (page - 1) * limit;
   const paginatedJobs = recommendedJobs.slice(startIndex, startIndex + limit);
@@ -73,7 +55,6 @@ function RecommendedJobsList() {
             createdAt={job.createdAt}
             jobIsActive={job.isActive}
             jobType={job.type}
-            onOpenApplyModal={() => handleOpenApplyModal(job._id)}
           />
         ))}
 
@@ -83,14 +64,6 @@ function RecommendedJobsList() {
             jobs={paginatedJobs}
             limit={limit}
             onPageChange={setPage}
-          />
-        )}
-
-        {showApplyModal && (
-          <ApplyModalForm
-            jobId={selectedJobId}
-            onClose={handleCloseApplyModal}
-            onApply={handleApply}
           />
         )}
       </div>

@@ -24,7 +24,6 @@ const ApplicationJobCard = ({
   createdAt,
   jobIsActive,
   jobType,
-  onOpenApplyModal,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
@@ -186,28 +185,6 @@ const ApplicationJobCard = ({
           <Link to={`/jobs/${jobId}`} className={styles.seeMoreLink}>
             See More
           </Link>
-
-          {/* Apply Now button for saved and recommendation modes */}
-          {(mode === "saved" || mode === "recommendation") && (
-            <Link
-              to={jobIsActive ? "#" : `/jobs/${jobId}/apply`}
-              className={`${styles.applyLink} ${
-                jobIsActive ? styles.applyLinkActive : styles.applyLinkInactive
-              }`}
-              onClick={(e) => {
-                if (jobIsActive) {
-                  e.preventDefault();
-                  if (typeof onOpenApplyModal === "function") {
-                    onOpenApplyModal();
-                  }
-                }
-              }}
-              tabIndex={jobIsActive ? 0 : -1}
-              aria-disabled={!jobIsActive}
-            >
-              Apply Now
-            </Link>
-          )}
         </div>
       </div>
     </div>

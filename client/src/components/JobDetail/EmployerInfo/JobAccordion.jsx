@@ -8,7 +8,7 @@ import DeadlineSection from "./DeadlineSection";
 
 const JobAccordion = ({ job, styles }) => {
   const {
-    companyProfile,
+    postedBy: { companyProfile },
     location,
     description,
     requirements = [],
@@ -63,10 +63,11 @@ const JobAccordion = ({ job, styles }) => {
 
 JobAccordion.propTypes = {
   job: PropTypes.shape({
-    companyProfile: PropTypes.shape({
-      companyName: PropTypes.string,
-      email: PropTypes.string,
-      about: PropTypes.string,
+    postedBy: PropTypes.shape({
+      companyProfile: PropTypes.shape({
+        companyName: PropTypes.string,
+        industry: PropTypes.string,
+      }),
     }),
     location: PropTypes.string,
     description: PropTypes.string,

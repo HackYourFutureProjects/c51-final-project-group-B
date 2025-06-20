@@ -151,7 +151,6 @@ img {
 
 .stepsArrow {
   width: 100%;
-  max-width: 40px;
   height: auto;
   transform: rotate(90deg);
   margin: 0.5rem 0;

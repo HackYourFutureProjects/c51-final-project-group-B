@@ -48,12 +48,12 @@ const Testimonials = () => {
         <div style={{ marginTop: "1rem" }}>
           <button
             onClick={goPrev}
-            className="btn btn-secondary"
+            className="btn btn-primary"
             style={{ marginRight: "1rem" }}
           >
             Previous
           </button>
-          <button onClick={goNext} className="btn btn-secondary">
+          <button onClick={goNext} className="btn btn-primary">
             Next
           </button>
         </div>

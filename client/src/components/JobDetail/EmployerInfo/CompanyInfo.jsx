@@ -16,8 +16,10 @@ const CompanyInfo = ({ companyProfile, location, styles }) => (
         <span>{companyProfile.email}</span>
       </div>
     )}
-    <p className={styles.sectionTitle}>About Company</p>
-    <span>{companyProfile?.about || "No company description available."}</span>
+    <p className={styles.sectionTitle}>Industry</p>
+    <span>
+      {companyProfile?.industry || "No industry information available."}
+    </span>
   </>
 );
 
@@ -25,7 +27,7 @@ CompanyInfo.propTypes = {
   companyProfile: PropTypes.shape({
     companyName: PropTypes.string,
     email: PropTypes.string,
-    about: PropTypes.string,
+    industry: PropTypes.string,
   }),
   location: PropTypes.string,
   styles: PropTypes.object.isRequired,

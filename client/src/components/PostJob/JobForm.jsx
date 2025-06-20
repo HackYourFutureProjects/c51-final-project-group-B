@@ -233,7 +233,8 @@ const JobForm = ({ onSubmit, isSubmitting, defaultValues, isEditMode }) => {
         <TextareaField
           id="requirements"
           label="Requirements (one per line) *"
-          placeholder="e.g.\nBachelor's degree in Electrical Engineering\n2+ years experience"
+          placeholder="e.g.Bachelor's degree in Electrical Engineering
+2+ years experience"
           register={register}
           rules={{
             required: "Required",

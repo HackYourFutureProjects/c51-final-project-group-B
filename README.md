@@ -1,12 +1,12 @@
-`TODO: Add a nice screenshot of the app!`
+![App Screenshot](client/public/screenshot.png)
 
-# Cohort XX final project
+# Cohort 51 Final Project – TalentNest
 
 This is the final project for the HackYourFuture curriculum we did as a cohort using the [MERN stack](https://www.mongodb.com/resources/languages/mern-stack) by following the agile methodology with our team and a group of mentors. A quick guide to what we built:
 
-> TODO: Add short description of the app
+TalentNest is a platform designed to help skilled newcomers in the Netherlands connect with job opportunities and communities in a simple and accessible way.
 
-`[Click here for the Demo version](TODO: add link)`
+[Click here for the Demo version](https://c51b.hyf.dev)
 
 ## 1. Setup
 
